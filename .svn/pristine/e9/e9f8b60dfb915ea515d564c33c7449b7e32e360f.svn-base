@@ -1,0 +1,26 @@
+//
+//  TransferQueryCell.m
+//  CultureTrade
+//
+//  Created by SZFT1 on 16/4/21.
+//  Copyright © 2016年 cheng.zongxin. All rights reserved.
+//
+
+#import "TransferQueryCell.h"
+
+@implementation TransferQueryCell
+
+- (void)addLables
+{
+    CGFloat labelY = 10;
+    CGFloat width = self.frame.size.width/6;
+    CGFloat height = kCellTextFont.lineHeight;
+
+    _stockName = [self setCellWithFrame:CGRectMake(0, labelY, width, height)];
+    _entrustPrice = [self setCellWithFrame:CGRectMake(width, labelY, width, height)];
+    _entrustDeal = [self setCellWithFrame:CGRectMake(width * 2, labelY, width, height)];
+    _status = [self setCellWithFrame:CGRectMake(width * 3, labelY, width, height)];
+    _buySell = [self setCellWithFrame:CGRectMake(width * 4, labelY, width, height)];
+    _nowPrice = [self setCellWithFrame:CGRectMake(width * 5, labelY, width, height)];
+}
+@end

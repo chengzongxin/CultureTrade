@@ -1,0 +1,23 @@
+//
+//  BaseCell.h
+//  CultureTrade
+//
+//  Created by SZFT1 on 15/10/30.
+//  Copyright (c) 2015年 cheng.zongxin. All rights reserved.
+//
+
+#import <UIKit/UIKit.h>
+@class SymbolModel;
+@interface BaseCell : UITableViewCell
+@property (nonatomic,retain) UILabel *curPrice;
+@property (nonatomic,retain) UILabel *highest;
+@property (nonatomic,retain) UILabel *lowest;
+@property (nonatomic,retain) UILabel *raiseDown;
+@property (nonatomic,retain) UILabel *buyPrice;
+@property (nonatomic,retain) UILabel *buyVolume;
+@property (nonatomic,retain) UILabel *sellPrice;
+@property (nonatomic,retain) UILabel *sellVolume;
+@property (nonatomic,retain) UILabel *turnOverMoney;
+@property (nonatomic,retain) UILabel *entrustRatio;
+- (BaseCell *)initWithSortUnit:(SortUnit *)sortUnit;
+@end

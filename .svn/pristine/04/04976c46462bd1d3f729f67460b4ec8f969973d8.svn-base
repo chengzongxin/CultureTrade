@@ -1,0 +1,315 @@
+//
+//  ModifyPasswordController.m
+//  CultureTrade
+//
+//  Created by SZFT1 on 16/3/17.
+//  Copyright © 2016年 cheng.zongxin. All rights reserved.
+//
+
+#import "ModifyPasswordController.h"
+#import "UIBarButtonItem+helper.h"
+#import "TableViewWithBlock.h"
+#import "SelectionCell.h"
+#define kCellHeight 36
+#define kTextFieldMargin 15
+#define TextFiledX 10
+#define TextFiledY 5
+#define TextFiledW ScreenSize.width - 2 * TextFiledX
+#define TextFiledH 35
+
+@interface ModifyPasswordController ()
+{
+    NSMutableArray *_passwordTypeArr;
+    PasswordType _selectPasswordType;
+    
+    TableViewWithBlock *_tableBlock;
+    BOOL isOpened;
+    int index;
+    
+}
+@end
+
+@implementation ModifyPasswordController
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    
+    [self initalization];
+    // 1.添加UIScrollView
+    [self addScrollView];
+    
+    [self addTitleView];
+    
+    [self addTextFied];
+    
+    [self addButton];
+    
+    [self addDownList];
+    
+//    [self addPickView];
+}
+
+#pragma mark 自定义view
+- (void)loadView1
+{
+    UIImageView *imageView = [[UIImageView alloc] init];
+    //    imageView.image = [UIImage fullscrennImage:@"new_feature_background.png"];
+    /*
+     以3.5inch为例（320x480）
+     1> 当没有状态栏，applicationFrame的值{{0, 0}, {320, 480}}
+     2> 当有状态栏，applicationFrame的值{{0, 20}, {320, 460}}
+     */
+    imageView.frame = [UIScreen mainScreen].applicationFrame;
+    // 跟用户进行交互（这样才可以接收触摸事件）
+    imageView.userInteractionEnabled = YES;
+    self.view = imageView;
+}
+
+#pragma mark - UI界面初始化
+#pragma mark 添加滚动视图
+- (void)addScrollView
+{
+    UITouchScrollView *scroll = [[UITouchScrollView alloc] init];
+    scroll.frame = self.view.bounds;
+    scroll.showsHorizontalScrollIndicator = NO; // 隐藏水平滚动条
+    CGSize size = scroll.frame.size;
+    scroll.contentSize = CGSizeMake(size.width, size.height - 64); // 内容尺寸
+    //    scroll.pagingEnabled = YES; // 分页
+    scroll.delegate = self;
+    [self.view addSubview:scroll];
+    _scroll = scroll;
+    self.view = _scroll;
+    _scroll.delegate = self;
+    _scroll.bounces = NO;
+    self.view.backgroundColor = COLOR_VC_BG;
+}
+
+- (void)initalization
+{
+    _passwordTypeArr = [NSMutableArray arrayWithObjects:@"主密码",@"只读密码",@"电话密码",@"资金密码", nil];
+}
+
+- (void)addTitleView
+{
+    self.title = LocalizedStringByInt(2100);
+    
+    self.navigationItem.leftBarButtonItem = [UIBarButtonItem itemWithIcon:@"back" highlightedIcon:nil target:self action:@selector(back)];
+}
+
+- (void)back
+{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)addTextFied
+{
+    _passwordType = [[CombiInputText alloc] initWithFrame:CGRectMake(TextFiledX, kTextFieldMargin, TextFiledW, TextFiledH)];
+    _passwordType.leftLabel.text = LocalizedStringByInt(2101);
+    _passwordType.style = CombiInputTextList;
+    _passwordType.delegate = self;
+    [_passwordType.downListButton addTarget:self action:@selector(changeOpenStatus:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:_passwordType];
+    
+    _oldPassword = [[CombiInputText alloc] initWithFrame:CGRectMake(TextFiledX, kTextFieldMargin + TextFiledH + TextFiledY, TextFiledW, TextFiledH)];
+    _oldPassword.leftLabel.text = LocalizedStringByInt(2102);
+    _oldPassword.delegate = self;
+    [_oldPassword setSecureTextEntry:YES];
+    [self.view addSubview:_oldPassword];
+    
+    _newPassword = [[CombiInputText alloc] initWithFrame:CGRectMake(TextFiledX, kTextFieldMargin + (TextFiledH  + TextFiledY)*2, TextFiledW, TextFiledH)];
+    _newPassword.delegate = self;
+    _newPassword.leftLabel.text = LocalizedStringByInt(2103);
+    [_newPassword setSecureTextEntry:YES];
+    [self.view addSubview:_newPassword];
+}
+
+- (void)addPickView
+{
+    self.pickView = [[UIPickerView alloc] initWithFrame:CGRectMake(10, 300, self.view.frame.size.width - 10, 162)];
+    self.pickView.backgroundColor = [UIColor whiteColor];
+    self.pickView.delegate = self;
+    self.pickView.dataSource = self;
+    self.pickView.hidden = YES;
+    [self.view addSubview:self.pickView];
+    [self.pickView reloadAllComponents];
+}
+
+- (void)addButton
+{
+    CGSize size = [UIImage imageNamed:@"confirm"].size;
+    CGFloat btnX = (self.view.frame.size.width - size.width * 2 - 10)/2;
+    CGFloat btnY = CGRectGetMaxY(_newPassword.frame)+30;
+    
+    CGRect clearRect = (CGRect){{btnX,btnY},size};
+    UIButton *clearBtn =  [self addButtonWithRect:clearRect Img:@"clear"];
+    [self.view addSubview:clearBtn];
+    
+    CGRect confirmRect = (CGRect){{CGRectGetMaxX(clearBtn.frame)+10,btnY},size};
+    UIButton *confirmBtn =  [self addButtonWithRect:confirmRect Img:@"confirm"];
+    [confirmBtn addTarget:self action:@selector(confirmButtonClick) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:confirmBtn];
+    
+}
+
+- (void)addDownList
+{
+    index = 0;
+    isOpened = NO;
+    _tableBlock = [[TableViewWithBlock alloc] initWithFrame:CGRectMake(TextFiledX+100, CGRectGetMaxY(_passwordType.frame), TextFiledW-100, 0)];
+    [_tableBlock initTableViewDataSourceAndDelegate:^NSInteger(UITableView *tableView, NSInteger section) {
+        return _passwordTypeArr.count;
+    } setCellForIndexPathBlock:^UITableViewCell *(UITableView *tableView, NSIndexPath *indexPath) {
+        static NSString *cellID = @"NodifyCell";
+            SelectionCell *cell=[tableView dequeueReusableCellWithIdentifier:cellID];
+            if (!cell) {
+                cell = [[SelectionCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
+                [cell setSelectionStyle:UITableViewCellSelectionStyleGray];
+            }
+            [cell.lb setText:_passwordTypeArr[indexPath.row]];
+            return cell;
+    } setDidSelectRowBlock:^(UITableView *tableView, NSIndexPath *indexPath) {
+        SelectionCell *cell=(SelectionCell*)[tableView cellForRowAtIndexPath:indexPath];
+        cell.lb.textColor = COLOR_TABLEBLOCK_CELL_SELECTED_TEXT;
+        _passwordType.text=cell.lb.text;
+        _selectPasswordType = (PasswordType)(indexPath.row + 1);
+        [_passwordType.downListButton sendActionsForControlEvents:UIControlEventTouchUpInside];
+    }];
+    
+    [self.view addSubview:_tableBlock];
+}
+
+- (void)changeOpenStatus:(id)sender {
+    if (isOpened) {
+        [UIView animateWithDuration:0.3 animations:^{
+            UIImage *closeImage=[UIImage imageNamed:@"downList"];
+            [_passwordType.downListButton setImage:closeImage forState:UIControlStateNormal];
+            
+            CGRect frame=_tableBlock.frame;
+            
+            frame.size.height=0;
+            [_tableBlock setFrame:frame];
+            
+        } completion:^(BOOL finished){
+            isOpened=NO;
+        }];
+    }else{
+        [UIView animateWithDuration:0.3 animations:^{
+            UIImage *openImage=[UIImage imageNamed:@"downList"];
+            [_passwordType.downListButton setImage:openImage forState:UIControlStateNormal];
+            
+            CGRect frame=_tableBlock.frame;
+            
+            frame.size.height=177;
+            [_tableBlock setFrame:frame];
+        } completion:^(BOOL finished){
+            isOpened=YES;
+        }];
+    }
+    [_tableBlock reloadData];
+}
+
+- (UIButton *)addButtonWithRect:(CGRect)rect Img:(NSString *)img
+{
+    UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+    btn.frame = rect;
+    UIImage *Img = [UIImage imageNamed:img];
+    [btn setImage:Img forState:UIControlStateNormal];
+    return btn;
+}
+
+
+- (void)confirmButtonClick
+{
+    [NSTradeEngine sharedInstance].delegate = self;
+    
+    NSString *typeStr = [NSString stringWithFormat:@"%lu",(unsigned long)_selectPasswordType];
+    [[NSTradeEngine setup] trade_request_modify_passwd:typeStr oldpass:_oldPassword.text newpass:_newPassword.text];
+    [super showProgressByDelay:@"提交中..." delayInSeconds:10];
+}
+
+- (void)on_modify_passwd_rsp:(int)nRet
+{
+    if (nRet == 0) {
+        [super closeProgressSuccess:@"修改成功!"];
+    }else{
+        [super closeProgress:LocalizedStringByInt(nRet)];
+    }
+}
+
+
+-(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event{
+    NSLog(@"view touch ended");
+    [_passwordType resignFirstResponder];
+    [_oldPassword resignFirstResponder];
+    [_newPassword resignFirstResponder];
+}
+
+#pragma mark -
+#pragma mark UITextFieldDelegate
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    if (textField == _passwordType) {
+        [textField resignFirstResponder];
+        // 改变位置
+        CGRect frame = _tableBlock.frame;
+        frame.origin.y = CGRectGetMaxY(_passwordType.frame);
+        _tableBlock.frame = frame;
+        
+        index = 0;
+        [self changeOpenStatus:_passwordType.downListButton];
+    }
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField
+{}
+
+#pragma mark -
+#pragma mark pickView 代理
+- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
+{
+    return 1;
+}
+
+- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
+{
+    return _passwordTypeArr.count;
+}
+
+- (CGFloat)pickerView:(UIPickerView *)pickerView rowHeightForComponent:(NSInteger)component
+{
+    return 20;
+}
+
+- (CGFloat)pickerView:(UIPickerView *)pickerView widthForComponent:(NSInteger)component
+{
+    return self.view.frame.size.width - 20;
+}
+
+- (nullable NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
+{
+    return _passwordTypeArr[row];
+}
+
+
+- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
+{
+    MYLOGFUN;
+    MYLog(@"%ld,%ld",(long)row,(long)component);
+    
+    _passwordType.text = _passwordTypeArr[row];
+    
+    _pickView.hidden = YES;
+    
+    if (row == 0){
+        _selectPasswordType = isMainPassword;
+    }else if (row == 1){
+        _selectPasswordType = isReadOnlyPassword;
+    }else if (row == 2){
+        _selectPasswordType = isPhonePassword;
+    }else if (row == 3){
+        _selectPasswordType = isMoneyPassword;
+    }else{}
+}
+
+
+@end

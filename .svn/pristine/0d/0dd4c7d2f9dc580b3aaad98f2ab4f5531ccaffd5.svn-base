@@ -1,0 +1,66 @@
+//
+//  QuotaionBanner.m
+//  CultureTrade
+//
+//  Created by SZFT1 on 15/11/20.
+//  Copyright (c) 2015年 cheng.zongxin. All rights reserved.
+//
+
+#import "QuotaionBanner.h"
+
+@implementation QuotaionBanner
+
+- (instancetype)initWithFrame:(CGRect)frame
+{
+    self = [super initWithFrame:frame];
+    
+    self.backgroundColor = COLOR_QUOTA_BANNAR_BG;
+    // 商品边框取宽度的1/5，剩下的4/5，分给剩下的5个
+    CGSize goodsSize = (CGSize){self.frame.size.width / 5,self.frame.size.height};
+    CGSize labelSize = (CGSize){(CGFloat)(self.frame.size.width * 0.8 / 5),self.frame.size.height};
+    
+    UILabel *goods = [[UILabel alloc] initWithFrame:(CGRect){CGPointZero,goodsSize}];
+    goods.text = LocalizedStringByInt(1302);
+    goods = [self setLabel:goods];
+    [self addSubview:goods];
+    
+    UILabel *newest = [[UILabel alloc] initWithFrame:(CGRect){{goodsSize.width, 0}, labelSize}];
+    newest.text = LocalizedStringByInt(1303);
+    newest = [self setLabel:newest];
+    [self addSubview:newest];
+    
+    UILabel *gain = [[UILabel alloc] initWithFrame:(CGRect){{goodsSize.width + labelSize.width, 0}, labelSize}];
+    gain.text = LocalizedStringByInt(1304);
+    gain = [self setLabel:gain];
+    [self addSubview:gain];
+    
+    UILabel *goDown = [[UILabel alloc] initWithFrame:(CGRect){{goodsSize.width + labelSize.width * 2, 0}, labelSize}];
+    goDown.text = LocalizedStringByInt(1305);
+    goDown = [self setLabel:goDown];
+    [self addSubview:goDown];
+    
+    UILabel *volumeRatio = [[UILabel alloc] initWithFrame:(CGRect){{goodsSize.width + labelSize.width * 3, 0}, labelSize}];
+    volumeRatio.text = LocalizedStringByInt(1306);
+    volumeRatio = [self setLabel:volumeRatio];
+    [self addSubview:volumeRatio];
+    
+    UILabel *swing = [[UILabel alloc] initWithFrame:(CGRect){{goodsSize.width + labelSize.width * 4, 0}, labelSize}];
+    swing.text = LocalizedStringByInt(1307);
+    swing = [self setLabel:swing];
+    [self addSubview:swing];
+    
+    return self;
+}
+
+- (UILabel *)setLabel:(UILabel *)lable
+{
+    lable.textColor = COLOR_QUOTA_BANNAR_TEXT;
+    lable.font = [UIFont systemFontOfSize:12];
+    lable.textAlignment = NSTextAlignmentCenter;
+    return lable;
+}
+
+
+
+
+@end

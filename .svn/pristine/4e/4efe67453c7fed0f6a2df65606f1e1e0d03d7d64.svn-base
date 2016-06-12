@@ -1,0 +1,208 @@
+//
+//  Common.h
+//  CultureTrade
+//
+//  Created by SZFT1 on 15/11/23.
+//  Copyright (c) 2015年 cheng.zongxin. All rights reserved.
+//
+
+#ifndef CultureTrade_Common_h
+#define CultureTrade_Common_h
+/*******************************
+            Color
+ *******************************/
+#define COLOR(r, g, b, a) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:a]
+
+
+#define COLOR_LOGIN_PLACEHOLDER     [UIColor colorWithHexString:@"#C29735" withAlpha:1]
+#define COLOR_LOGIN_LABLE           [UIColor colorWithHexString:@"#A19E96" withAlpha:1]
+
+#define COLOR_GOLD_THEME            [UIColor colorWithHexString:@"#C09C46" withAlpha:1]
+#define COLOR_BG_THEME              [UIColor colorWithHexString:@"#505050" withAlpha:1]
+#define COLOR_VC_BG                 [UIColor colorWithHexString:@"#191919" withAlpha:1]
+#define COLOR_TABBAR_SELECTBG       COLOR(22, 22, 22, 1)
+#define COLOR_CELL_BG               COLOR(46, 46, 46, 1)
+#define COLOR_CELL_SEPLITELINE      COLOR(34, 34, 34, 1)
+
+#define COLOR_HOME_CELL_BG          COLOR(13, 13, 13, 1)
+#define COLOR_HOME_CELL_SEPLITELINE COLOR(8, 8, 8, 1)
+#define COLOR_HOME_TABBLE_BG        COLOR(25, 25, 25, 1)
+#define COLOR_HOME_CELL_TEXTLABLE   COLOR(220, 220, 220, 1)
+#define COLOR_HOME_CELL_DETAILTEXT  COLOR(150, 150, 150, 1)
+
+#define COLOR_NAVIGATION_TITLE      COLOR(220, 187, 70, 1)
+#define COLOR_QUOTA_TABLE_BG        COLOR(22, 22, 22, 1)
+#define COLOR_QUOTA_CELL_BG         COLOR(46, 46, 46, 1)
+#define COLOR_QUOTA_BANNAR_BG       COLOR(22, 22, 22, 1)
+#define COLOR_QUOTA_BANNAR_TEXT     COLOR(86, 86, 86, 1)
+#define COLOR_QUOTA_STOCKID_TEXT    COLOR(150, 150, 150, 1)
+#define COLOR_QUOTA_INCRASE_RED     COLOR(250, 50, 50, 1)
+#define COLOR_QUOTA_DECRASE_GREEN   [UIColor greenColor]
+
+#define COLOR_ME_GUIDE_BG           COLOR(22, 22, 22, 1)
+#define COLOR_ME_GUIDE_TEXT         COLOR(150, 150, 150, 1)
+
+#define COLOR_BUYIN_TABLE_BG        COLOR(22, 22, 22, 1)
+#define COLOR_BUYIN_CELL_BG         COLOR(46, 46, 46, 1)
+
+#define COLOR_ENTRUST_BANNAR_BG     COLOR(22, 22, 22, 1)
+#define COLOR_ALERT_BG              COLOR(27, 27, 27, 1)
+
+#define COLOR_QUOTA_ANALY_DOCK_BG   COLOR(22, 22, 22, 1)
+#define COLOR_QUOTA_ANALY_DOCK_TIT  [UIColor colorWithHexString:@"#C29735" withAlpha:1]
+#define COLOR_QUOTA_ANALY_DOCK_SEL  [UIColor blackColor]
+
+#define COLOR_TRANSFER_QUERY_CELL_SEPLITELINE       COLOR(34, 34, 34, 1)
+#define COLOR_TRANSFER_QUERY_TABLE_BG               COLOR(22, 22, 22, 1)
+
+#define COLOR_TABLEBLOCK_BG                         [UIColor colorWithHexString:@"#191919" withAlpha:1]
+#define COLOR_TABLEBLOCK_SEPARATOR                  COLOR(8, 8, 8, 1)
+#define COLOR_TABLEBLOCK_CELL_BG                    COLOR(46, 46, 46, 1)
+#define COLOR_TABLEBLOCK_CELL_TEXT                  [UIColor colorWithHexString:@"#717070" withAlpha:1]
+#define COLOR_TABLEBLOCK_CELL_SELECTED_TEXT         [UIColor colorWithHexString:@"#fdfdfd" withAlpha:1]
+#define COLOR_TABLEBLOCK_BORDER                     [UIColor colorWithHexString:@"#484848" withAlpha:1]
+//#define COLOR_NAVIGATION_TITLE                      [UIColor colorWithHexString:@"#C29735" withAlpha:1]
+#define COLOR_SPLITELINE            [UIColor colorWithHexString:@"#C09C46" withAlpha:0.5]
+#define COLOR_SPLITELINE_TAIL       [UIColor colorWithHexString:@"#191919" withAlpha:0.5]
+
+
+
+
+// FTtrader
+#define RGBCOLOR(r,g,b) [UIColor colorWithRed:r/255.0 green:g/255.0 blue:b/255.0 alpha:1]
+#define app_tab_bar_bg                           RGBCOLOR(0,0,0)
+#define app_tab_tint                             [UIColor whiteColor]
+#define app_nav_bg                               RGBCOLOR(0,0,0)
+#define app_nav_tint                             [UIColor whiteColor]
+
+
+#define app_view_bg                              RGBCOLOR(10,10,10)
+#define app_tableview_bg                         RGBCOLOR(10,10,10)
+#define app_tablecell_bg                         RGBCOLOR(42,43,45)
+#define app_tablecell_text_color                 RGBCOLOR(255,255,255)
+#define app_tableview_separator_color            RGBCOLOR(33,33,33)
+#define app_symbol_normal_text_color             RGBCOLOR(255,255,255)
+#define app_symbol_high_text_color               RGBCOLOR(255,0,0)
+#define app_symbol_low_text_color                RGBCOLOR(0,255,0)
+#define app_risk_high_text_color                 RGBCOLOR(255,0,0)
+#define app_risk_low_text_color                  RGBCOLOR(0,255,0)
+#define app_symbol_text_color                    RGBCOLOR(255,255,255)
+
+#define app_high_text_color                      RGBCOLOR(255,0,0)
+#define app_low_text_color                       RGBCOLOR(0,255,0)
+
+#define app_tablecell_title_text_color           RGBCOLOR(255,255,255)
+#define app_text_title_color                     RGBCOLOR(255,255,255)
+#define app_text_color                           RGBCOLOR(255,255,255)
+#define app_rtext_color                          RGBCOLOR(0,0,0)
+#define app_title_text_color                     RGBCOLOR(255,255,255)
+#define app_item_bg                              RGBCOLOR(42,43,45)
+#define app_item_text_color                      RGBCOLOR(255,255,255)
+#define app_item_title_text_color                RGBCOLOR(255,255,255)
+#define app_item_separator_color                 RGBCOLOR(33,33,33)
+#define app_hint_text_color                      RGBCOLOR(255,0,0)
+#define app_sltp_hint_text_color                 RGBCOLOR(255,0,0)
+#define app_text_placeholder                     RGBCOLOR(125,125,125)
+
+#define app_item_err_bg                          RGBCOLOR(254,243,187)
+#define app_item_err_text_color                  RGBCOLOR(255,0,0)
+
+#define app_chart_bg_color                       RGBCOLOR(0,0,0)
+#define app_chart_external_border_color          RGBCOLOR(48,48,48)
+#define app_chart_scale_line_color               RGBCOLOR(48,48,48)
+#define app_chart_scale_text_color               RGBCOLOR(255,255,255)
+#define app_chart_default_color                  RGBCOLOR(255,255,255)
+#define app_chart_fall_color                     RGBCOLOR(0,255,255)
+#define app_chart_rise_color                     RGBCOLOR(255,0,0)
+#define app_chart_MA5_color                      RGBCOLOR(255,0,255)
+#define app_chart_MA10_color                     RGBCOLOR(255,255,0)
+#define app_chart_MA30_color                     RGBCOLOR(255,0,0)
+#define app_chart_cross_line_color               RGBCOLOR(255,255,255)
+#define app_chart_macd_fall_color                RGBCOLOR(0,255,255)
+#define app_chart_macd_rise_color                RGBCOLOR(255,0,0)
+#define app_chart_first_attached_color           RGBCOLOR(255,255,255)
+#define app_chart_second_attached_color          RGBCOLOR(255,255,0)
+#define app_chart_third_attached_color           RGBCOLOR(255,0,255)
+#define app_chart_four_attached_color            RGBCOLOR(255,0,0)
+
+#define app_chart_last_price_line_color          RGBCOLOR(197,197,197)
+#define app_chart_last_price_bg_color            RGBCOLOR(48,122,213)
+#define app_chart_last_price_text_color          RGBCOLOR(255,255,255)
+#define app_chart_trend_line_color               RGBCOLOR(255,255,255)
+#define app_chart_text_color                     RGBCOLOR(255,255,255)
+
+#define app_chart_sell_five_text_color           RGBCOLOR(0,255,0)
+#define app_chart_buy_five_text_color            RGBCOLOR(255,0,0)
+#define app_chart_sell_five_qty_text_color       RGBCOLOR(255,255,0)
+#define app_chart_buy_five_qty_text_color        RGBCOLOR(255,255,0)
+#define app_chart_bs_five_title_text_color       RGBCOLOR(0,255,255)
+#define app_chart_detail_title_text_color        RGBCOLOR(255,255,255)
+#define app_chart_quote_title_text_color         RGBCOLOR(255,255,255)
+#define app_chart_fall_text_color                RGBCOLOR(0,255,0)
+#define app_chart_rise_text_color                RGBCOLOR(255,0,0)
+
+
+#define app_level_text_color                     RGBCOLOR(0,255,0)
+#define app_level1_text_color                    RGBCOLOR(255,255,255)
+#define app_level2_text_color                    RGBCOLOR(255,0,0)
+
+/*******************************
+            Size
+ *******************************/
+#define NavigationBarHeight self.navigationController.navigationBar.frame.size.height
+#define kDockHeight 44
+#define kQuotaBannerHeight 35
+#define KQuotaRowHeight 64
+#define kQuotaGuideViewHeight 65
+#define kQuotaButtonListHeight 20
+#define kQuotaKlineTypeBarHeight 30    // 行情分析K线选择条高度
+
+#define SIZE_ME_GUIDE_HEIGHT 160
+
+#define SIZE_BUYIN_CELL_HEIGHT 30
+
+
+
+/*******************************
+            Font
+ *******************************/
+#define FONT_LOGIN_PLACEHOLDER_TEXT     [UIFont boldSystemFontOfSize:12]
+#define FONT_LOGIN_LABEL_TEXT           [UIFont boldSystemFontOfSize:12]
+
+#define FONT_HOME_BUTTONLIST_TEXT       [UIFont boldSystemFontOfSize:12]
+#define FONT_HOME_CELL_TEXTLABEL        [UIFont boldSystemFontOfSize:12]
+#define FONT_HOME_CELL_DETAILTEXT       [UIFont boldSystemFontOfSize:9]
+
+#define FONT_ME_GUIDE_TAG               [UIFont fontWithName:@"Helvetica-Bold" size:14]
+#define FONT_ME_GUIDE_TEXT              [UIFont systemFontOfSize:14]
+#define FONT_BUYIN_TEXTFIELD            [UIFont fontWithName:@"Helvetica-Bold" size:13]
+
+
+/*******************************
+            File
+ *******************************/
+//  Document
+#define Document                NSHomeDirectory()
+//  Document->HomeDocument
+#define HomeDocument            [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"]
+//  Document->HomeDocument->Config
+#define LocalConfigDirectory    [HomeDocument stringByAppendingPathComponent:@"Config"]
+//  Document->HomeDocument->Config->PreferStock.txt
+#define LocalPreferFile         [LocalConfigDirectory stringByAppendingPathComponent:@"PreferStock.json"]
+
+// Document->HomeDocument->TimeLine
+#define LocalTimeLineMainDirectory          [HomeDocument stringByAppendingPathComponent:@"TimeLine"]
+// Document->HomeDocument->TimeLine->productID
+#define LocalTimeLineDirectory(productID)   [LocalTimeLineMainDirectory stringByAppendingPathComponent:productID]
+// Document->HomeDocument->TimeLine->productID->TimeLineView.txt
+#define LocalTimeLineFile(productID)        [LocalTimeLineDirectory(productID) stringByAppendingPathComponent:@"TimeLineView.txt"]
+
+//  Document->HomeDocument->Kline
+#define LocalKLineMainDirectory                     [HomeDocument stringByAppendingPathComponent:@"Kline"]
+//  Document->HomeDocument->Kline->productID->type
+#define LocalKLineDirectory(productID,type)         [[LocalKLineMainDirectory stringByAppendingPathComponent:productID] stringByAppendingPathComponent:type]
+//  Document->HomeDocument->Kline->productID->type->Kline.txt
+#define LocalKLineFile(productID,type)              [LocalKLineDirectory(productID,type) stringByAppendingPathComponent:@"Kline.txt"]
+
+
+#endif

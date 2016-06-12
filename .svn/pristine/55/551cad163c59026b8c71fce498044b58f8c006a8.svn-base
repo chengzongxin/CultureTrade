@@ -1,0 +1,16 @@
+//
+//  LoginController.h
+//  CultureTrade
+//
+//  Created by SZFT1 on 15/10/9.
+//  Copyright (c) 2015年 cheng.zongxin. All rights reserved.
+//
+
+#import <UIKit/UIKit.h>
+#import "SuperViewController.h"
+#import "ToggleView.h"
+
+@interface LoginController : SuperViewController <UITextFieldDelegate,ToggleViewDelegate,NSTradeEngineDelegate>
+@property (nonatomic,retain) NSString *tradeIP;
+@property (nonatomic,retain) NSString *quotaIP;
+@end

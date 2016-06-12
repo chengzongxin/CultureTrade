@@ -1,0 +1,139 @@
+//
+//  SuperViewController.m
+//  CultureTrade
+//
+//  Created by SZFT1 on 16/1/27.
+//  Copyright (c) 2016年 cheng.zongxin. All rights reserved.
+//
+
+#import "SuperViewController.h"
+#import "MMProgressHUD.h"
+
+@interface SuperViewController () <UITextFieldDelegate>
+{
+    NSTimer *mTimer;
+}
+@end
+
+@implementation SuperViewController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector (doneButtonshow:) name: UIKeyboardDidShowNotification object:nil];
+    self.view.backgroundColor = COLOR_VC_BG;
+    
+    
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [self clearTimer];
+}
+
+-(void)showProgress:(NSString*)title
+{
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = TRUE;
+    [self showProgressByDelay:title delayInSeconds:10];
+}
+
+-(void) showProgressByDelay:(NSString*)title delayInSeconds:(int)delayInSeconds
+{
+    [MMProgressHUD setPresentationStyle:MMProgressHUDPresentationStyleShrink];
+    [MMProgressHUD showWithTitle:nil status:title];
+    [self clearTimer];
+    mTimer = [NSTimer scheduledTimerWithTimeInterval:delayInSeconds target:self selector:@selector(progress_timeout) userInfo:nil repeats:NO];
+    
+}
+-(void)progress_timeout
+{
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = FALSE;
+    [MMProgressHUD dismissWithError:@"提交超时"];
+    [self clearTimer];
+}
+
+-(void) clearTimer{
+    if(mTimer != nil)
+        [mTimer invalidate];
+    mTimer = nil;
+}
+
+-(void) closeProgress:(NSString*)title
+{
+    [self clearTimer];
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = FALSE;
+    if(nil != title)
+        [MMProgressHUD dismissWithError:title];
+    else
+        [MMProgressHUD dismiss];
+}
+
+- (void)closeProgressSuccess:(NSString *)title
+{
+    [self clearTimer];
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = FALSE;
+    [MMProgressHUD dismissWithSuccess:title];
+}
+
+- (void)dissmissProgress
+{
+    [self clearTimer];
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = FALSE;
+    [MMProgressHUD dismiss];
+}
+
+#pragma mark - ===点击空白区域隐藏键盘===
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    [self.view endEditing:YES];
+}
+
+#pragma mark - 键盘上弹
+-(void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    //键盘高度216
+    
+    //滑动效果（动画）
+    NSTimeInterval animationDuration = 0.30f;
+    [UIView beginAnimations:@ "ResizeForKeyboard"  context:nil];
+    [UIView setAnimationDuration:animationDuration];
+    
+    //将视图的Y坐标向上移动，以使下面腾出地方用于软键盘的显示
+    self.view.frame = CGRectMake(0.0f, -100.0f, self.view.frame.size.width, self.view.frame.size.height); //64-216
+    
+    [UIView commitAnimations];
+}
+
+#pragma mark -屏幕恢复
+-(void) textFieldDidEndEditing:(UITextField *)textField
+{
+    //滑动效果
+    NSTimeInterval animationDuration = 0.30f;
+    [UIView beginAnimations:@ "ResizeForKeyboard"  context:nil];
+    [UIView setAnimationDuration:animationDuration];
+    
+    //恢复屏幕,Y值起始坐标在64，topbar+statusbar
+    self.view.frame = CGRectMake(0.0f, kTopBarHeight+kStatusBarHeight, self.view.frame.size.width, self.view.frame.size.height); //64-216
+    
+    [UIView commitAnimations];
+}
+
+
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
+    if ([text isEqualToString:@"\n"]) {
+        [textView resignFirstResponder];
+//        [_buyInPrice resignFirstResponder];
+//        [_buyInNumber resignFirstResponder];
+        return NO;
+    }
+    return YES;
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [textField resignFirstResponder];
+    return YES;
+}
+
+@end

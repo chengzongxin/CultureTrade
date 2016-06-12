@@ -1,0 +1,255 @@
+//
+//  MeController.m
+//  CultureTrade
+//
+//  Created by SZFT1 on 15/10/23.
+//  Copyright (c) 2015年 cheng.zongxin. All rights reserved.
+//
+
+#import "MeController.h"
+#import "LoginController.h"
+
+@interface MeController ()
+{
+    NSArray *_tableDataArray;
+}
+@end
+
+@implementation MeController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    
+    [self addTitleView];
+    
+    [self addGuideView];
+    
+    [self addButtonListView];
+    
+    [self addTableView];
+    
+    [self initalization];
+}
+
+- (void)initalization
+{
+    NSString *plistPath = [[NSBundle mainBundle] pathForResource:@"MeControllerData.plist" ofType:nil];
+    _tableDataArray = [NSArray arrayWithContentsOfFile:plistPath];
+}
+     
+- (void)addTitleView
+{
+    self.navigationItem.leftBarButtonItem = [UIBarButtonItem itemWithTitle:@"Sure" icon:@"user_face" target:self action:@selector(clickUser)];
+}
+
+- (void)clickUser
+{
+    [self.navigationController pushViewController:[[LoginController alloc] init] animated:YES];
+}
+
+- (void)addGuideView
+{
+    _guideView = [[MeGuideView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, SIZE_ME_GUIDE_HEIGHT)];
+    [self.view addSubview:_guideView];
+}
+
+- (void)addButtonListView
+{
+    CGRect rect = CGRectMake(0,CGRectGetMaxY(_guideView.frame) + 10,
+                             self.view.frame.size.width,
+                             kQuotaButtonListHeight);
+    _buttonListView = [[ButtonListView alloc] initWithFrame:rect];
+    _buttonListView.delegate = self;
+    [self.view addSubview:_buttonListView];
+}
+
+
+- (void)addTableView
+{
+    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(_buttonListView.frame) + 20, ScreenSize.width, 44*7) style:UITableViewStyleGrouped];
+    _tableView.rowHeight = 44;
+    _tableView.dataSource = self;
+    _tableView.delegate = self;
+    _tableView.alpha = 0.7;
+    _tableView.scrollEnabled = NO;
+    _tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;   // UNAVAILABLE IOS_7 EARLY
+    _tableView.separatorInset = UIEdgeInsetsMake(0, 0, 0, 0);
+    _tableView.separatorColor = [UIColor blackColor];
+    [self.view addSubview:_tableView];
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    
+    UIView* customView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 44.0)] ;
+    
+    customView.backgroundColor = [UIColor blackColor];
+    
+    UILabel * headerLabel = [[UILabel alloc] initWithFrame:CGRectZero] ;
+    
+    headerLabel.backgroundColor = [UIColor clearColor];
+    
+    headerLabel.opaque =  NO;
+    
+    headerLabel.textColor = [UIColor whiteColor];
+    
+    headerLabel.highlightedTextColor = [UIColor lightGrayColor];
+    
+    headerLabel.font = [UIFont boldSystemFontOfSize:15];
+    
+    headerLabel.frame = CGRectMake(0, 0, self.view.frame.size.width, 44.0);
+    
+    headerLabel.text = _tableDataArray[section][0];
+    
+    headerLabel.textAlignment = NSTextAlignmentCenter;
+    
+    [customView addSubview:headerLabel];
+    
+    _customView = customView;
+    
+    return customView;
+    
+}
+
+//别忘了设置高度
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 44.0;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    return 0.1;
+}
+
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+    return _tableDataArray[section][0];
+}
+
+
+// 取消选中
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [tableView deselectRowAtIndexPath:indexPath animated:NO];
+    if (indexPath.section == 0) { // 第一组
+        if (indexPath.row == 0) {
+            [self.navigationController pushViewController:[[InOutMoneyController alloc] init] animated:YES];
+        }else{
+            [self.navigationController pushViewController:[[TransferQueryController alloc] init] animated:YES];
+        }
+    }else{  // 第二组
+        if (indexPath.row == 2) {
+            [self.navigationController pushViewController:[[ModifyPasswordController alloc] init] animated:YES];
+        }
+    }
+}
+
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return _tableDataArray.count;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return [_tableDataArray[section] count] - 1;
+}
+
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString *cellIdentifer = @"cellIdentifiered";
+    MeFunctionCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifer];
+    if (cell == nil) {
+        cell = [[MeFunctionCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifer];
+    }
+    
+    NSDictionary *dict = _tableDataArray[indexPath.section][indexPath.row + 1];
+
+    cell.icon = dict[@"icon"];
+    [cell setTextString:dict[@"title"]];
+    cell.cellType = (CellType)[dict[@"type"] integerValue];
+    
+    return cell;
+}
+
+
+- (void)buy
+{
+    [self.navigationController pushViewController:[[BuyController alloc] init] animated:YES ];
+}
+
+- (void)sell
+{
+    [self.navigationController pushViewController:[[SellController alloc] init] animated:YES ];
+}
+
+- (void)cancelOrder
+{
+    [self.navigationController pushViewController:[[EntrustCancleOrderController alloc] init] animated:YES ];
+}
+
+- (void)queryOrder
+{
+    [self.navigationController pushViewController:[[QueryController alloc] init] animated:YES];
+}
+
+- (void)viewDidLayoutSubviews
+{
+    //设置TableView Separatorinset 分割线从边框顶端开始
+    if ([self.tableView respondsToSelector:@selector(setSeparatorInset:)]) {
+        [self.tableView setSeparatorInset:UIEdgeInsetsMake(0, 0, 0, 0)];
+    }
+    
+    if ([self.tableView respondsToSelector:@selector(setLayoutMargins:)]) {
+        [self.tableView setLayoutMargins:UIEdgeInsetsMake(0, 0, 0, 0)];
+    }
+}
+
+-(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+
+{
+    //设置TableView Separatorinset 分割线从边框顶端开始
+    if ([cell respondsToSelector:@selector(setSeparatorInset:)]) {
+        [cell setSeparatorInset:UIEdgeInsetsZero];
+    }
+    
+    if ([cell respondsToSelector:@selector(setLayoutMargins:)]) {
+        [cell setLayoutMargins:UIEdgeInsetsZero];
+    }
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    [self fillGuideView];
+    
+    if ([NSTradeEngine sharedInstance].delegate != self) {
+        [NSTradeEngine sharedInstance].delegate = self;
+    }
+    
+    [[NSTradeEngine sharedInstance] trade_request_moneyholdNS];
+}
+
+- (void)trade_ui_moneyhold_rsp:(int)nRet
+{
+    if (nRet) {
+        [self fillGuideView];
+    }else{
+        MYLog(@"error  nRet = %d",nRet);
+    }
+}
+
+- (void)fillGuideView
+{
+    _guideView.foundLable.text = [NSString stringWithFormat:@"%0.2f",GLOBAL.moneyHold.totalBalance];
+    _guideView.monthDealLable.text = [NSString stringWithFormat:@"%0.2f",GLOBAL.moneyHold.accountBalance];
+    _guideView.sucRatioLabel.text = [NSString stringWithFormat:@"%0.2f",GLOBAL.moneyHold.accountFreeze];
+    _guideView.totalGainLable.text = [NSString stringWithFormat:@"%0.2f",GLOBAL.moneyHold.clearDate];
+    _guideView.thisMonthGainLable.text = [NSString stringWithFormat:@"%0.2f",GLOBAL.moneyHold.totalBalance];
+    _guideView.thisWeekGainLabel.text = [NSString stringWithFormat:@"%0.2f",GLOBAL.moneyHold.canOut];
+}
+
+@end

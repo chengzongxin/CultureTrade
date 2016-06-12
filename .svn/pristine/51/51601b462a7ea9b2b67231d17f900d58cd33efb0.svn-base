@@ -1,0 +1,99 @@
+//
+//  ShareHoldCell.m
+//  CultureTrade
+//
+//  Created by SZFT1 on 16/3/24.
+//  Copyright © 2016年 cheng.zongxin. All rights reserved.
+//
+
+#import "ShareHoldCell.h"
+
+@implementation ShareHoldCell
+
+
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
+    [super setSelected:selected animated:animated];
+
+    // Configure the view for the selected state
+}
+
+- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
+{
+    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+    if (self) {
+        self.backgroundColor = COLOR_CELL_BG;
+        [self setSeparatorInset:UIEdgeInsetsZero];
+        [self addLabels];
+    }
+    
+    return self;
+}
+
+- (void)addLabels
+{
+    CGFloat width = self.frame.size.width / 4;
+    CGFloat height = self.frame.size.height / 2;
+    CGFloat margin = 5;
+    
+    _name = [self setLableWithFrame:CGRectMake(0, margin, width, height)];
+    _newPrice = [self setLableWithFrame:CGRectMake(width, margin, width, height)];
+    _shareHold = [self setLableWithFrame:CGRectMake(width*2, margin, width, height)];
+    _marketPrice = [self setLableWithFrame:CGRectMake(width*3, margin, width, height)];
+    
+    _code = [self setLableWithFrame:CGRectMake(0, height + margin, width, height)];
+    _turnOverPrice = [self setLableWithFrame:CGRectMake(width, height + margin, width, height)];
+    _available = [self setLableWithFrame:CGRectMake(width*2, height + margin, width, height)];
+    _cost = [self setLableWithFrame:CGRectMake(width*3, height + margin, width, height)];
+    
+}
+
+- (UILabel *)setLableWithFrame:(CGRect)frame
+{
+    UILabel *lable = [[UILabel alloc] initWithFrame:frame];
+    lable.lineBreakMode = NSLineBreakByWordWrapping;
+    lable.font = [UIFont systemFontOfSize:13];
+    lable.textColor = [UIColor whiteColor];
+    lable.textAlignment = NSTextAlignmentCenter;
+    [self.contentView addSubview:lable];
+    return lable;
+}
+
+- (ShareHoldCell *)cellWithShareHold:(ShareHold *)shareHold
+{
+    _name.text = shareHold.productName;
+    _code.text = shareHold.productID;
+    float newPrice = [[NSTradeEngine sharedInstance] getNewPrice:[shareHold.productID intValue]]*0.001;
+    _newPrice.text = [NSString stringWithFormat:@"%0.2f",newPrice];
+    NSInteger location = [shareHold.turnOverPrice rangeOfString:@"."].location+3;
+    _turnOverPrice.text = [shareHold.turnOverPrice substringToIndex:location];
+    _shareHold.text = shareHold.totalBalance;
+    _available.text = shareHold.availableVolume;
+    float marketPrice = newPrice * [shareHold.totalBalance intValue];
+    _marketPrice.text = [NSString changePriceByFloat:marketPrice];
+    float cost = (newPrice - [shareHold.turnOverPrice intValue])*[shareHold.totalBalance intValue];
+    _cost.text = [NSString changePriceByFloat:cost];
+    
+    for (UILabel *label in self.contentView.subviews) {
+        if (cost > 0) {
+            label.textColor = [UIColor redColor];
+        }else if (cost < 0){
+            label.textColor = [UIColor greenColor];
+        }else{
+            break;
+        }
+    }
+    _name.textColor = [UIColor whiteColor];
+    _code.textColor = [UIColor whiteColor];
+    
+    return self;
+}
+
+- (void)setFrame:(CGRect)frame
+{
+    frame.size.width = ScreenSize.width;
+    
+    [super setFrame:frame];
+}
+
+
+@end

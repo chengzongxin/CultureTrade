@@ -1,0 +1,117 @@
+//
+//  PrefixHeader.pch
+//  CultureTrade
+//
+//  Created by SZFT1 on 15/10/22.
+//  Copyright (c) 2015年 cheng.zongxin. All rights reserved.
+//
+
+#ifndef CultureTrade_PrefixHeader_pch
+#define CultureTrade_PrefixHeader_pch
+
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+
+
+
+#import "UIImage+helper.h"
+#import "NSString+helper.h"
+#import "UIColor+helper.h"
+#import "Common.h"
+#import "NSTradeEngine.h"
+#import "NSNetHelper.h"
+#import "BasicAlertView.h"
+#import "DataModel.h"
+#import "Global.h"
+#import "tradedef.h"
+#import "MobClick.h"
+#define ONLINECONFIG    0
+#define TRADESERVER_IP          @"120.25.224.254"
+#define QUOTESERVER_IP          @"120.25.224.254"
+//#define TRADESERVER_IP          @"192.168.0.194"
+//#define QUOTESERVER_IP          @"192.168.0.194"
+//#define TRADESERVER_IP          @"172.17.66.1"
+//#define QUOTESERVER_IP          @"192.168.1.60"
+#define TRADESERVER_PORT        9999
+#define QUOTESERVER_PORT        4433
+
+#define IS_IPHONE5      ([[UIScreen mainScreen] bounds].size.height == 568 ? YES : NO)
+#define IS_IPHONE6      ([[UIScreen mainScreen] bounds].size.height == 667 ? YES : NO)
+#define IS_IPHONE6PLUS  ([[UIScreen mainScreen] bounds].size.height == 736 ? YES : NO)
+#define ScreenSize      [UIScreen mainScreen].bounds.size
+
+
+
+#define Application_Frame       [[UIScreen mainScreen] applicationFrame]
+
+// App Frame Height&Width
+#define App_Frame_Height        [[UIScreen mainScreen] applicationFrame].size.height
+#define App_Frame_Width         [[UIScreen mainScreen] applicationFrame].size.width
+
+// 系统控件默认高度
+#define kStatusBarHeight        (20.f)
+#define kTopBarHeight           (44.f)
+#define kBottomBarHeight        (49.f)
+#define kCellDefaultHeight      (44.f)
+#define kEnglishKeyboardHeight  (216.f)
+#define kChineseKeyboardHeight  (252.f)
+
+
+#define GLOBALSYMBOL    [GlobalModel shareInstance].symbolModel
+#define GLOBAL          [GlobalModel shareInstance]
+
+#define MYLOGFUN                    MYLog(@"%s",__FUNCTION__)
+#define INT2STRING(intPara)         [NSString int2string:intPara]
+
+#define LocalizedStringByInt(key)   [NSString LocalizedStringByInt:key]
+
+#define saveErrLog(ns) [Global saveErrLog:ns]
+
+
+#ifdef DEBUG //调试状态
+#define MYLog(...) NSLog(__VA_ARGS__)
+#else
+#define MYLog(...)
+#endif
+
+
+#define showAlert(ns) showDetailAlert(ns,nil)
+
+#define showDetailAlert(title,detail) \
+BasicAlertView *alertView = [BasicAlertView alertViewWithTitle:title \
+subtitle:detail \
+message:nil \
+buttons:[NSArray arrayWithObject:@"confirm"] \
+afterDismiss:^(int buttonIndex) {\
+MYLog(@"%d",buttonIndex);\
+}];\
+[alertView show]
+
+
+//singleton
+#define singleton_interface(class) + (class *)shareInstance;
+
+#define singleton_implementation(class)\
+\
+static class *_instance;\
++ (class *)shareInstance\
+{\
+if (_instance == nil) {\
+_instance = [[self alloc] init];\
+}\
+return _instance;\
+}\
+\
++ (class *)allocWithZone:(struct _NSZone *)zone\
+{\
+static dispatch_once_t onceToken;\
+dispatch_once(&onceToken, ^{\
+_instance = [super allocWithZone:zone];\
+});\
+return _instance;\
+}
+
+
+
+
+#endif

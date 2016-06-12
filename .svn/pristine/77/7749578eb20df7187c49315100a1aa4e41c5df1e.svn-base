@@ -1,0 +1,190 @@
+//
+//  SellController.m
+//  CultureTrade
+//
+//  Created by SZFT1 on 15/12/7.
+//  Copyright (c) 2015年 cheng.zongxin. All rights reserved.
+//
+
+#import "SellController.h"
+#import "GlobalModel.h"
+#import "tagdef.h"
+#import "SelectionCell.h"
+
+@interface SellController ()
+
+@end
+
+@implementation SellController
+
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+
+}
+
+- (void)addTitleView
+{
+    [super addTitleView];
+    
+    UIImage *titleImage = [UIImage imageNamed:@"sellOut"];
+    UIView *titleView = [[UIView alloc] initWithFrame:(CGRect){CGPointZero,titleImage.size}];
+    titleView.backgroundColor = [UIColor colorWithPatternImage:titleImage];
+    self.navigationItem.titleView = titleView;
+    
+}
+
+- (void)addTextFied
+{
+    [super addTextFied];
+    
+    _buyInPrice.leftLabel.text = LocalizedStringByInt(1807);
+    _buyInNumber.leftLabel.text = LocalizedStringByInt(1808);
+    _maxCanBuy.leftLabel.text = LocalizedStringByInt(1809);
+}
+
+- (void)addDownList
+{
+    [super addDownList];
+    [_tableBlock reloadData];
+    [_tableBlock initTableViewDataSourceAndDelegate:^NSInteger(UITableView *tableView, NSInteger section) {
+        return GLOBAL.shareHoldArray.count;
+    } setCellForIndexPathBlock:^UITableViewCell *(UITableView *tableView, NSIndexPath *indexPath) {
+        if (index == 0) {
+            SelectionCell *cell=[tableView dequeueReusableCellWithIdentifier:@"SelectionCell10"];
+            if (!cell) {
+                cell = [[SelectionCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"SelectionCell10"];
+                [cell setSelectionStyle:UITableViewCellSelectionStyleGray];
+            }
+            ShareHold *shareHold = GLOBAL.shareHoldArray[indexPath.row];
+            [cell.lb setText:shareHold.productID];
+            return cell;
+        }else{
+            SelectionCell *cell=[tableView dequeueReusableCellWithIdentifier:@"SelectionCell11"];
+            if (!cell) {
+                cell = [[SelectionCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"SelectionCell11"];
+                [cell setSelectionStyle:UITableViewCellSelectionStyleGray];
+            }
+            ShareHold *shareHold = GLOBAL.shareHoldArray[indexPath.row];
+            [cell.lb setText:shareHold.productName];
+            return cell;
+        }
+    } setDidSelectRowBlock:^(UITableView *tableView, NSIndexPath *indexPath) {
+        SelectionCell *cell=(SelectionCell*)[tableView cellForRowAtIndexPath:indexPath];
+        if (index == 0) {
+            _productID.text=cell.lb.text;
+            [_productID.downListButton sendActionsForControlEvents:UIControlEventTouchUpInside];
+        }else{
+            _productName.text=cell.lb.text;
+            [_productName.downListButton sendActionsForControlEvents:UIControlEventTouchUpInside];
+        }
+        GLOBAL.shareHold = GLOBAL.shareHoldArray[indexPath.row];
+        [self updateUserinterface];
+    }];
+}
+
+- (void)updateUserinterface
+{
+    NSString *code = GLOBAL.shareHold.productID;
+    NSString *name = GLOBAL.shareHold.productName;
+    float preClose = [[NSTradeEngine sharedInstance] getPreClosePrice:[GLOBAL.shareHold.productID intValue]];
+    NSString *avaiVol = GLOBAL.shareHold.availableVolume;
+    
+    _productID.text = code;
+    _productName.text = name;
+    _buyInPrice.text = [NSString stringWithFormat:@"%0.2f",preClose];
+    _maxCanBuy.text = avaiVol;
+    
+    if (code  == nil || code == 0) _productID.text = @"";
+    if (name  == nil || name == 0) _productName.text = @"";
+    if (preClose == 0) _buyInPrice.text = @"";
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    if ([NSTradeEngine sharedInstance].delegate != self) {
+        [NSTradeEngine sharedInstance].delegate = self;
+    }
+    
+    [[NSTradeEngine sharedInstance] trade_request_shareholdNS];
+}
+
+- (void)trade_ui_sharehold_rsp:(int)nRet sharehold:(NSString *)sharehold
+{
+    [_tableBlock reloadData];
+}
+
+- (void)confirmButtonClick
+{
+    [self textFieldDidEndEditing:_buyInPrice];
+    [self textFieldDidEndEditing:_buyInNumber];
+    
+    if (_maxCanBuy.text.length == 0) {
+        showDetailAlert(@"下单失败", @"没有当前选中商品持仓");
+        return;
+    }
+    
+    if ([_productName.text containsString:@"指数"]) {
+        showDetailAlert(@"下单失败", @"指数不可交易");
+        return;
+    }
+    
+    NSString *priceStr = _buyInPrice.text;
+    NSString *shoushuStr = _buyInNumber.text;
+    NSString *productID = _productID.text;
+    double price = 0.0f;
+    int shoushu = 0;
+    
+    if (!(priceStr.length && shoushuStr.length)) {// 未输入价钱或手数
+        showAlert(LocalizedStringByInt(1815));
+        return;
+    }
+    
+    if ([priceStr isPureNumandCharacters:priceStr] && [shoushuStr isPureNumandCharacters:shoushuStr]) { // 输入的是否为纯数字
+        price = [priceStr doubleValue];
+        shoushu = [shoushuStr intValue];
+    }else{
+        showAlert(LocalizedStringByInt(1816));
+        return;
+    }
+    
+    if (!productID.length) {
+        showAlert(LocalizedStringByInt(1817));
+        return;
+    }
+    
+    if ([NSTradeEngine sharedInstance].delegate != self)
+    {
+        [NSTradeEngine sharedInstance].delegate = self;
+    }
+    [[NSTradeEngine sharedInstance] trade_open_market_order:productID direction:'s' price:price  shoushu:shoushu];
+    [super showProgressByDelay:@"Loading..." delayInSeconds:10];
+}
+
+- (void)trade_ui_openorder_rsp:(int)nSeq nRet:(int)nRet orderticket:(NSString *)orderticket{
+    [super dissmissProgress];
+    [self stopTimer];
+    if (nRet > 0) {
+        BasicAlertView *alertView = [BasicAlertView alertViewWithTitle:@"下单成功"
+                                                              subtitle:@""
+                                                               message:nil
+                                                               buttons:@[@"confirm"]
+                                                          afterDismiss:^(int buttonIndex) {
+                                                              [self startTimer];
+                                                          }];
+        [alertView show];
+    }else{
+        BasicAlertView *alertView = [BasicAlertView alertViewWithTitle:LocalizedStringByInt(nRet)
+                                                              subtitle:@""
+                                                               message:nil
+                                                               buttons:@[@"confirm"]
+                                                          afterDismiss:^(int buttonIndex) {
+                                                              MYLog(@"%d",buttonIndex);
+                                                              [self startTimer];
+                                                          }];
+        [alertView show];
+    }
+}
+
+@end

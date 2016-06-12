@@ -1,0 +1,310 @@
+//
+//  KlineController.m
+//  CultureTrade
+//
+//  Created by SZFT1 on 15/12/1.
+//  Copyright (c) 2015年 cheng.zongxin. All rights reserved.
+//
+
+#import "KlineController.h"
+#import "LineView.h"
+#import "CCSegmentedControl.h"
+#import "GlobalModel.h"
+#import "BuyController.h"
+#import "SellController.h"
+#import "EntrustCancleOrderController.h"
+#import "QueryController.h"
+#import "UIBarButtonItem+helper.h"
+#import "LoginController.h"
+#import "SearchProductController.h"
+#define kKlineTypeCount 7
+@interface KlineController () <QuotaAnalysisControllerDelegate>
+{
+    LineView *_lineView;
+    UIView *_buttonListView;
+    int _period;
+}
+
+@end
+
+@implementation KlineController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    
+    [self addTitleView];
+    
+    [self addLineView];
+//    [self addProgress];
+    [self addButtonListView];
+    
+    self.navigationItem.leftBarButtonItem = [UIBarButtonItem itemWithIcon:@"back" highlightedIcon:nil target:self action:@selector(click)];
+}
+
+- (void)addTitleView
+{
+    UIImage *titleImage = [UIImage imageNamed:@"quotaAnalyze"];
+    UIView *titleView = [[UIView alloc] initWithFrame:(CGRect){CGPointZero,titleImage.size}];
+    titleView.backgroundColor = [UIColor colorWithPatternImage:titleImage];
+    
+    UIView *view = [[UIView alloc] initWithFrame:(CGRect){CGPointZero,{titleImage.size.width,titleImage.size.height*2}}];
+    view.backgroundColor = [UIColor clearColor];
+    
+    UITextField *name = [[UITextField alloc] initWithFrame:(CGRect){CGPointZero,titleImage.size}];
+    name.text = [NSString stringWithFormat:@"%@",GLOBAL.sortUnit.productName];
+    name.backgroundColor = [UIColor clearColor];
+    name.textColor = COLOR_GOLD_THEME;
+    name.font = [UIFont systemFontOfSize:12];
+    name.textAlignment = NSTextAlignmentCenter;
+    [view addSubview:name];
+    
+    UITextField *code = [[UITextField alloc] initWithFrame:(CGRect){{0,titleImage.size.height},titleImage.size}];
+    code.text = [NSString stringWithFormat:@"%@",GLOBAL.sortUnit.productID];
+    code.backgroundColor = [UIColor clearColor];
+    code.textColor = COLOR_GOLD_THEME;
+    code.font = [UIFont systemFontOfSize:12];
+    code.textAlignment = NSTextAlignmentCenter;
+    [view addSubview:code];
+    
+    self.navigationItem.titleView = view;
+}
+
+- (void)click
+{
+    if ([self.presentingViewController isKindOfClass:[SearchProductController class]]){
+        UIViewController *preVC = self.presentingViewController;
+        [self dismissViewControllerAnimated:NO completion:^{
+            [preVC dismissViewControllerAnimated:NO completion:nil];
+        }];
+    }else{
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }
+}
+
+- (void)addButtonListView
+{
+    UIColor *bgColor = [UIColor colorWithPatternImage: [UIImage imageNamed:@"k_period_bg"]];
+//    UIColor *selectColor = [UIColor colorWithPatternImage: [UIImage imageNamed:@"k_period_selected"]];
+    
+    _buttonListView = [[UIView alloc] initWithFrame:CGRectMake(0, kStatusBarHeight + kTopBarHeight, App_Frame_Width, kQuotaKlineTypeBarHeight)];
+    _buttonListView.backgroundColor = bgColor;
+    
+    CGFloat _width = App_Frame_Width / float(kKlineTypeCount);
+    for(int i = 0; i < kKlineTypeCount; i++){
+        UIButton* btn = [[UIButton alloc] initWithFrame:CGRectMake(i * _width, 5, _width, 20)];
+        btn.titleLabel.font = [UIFont systemFontOfSize:14];
+        btn.layer.cornerRadius = 10.0;
+        btn.tag = i;
+        [btn addTarget:self action:@selector(selectedKLine:) forControlEvents:UIControlEventTouchUpInside];
+        switch (i) {
+            case 0:{
+                btn.layer.borderWidth = 1;
+                btn.layer.borderColor = [UIColor whiteColor].CGColor ;
+                [btn setTitle: LocalizedStringByInt(1612) forState:UIControlStateNormal];
+                break;
+            }
+            case 1:
+                [btn setTitle: LocalizedStringByInt(1613) forState:UIControlStateNormal];
+                break;
+            case 2:
+                [btn setTitle: LocalizedStringByInt(1614) forState:UIControlStateNormal];
+                break;
+            case 3:
+                [btn setTitle: LocalizedStringByInt(1615) forState:UIControlStateNormal];
+                break;
+            case 4:
+                [btn setTitle: LocalizedStringByInt(1616) forState:UIControlStateNormal];
+                break;
+            case 5:
+                [btn setTitle: LocalizedStringByInt(1617) forState:UIControlStateNormal];
+                break;
+            case 6:
+                [btn setTitle: LocalizedStringByInt(1618) forState:UIControlStateNormal];
+                break;
+            default:
+                break;
+        }
+        [_buttonListView addSubview:btn];
+    }
+    [self.view addSubview:_buttonListView];
+}
+-(void)selectedKLine:(id)sender
+{
+    if(nil != (UIButton*)sender)
+        [self onIndex:(int)((UIButton*)sender).tag];
+}
+
+-(void)onIndex:(int)index
+{
+//    static int __periodIndex[8] = {1, 5, 15, 30, 60, 61, 62, 63};
+    for(int i = 0; i < _buttonListView.subviews.count; i++){
+        UIButton* lbl = [_buttonListView.subviews objectAtIndex:i];
+        if(nil != lbl && i == index){
+            lbl.layer.borderWidth = 1;
+            lbl.titleLabel.textColor = [UIColor whiteColor];
+            lbl.layer.borderColor = [UIColor whiteColor].CGColor ;
+        } else {
+            lbl.titleLabel.textColor = [UIColor whiteColor];
+            lbl.layer.borderColor = [UIColor clearColor].CGColor ;
+        }
+    }
+//    int period = __periodIndex[idx];
+    [self sendRequest:index];
+}
+
+- (void)sendRequest:(int)index
+{
+    NSString *productID = [NSString stringWithFormat:@"%d",GLOBAL.sortUnit.m_CodeInfo.m_uiCode];
+    switch (index) {
+        case 0:
+            [_lineView loadHisKData:MINUTES5_HISK productID:productID];
+            break;
+        case 1:
+            [_lineView loadHisKData:MINUTES15_HISK productID:productID];
+            break;
+        case 2:
+            [_lineView loadHisKData:MINUTES30_HISK productID:productID];
+            break;
+        case 3:
+            [_lineView loadHisKData:MINUTES60_HISK productID:productID];
+            break;
+        case 4:
+            [_lineView loadHisKData:DAY_HISK productID:productID];
+            break;
+        case 5:
+            [_lineView loadHisKData:WEEK_HISK productID:productID];
+            break;
+        case 6:
+            [_lineView loadHisKData:MONTH_HISK productID:productID];
+            break;
+        default:
+            break;
+    }
+
+}
+
+/*
+- (void)addProgress
+{
+    CCSegmentedControl* segmentedControl = [[CCSegmentedControl alloc] initWithItems:@[@"5分", @"15分", @"30分", @"60分", @"日K", @"周K", @"月K"]];
+    segmentedControl.frame = CGRectMake(0, kQuotaGuideViewHeight+kQuotaButtonListHeight-20, self.view.frame.size.width, 40);
+    segmentedControl.alpha = 0.5f;
+    //设置背景图片，或者设置颜色，或者使用默认白色外观
+    segmentedControl.backgroundImage = [UIImage imageNamed:@"segment_bg.png"];
+    //segmentedControl.backgroundColor = [UIColor grayColor];
+    
+    //阴影部分图片，不设置使用默认椭圆外观的stain
+    segmentedControl.selectedStainView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"stain.png"]];
+    
+    segmentedControl.selectedSegmentTextColor = [UIColor whiteColor];
+    segmentedControl.segmentTextColor = [UIColor colorWithHexString:@"#535353" withAlpha:1];
+    [segmentedControl addTarget:self action:@selector(valueChanged:) forControlEvents:UIControlEventValueChanged];
+    [self.view addSubview:segmentedControl];
+}
+- (void)valueChanged:(id)sender
+{
+    CCSegmentedControl* segmentedControl = sender;
+    MYLog(@"%s line:%d segment has changed to %ld", __FUNCTION__, __LINE__, (long)segmentedControl.selectedSegmentIndex);
+    NSString *productID = [NSString stringWithFormat:@"%d",GLOBAL.sortUnit.m_CodeInfo.m_uiCode];
+    switch (segmentedControl.selectedSegmentIndex) {
+        case 0:
+            [_lineView loadHisKData:MINUTES5_HISK productID:productID];
+            break;
+        case 1:
+            [_lineView loadHisKData:MINUTES15_HISK productID:productID];
+            break;
+        case 2:
+            [_lineView loadHisKData:MINUTES30_HISK productID:productID];
+            break;
+        case 3:
+            [_lineView loadHisKData:MINUTES60_HISK productID:productID];
+            break;
+        case 4:
+            [_lineView loadHisKData:DAY_HISK productID:productID];
+            break;
+        case 5:
+            [_lineView loadHisKData:WEEK_HISK productID:productID];
+            break;
+        case 6:
+            [_lineView loadHisKData:MONTH_HISK productID:productID];
+            break;
+        default:
+            break;
+    }
+}
+*/
+- (void)viewWillAppear:(BOOL)animated
+{
+    [self.view insertSubview:self.QuotaAnalysisController.guideView aboveSubview:self.view];
+    [self.view insertSubview:self.QuotaAnalysisController.buttonListView aboveSubview:self.view];
+    self.QuotaAnalysisController.delegate = self;
+    
+    // 首次启动模拟点击日K
+    for (UIButton *btn in _buttonListView.subviews) {
+        if (btn.tag == 4) {
+            [self selectedKLine:btn];
+            break;
+        }
+    }
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [NSTradeEngine sharedInstance].delegate = nil;
+    
+}
+
+- (void)addLineView
+{
+    
+    _lineView = [[LineView alloc] initWithFrame:CGRectMake(0,
+                                                           kQuotaGuideViewHeight + 40,
+                                                           self.view.frame.size.width,
+                                                           self.view.frame.size.height - kQuotaGuideViewHeight - kQuotaBannerHeight  - kQuotaKlineTypeBarHeight -kQuotaButtonListHeight- kDockHeight - 40)];
+    
+    [self.view addSubview:_lineView];
+}
+
+- (void)buy
+{
+    if (![self isLogin]) {
+        [self.navigationController pushViewController:[[LoginController alloc] init] animated:YES];
+        return;
+    }
+    [self.navigationController pushViewController:[[BuyController alloc] init] animated:YES ];
+}
+
+- (void)sell
+{
+    if (![self isLogin]) {
+        [self.navigationController pushViewController:[[LoginController alloc] init] animated:YES];
+        return;
+    }
+    [self.navigationController pushViewController:[[SellController alloc] init] animated:YES ];
+}
+
+- (void)cancelOrder
+{
+    if (![self isLogin]) {
+        [self.navigationController pushViewController:[[LoginController alloc] init] animated:YES];
+        return;
+    }
+    [self.navigationController pushViewController:[[EntrustCancleOrderController alloc] init] animated:YES ];
+}
+
+- (void)queryOrder
+{
+    if (![self isLogin]) {
+        [self.navigationController pushViewController:[[LoginController alloc] init] animated:YES];
+        return;
+    }
+    [self.navigationController pushViewController:[[QueryController alloc] init] animated:YES];
+}
+
+- (BOOL)isLogin
+{
+    return [[NSTradeEngine setup] isLogin];
+}
+
+@end

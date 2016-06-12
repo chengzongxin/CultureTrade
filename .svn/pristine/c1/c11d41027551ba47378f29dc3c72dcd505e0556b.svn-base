@@ -1,0 +1,57 @@
+//
+//  ButtonItem.m
+//  CultureTrade
+//
+//  Created by SZFT1 on 15/10/27.
+//  Copyright (c) 2015年 cheng.zongxin. All rights reserved.
+//
+
+#import "ButtonItem.h"
+
+#define kImageRatio 0.7
+
+@implementation ButtonItem
+
+- (instancetype)initWithFrame:(CGRect)frame icon:(NSString *)icon title:(NSString *)title
+{
+    self = [super initWithFrame:frame];
+    
+    [self setTitle:title forState:UIControlStateNormal];
+    
+    self.titleLabel.textAlignment = NSTextAlignmentCenter;
+    
+    self.titleLabel.font = FONT_HOME_BUTTONLIST_TEXT;
+    
+    [self setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+    
+    [self setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
+    
+    self.imageView.contentMode = UIViewContentModeCenter;
+
+    [self setImage:[UIImage imageNamed:icon] forState:UIControlStateNormal];
+    
+    NSString *selectedIcon = [icon fileAppend:@"_selected"];
+    UIImage *selectedImg = [UIImage imageNamed:selectedIcon];;
+    [self setImage:selectedImg forState:UIControlStateHighlighted];
+    return self;
+}
+
+- (CGRect)imageRectForContentRect:(CGRect)contentRect
+{
+    CGFloat x = 0;
+    CGFloat y = 3;
+    CGFloat w = contentRect.size.width;
+    CGFloat h = contentRect.size.height * kImageRatio;
+    return CGRectMake(x, y, w, h);
+}
+
+- (CGRect)titleRectForContentRect:(CGRect)contentRect
+{
+    CGFloat x = 0;
+    CGFloat y = contentRect.size.width * kImageRatio + 3;
+    CGFloat w = contentRect.size.width;
+    CGFloat h = contentRect.size.height  * (1 - kImageRatio);
+    return CGRectMake(x, y, w, h);
+}
+
+@end

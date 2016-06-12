@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<array>
+		<string>资金设置</string>
+		<dict>
+			<key>icon</key>
+			<string>yinzhengzhuanzhang</string>
+			<key>title</key>
+			<string>银证转账</string>
+			<key>type</key>
+			<integer>3</integer>
+		</dict>
+		<dict>
+			<key>icon</key>
+			<string>zhuanzhangchaxun</string>
+			<key>title</key>
+			<string>转账查询</string>
+			<key>type</key>
+			<integer>3</integer>
+		</dict>
+	</array>
+	<array>
+		<string>系统设置</string>
+		<dict>
+			<key>icon</key>
+			<string>shupingsuoding</string>
+			<key>title</key>
+			<string>竖屏锁定</string>
+			<key>type</key>
+			<string>4</string>
+		</dict>
+		<dict>
+			<key>icon</key>
+			<string>xitongshezhi</string>
+			<key>title</key>
+			<string>密码修改</string>
+			<key>type</key>
+			<string>3</string>
+		</dict>
+		<dict>
+			<key>icon</key>
+			<string>feedback</string>
+			<key>title</key>
+			<string>反馈</string>
+			<key>type</key>
+			<string>3</string>
+		</dict>
+		<dict>
+			<key>icon</key>
+			<string>about</string>
+			<key>title</key>
+			<string>关于</string>
+			<key>type</key>
+			<string>3</string>
+		</dict>
+	</array>
+</array>
+</plist>

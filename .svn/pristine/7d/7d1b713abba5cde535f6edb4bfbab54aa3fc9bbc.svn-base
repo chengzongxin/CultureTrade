@@ -1,0 +1,75 @@
+//
+//  CombiInputText.m
+//  CultureTrade
+//
+//  Created by SZFT1 on 16/3/14.
+//  Copyright © 2016年 cheng.zongxin. All rights reserved.
+//
+
+#import "CombiInputText.h"
+#define kTextFiledX 10
+#define kTextFiledY 5
+#define kTextFiledW ScreenSize.width - 2 * kTextFiledX
+#define kTextFiledH 35
+@implementation CombiInputText
+
+- (instancetype)initWithFrame:(CGRect)frame
+{
+    self = [super initWithFrame:frame];
+    self.font = FONT_BUYIN_TEXTFIELD;
+    [self addViews];
+    return self;
+}
+
+- (void)addViews
+{
+    _leftLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 0, 60, kTextFiledH)];
+    _leftLabel.font = FONT_BUYIN_TEXTFIELD;
+    _leftLabel.textColor = [UIColor whiteColor];
+    [self addSubview:_leftLabel];
+    
+    
+    _downListButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    UIImage *img = [UIImage imageNamed:@"downList"];
+    [_downListButton setImage:img forState:UIControlStateNormal];
+    _downListButton.frame = CGRectMake(kTextFiledW - img.size.width-10, 12, img.size.width, img.size.height);
+    
+}
+
+
+- (void)setLeftLabel:(UILabel *)leftLabel
+{
+    _leftLabel = leftLabel;
+}
+
+- (void)setDownListButton:(UIButton *)downListButton
+{
+    _downListButton = downListButton;
+}
+
+- (void)setStyle:(CombiInputTextStyle)style
+{
+    if (style == CombiInputTextList) [self addSubview:_downListButton];
+}
+
+//控制显示文本的位置
+-(CGRect)textRectForBounds:(CGRect)bounds
+{
+    //return CGRectInset(bounds, 50, 0);
+    CGRect inset = CGRectMake(bounds.origin.x+100, bounds.origin.y, bounds.size.width -10, bounds.size.height);//更好理解些
+    
+    return inset;
+    
+}
+
+//控制编辑文本的位置
+-(CGRect)editingRectForBounds:(CGRect)bounds
+{
+    //return CGRectInset( bounds, 10 , 0 );
+    
+    CGRect inset = CGRectMake(bounds.origin.x +100, bounds.origin.y, bounds.size.width -10, bounds.size.height);
+    return inset;
+}
+
+
+@end

@@ -1,0 +1,25 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "c41d299a-b127-3d4a-b41e-aec46265c54f++6196",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+    "c41d299a-b127-3d4a-b41e-aec46265c54f++6196" : {
+
+    }
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "c41d299a-b127-3d4a-b41e-aec46265c54f++6196" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "0A7C593D-B2E5-45B1-BF45-AE8D1693F115",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "c41d299a-b127-3d4a-b41e-aec46265c54f++6196" : "CultureTrade"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "CultureTrade",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "CultureTrade.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/192.168.0.190\/svn\/mobile",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Subversion",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "c41d299a-b127-3d4a-b41e-aec46265c54f++6196"
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+//
+//  TraderController.m
+//  CultureTrade
+//
+//  Created by SZFT1 on 16/3/14.
+//  Copyright © 2016年 cheng.zongxin. All rights reserved.
+//
+
+#import "TraderController.h"
+
+@interface TraderController ()
+
+@end
+
+@implementation TraderController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    // Do any additional setup after loading the view.
+}
+
+- (void)addTableView
+{
+    UITableView *tableView = [[UITableView alloc] init];
+    tableView.frame = self.view.frame;
+    
+    
+}
+
+@end

@@ -1,0 +1,91 @@
+//
+//  ChartPoint.m
+//  CultureTrade
+//
+//  Created by SZFT1 on 15/11/26.
+//  Copyright (c) 2015年 cheng.zongxin. All rights reserved.
+//
+
+#import "ChartPoint.h"
+#import "Stock.h"
+#import "GlobalModel.h"
+
+@implementation ChartPoint
+- (instancetype)init
+{
+    self = [super init];
+    [self initalization];
+    return self;
+}
+
+- (void)initalization
+{
+    self.kLineWidth = 3.0f;
+    self.intervalSpace = 1.0f;
+}
+
+- (NSArray *)pointArrayTranslateByStockArray:(NSArray *)stockArray innerMainFrame:(CGRect)mainFrame bottomFrame:(CGRect)bottomFrame
+{
+    
+    // mainBox中待显示的个数
+    int maxCount = mainFrame.size.width / (self.kLineWidth + self.intervalSpace);
+//     多算一个，以免左边空隙不好看
+//    maxCount ++;
+    
+    NSMutableArray *pointArray = [NSMutableArray arrayWithCapacity:maxCount];
+    float maxPriceValue = 0.0,minPriceValue = MAXFLOAT,maxVolume = 10.0,minVolume = MAXFLOAT;
+    maxPriceValue = GLOBAL.stockInfo.m_uiPrevClose*1.1;
+    minPriceValue = GLOBAL.stockInfo.m_uiPrevClose*0.9;
+    int stockCount = (int)MIN(stockArray.count, maxCount);
+    for (int i = 0; i < stockCount; i++) {
+        // 获得最大值和最小值
+        Stock *stock = stockArray[i];
+        
+        maxPriceValue = MAX(MAX(MAX(MAX(stock.highestPrice, stock.MA5), stock.MA10), stock.MA20), maxPriceValue);
+        minPriceValue = MIN(MIN(MIN(MIN(stock.lowestPrice, stock.MA5), stock.MA10), stock.MA20), minPriceValue);
+//        if (stock.MA5 == 0 && stock.MA10 == 0 && stock.MA20 == 0) {
+//            minPriceValue = stock.lowestPrice;
+//        }
+        maxVolume = MAX(stock.volume, maxVolume);
+        minVolume = 0.0;
+    }
+    
+    // 填充坐标系,因为line是添加到mainBox中，y轴起始点以0计算,否则要加上(+ frame.origin.y - frame.size.height)
+    CGFloat mainHeight = mainFrame.size.height;
+    CGFloat bottomHeight = bottomFrame.size.height;
+    for (int i  = 0; i < stockCount ; i ++) { // 坐标正向算，最新的显示在最右边
+        Stock *stock = stockArray[i];
+        
+        CGFloat x = self.kLineWidth/2 + (self.kLineWidth + self.intervalSpace)*i;
+        ChartPoint *chartPoint = [[ChartPoint alloc] init];
+        
+        chartPoint.stock = stock;
+        chartPoint.stock.maxPrice = maxPriceValue;
+        chartPoint.stock.minPrice = minPriceValue;
+        chartPoint.stock.maxVolume = maxVolume;
+        chartPoint.stock.minVolume = minVolume;
+        
+        chartPoint.highestPricepoint = CGPointMake(x,(1-(stock.highestPrice - minPriceValue)/(maxPriceValue - minPriceValue))*mainHeight);
+        chartPoint.lowestPricepoint = CGPointMake(x,(1-(stock.lowestPrice - minPriceValue)/(maxPriceValue - minPriceValue))*mainHeight);
+        chartPoint.openPricepoint = CGPointMake(x,(1-(stock.openPrice - minPriceValue)/(maxPriceValue - minPriceValue))*mainHeight);
+        chartPoint.closePricepoint = CGPointMake(x,(1-(stock.closePrice - minPriceValue)/(maxPriceValue - minPriceValue))*mainHeight);
+        chartPoint.volumepoint = CGPointMake(x,(stock.volume - minVolume)/(maxVolume - minVolume)*bottomHeight); // 写死
+        chartPoint.MA5point = CGPointMake(x,(1-(stock.MA5 - minPriceValue)/(maxPriceValue - minPriceValue))*mainHeight);
+        chartPoint.MA10point = CGPointMake(x,(1-(stock.MA10 - minPriceValue)/(maxPriceValue - minPriceValue))*mainHeight);
+        chartPoint.MA20point = CGPointMake(x,(1-(stock.MA20 - minPriceValue)/(maxPriceValue - minPriceValue))*mainHeight);
+        
+        [pointArray addObject:chartPoint];
+    }
+    return pointArray;
+}
+
+- (int)numberOfStockInFrame:(CGRect)frame
+{
+    // mainBox中待显示的个数
+    int count = frame.size.width / (self.kLineWidth + self.intervalSpace);
+    // 多算一个，以免左边空隙不好看
+//    count ++;
+    return count;
+}
+
+@end

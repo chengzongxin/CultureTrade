@@ -1,0 +1,441 @@
+//
+//  HomeController.m
+//  CultureTrade
+//
+//  Created by SZFT1 on 15/10/23.
+//  Copyright (c) 2015年 cheng.zongxin. All rights reserved.
+//
+
+#import "HomeController.h"
+#import "UIBarButtonItem+helper.h"
+#import "ButtonItem.h"
+#import "AKSegmentedControl.h"
+#import "EntrustCancleOrderController.h"
+#import "QueryController.h"
+#import "BuyController.h"
+#import "SellController.h"
+#import "MeController.h"
+#import "DockController.h"
+#import "MainController.h"
+#import "HistoryEntrustController.h"
+#import "HistoryDealController.h"
+#import "InOutMoneyController.h"
+#import "FoundHoldController.h"
+#import "SpliteLineView.h"
+#import "LoginController.h"
+#define kButtonListHeight 196
+#define KButtonRow  4
+#define kBUttonCol  3
+#define kCount      4
+
+@interface HomeController () <UITableViewDataSource,UITableViewDelegate,AKSegmentedControlDelegate,NSTradeEngineDelegate>
+{
+    UIImageView *_imageView;
+    AKSegmentedControl *_segmentedControl;
+    UIScrollView *_scroll;
+}
+
+
+@end
+
+@implementation HomeController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    
+//    self.title = LocalizedStringByInt(1101);
+    
+    
+//    _navBarHairlineImageView = [self findHairlineImageViewUnder:self.navigationController.navigationBar];
+//    MYLog(@"_navBarHairlineImageView = %@",_navBarHairlineImageView);
+//    [_navBarHairlineImageView removeFromSuperview];
+    
+    [self addTitle];
+    
+    [self addScrollView];
+    
+    [self addScrollImages];
+    
+    [self addButtonListView];
+    
+    [self addSpliteLine];
+    
+//    [self addSegmentedController];
+    
+//    [self addTableView];
+}
+
+- (void)addTitle
+{
+    UIImage *titleImage = [UIImage imageNamed:@"title_trade"];
+    UIView *titleView = [[UIView alloc] initWithFrame:(CGRect){CGPointZero,titleImage.size}];
+    titleView.backgroundColor = [UIColor colorWithPatternImage:titleImage];
+    self.navigationItem.titleView = titleView;
+}
+
+#pragma mark - UI界面初始化
+#pragma mark 添加滚动视图
+- (void)addScrollView
+{
+    UIImage *img = [UIImage imageNamed:@"advertisement"];
+    UIScrollView *scroll = [[UIScrollView alloc] init];
+    scroll.frame = CGRectMake(0, 0, img.size.width, img.size.height);
+    scroll.showsHorizontalScrollIndicator = NO; // 隐藏水平滚动条
+    CGSize size = scroll.frame.size;
+    scroll.contentSize = CGSizeMake(size.width * kCount, 0); // 内容尺寸
+    scroll.pagingEnabled = YES; // 分页
+    scroll.delegate = self;
+    [self.view addSubview:scroll];
+    _scroll = scroll;
+}
+
+#pragma mark 添加滚动显示的图片
+- (void)addScrollImages
+{
+    CGSize size = _scroll.frame.size;
+    
+    for (int i = 0; i<kCount; i++) {
+        UIImageView *imageView = [[UIImageView alloc] init];
+        // 1.显示图片
+        NSString *name = [NSString stringWithFormat:@"advertisement_%d.png", i + 1];
+        imageView.image = [UIImage imageNamed:name];
+        // 2.设置frame
+        imageView.frame = CGRectMake(i * size.width, 0, size.width, size.height);
+        [_scroll addSubview:imageView];
+        
+        }
+}
+
+
+- (void)addAdvertisement
+{
+    UIImage *img = [UIImage imageNamed:@"advertisement"];
+    _imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, img.size.width, img.size.height)];
+    [_imageView setImage:img];
+    [self.view addSubview:_imageView];
+}
+
+- (void)addButtonListView
+{
+    _ButtonListView = [[UIView alloc] initWithFrame:CGRectMake(0, _scroll.frame.size.height, ScreenSize.width, kButtonListHeight*1.5)];
+    [self.view addSubview:_ButtonListView];
+    
+    float width = _ButtonListView.frame.size.width / KButtonRow;
+    float height = _ButtonListView.frame.size.height / kBUttonCol;
+    
+    ButtonItem *applyPurchase = [[ButtonItem alloc] initWithFrame:CGRectMake(0, 0, width, height) icon:@"trade_buy" title:LocalizedStringByInt(1111)];
+    applyPurchase.tag = 1;
+    [applyPurchase addTarget:self action:@selector(eventDistribution:) forControlEvents:UIControlEventTouchUpInside];
+    [_ButtonListView addSubview:applyPurchase];
+    
+    ButtonItem *entrustcancleOrder = [[ButtonItem alloc] initWithFrame:CGRectMake(width, 0, width, height) icon:@"trade_sell" title:LocalizedStringByInt(1112)];
+    entrustcancleOrder.tag = 2;
+    [entrustcancleOrder addTarget:self action:@selector(eventDistribution:) forControlEvents:UIControlEventTouchUpInside];
+    [_ButtonListView addSubview:entrustcancleOrder];
+    
+    ButtonItem *distributionQuery = [[ButtonItem alloc] initWithFrame:CGRectMake(width * 2, 0, width, height) icon:@"trade_cancelorder" title:LocalizedStringByInt(1113)];
+    distributionQuery.tag = 3;
+    [distributionQuery addTarget:self action:@selector(eventDistribution:) forControlEvents:UIControlEventTouchUpInside];
+    [_ButtonListView addSubview:distributionQuery];
+    
+    ButtonItem *fundsStock = [[ButtonItem alloc] initWithFrame:CGRectMake(width * 3, 0, width, height) icon:@"trade_moneyhold" title:LocalizedStringByInt(1114)];
+    fundsStock.tag = 4;
+    [fundsStock addTarget:self action:@selector(eventDistribution:) forControlEvents:UIControlEventTouchUpInside];
+    [_ButtonListView addSubview:fundsStock];
+    
+    ButtonItem *todayEntrust = [[ButtonItem alloc] initWithFrame:CGRectMake(0, height, width, height) icon:@"trade_todayentrust" title:LocalizedStringByInt(1115)];
+    todayEntrust.tag = 5;
+    [todayEntrust addTarget:self action:@selector(eventDistribution:) forControlEvents:UIControlEventTouchUpInside];
+    [_ButtonListView addSubview:todayEntrust];
+    
+    ButtonItem *todayDeal = [[ButtonItem alloc] initWithFrame:CGRectMake(width, height, width, height) icon:@"trade_todaydeal" title:LocalizedStringByInt(1116)];
+    todayDeal.tag = 6;
+    [todayDeal addTarget:self action:@selector(eventDistribution:) forControlEvents:UIControlEventTouchUpInside];
+    [_ButtonListView addSubview:todayDeal];
+    
+    ButtonItem *historyEntrust = [[ButtonItem alloc] initWithFrame:CGRectMake(width * 2, height, width, height) icon:@"trade_historyentrust" title:LocalizedStringByInt(1117)];
+    historyEntrust.tag = 7;
+    [historyEntrust addTarget:self action:@selector(eventDistribution:) forControlEvents:UIControlEventTouchUpInside];
+    [_ButtonListView addSubview:historyEntrust];
+    
+    ButtonItem *historyDeal = [[ButtonItem alloc] initWithFrame:CGRectMake(width * 3, height, width, height) icon:@"trade_historydeal" title:LocalizedStringByInt(1118)];
+    historyDeal.tag = 8;
+    [historyDeal addTarget:self action:@selector(eventDistribution:) forControlEvents:UIControlEventTouchUpInside];
+    [_ButtonListView addSubview:historyDeal];
+    
+    ButtonItem *tracemoney = [[ButtonItem alloc] initWithFrame:CGRectMake(0, height * 2, width, height) icon:@"trade_tracemoney" title:LocalizedStringByInt(1119)];
+    tracemoney.tag = 9;
+    [tracemoney addTarget:self action:@selector(eventDistribution:) forControlEvents:UIControlEventTouchUpInside];
+    [_ButtonListView addSubview:tracemoney];
+}
+
+- (void)addSpliteLine
+{
+    float x = _ButtonListView.frame.size.width / KButtonRow;
+    float y = _ButtonListView.frame.size.height / kBUttonCol;
+    
+    float width = _ButtonListView.frame.size.width;
+    float height = _ButtonListView.frame.size.height;
+    float lineWith = 0.5;
+    SpliteLineView *spliteLineVer1 = [[SpliteLineView alloc] init];
+    spliteLineVer1.frame = CGRectMake(x, 0, lineWith, height);
+    [_ButtonListView addSubview:spliteLineVer1];
+    
+    SpliteLineView *spliteLineVer2 = [[SpliteLineView alloc] init];
+    spliteLineVer2.frame = CGRectMake(x * 2, 0, lineWith, height);
+    [_ButtonListView addSubview:spliteLineVer2];
+    
+    SpliteLineView *spliteLineVer3 = [[SpliteLineView alloc] init];
+    spliteLineVer3.frame = CGRectMake(x * 3, 0, lineWith, height);
+    [_ButtonListView addSubview:spliteLineVer3];
+    
+    SpliteLineView *spliteLineHor4 = [[SpliteLineView alloc] init];
+    spliteLineHor4.frame = CGRectMake(0, y, width, lineWith);
+    [_ButtonListView addSubview:spliteLineHor4];
+    
+    SpliteLineView *spliteLineHor5 = [[SpliteLineView alloc] init];
+    spliteLineHor5.frame = CGRectMake(0, y * 2, width, lineWith);
+    [_ButtonListView addSubview:spliteLineHor5];
+    
+//    SpliteLineView *spliteLineHor6 = [[SpliteLineView alloc] init];
+//    spliteLineHor6.frame = CGRectMake(0, y * 3, width, lineWith);
+//    [_ButtonListView addSubview:spliteLineHor6];
+}
+
+#pragma mark -
+#pragma mark 按钮事件
+- (void)eventDistribution:(ButtonItem *)sender
+{
+    if (![[NSTradeEngine setup] isLogin])
+    {
+        [self.navigationController pushViewController:[[LoginController alloc] init] animated:YES];
+        return;
+    }
+    
+    NSInteger index = sender.tag;
+    switch (index) {
+        case 1:
+            [self.navigationController pushViewController:[[BuyController alloc] init] animated:YES];
+            break;
+        case 2:
+            [self.navigationController pushViewController:[[SellController alloc] init] animated:YES];
+            break;
+        case 3:
+            [self.navigationController pushViewController:[[EntrustCancleOrderController alloc] init] animated:YES];
+            break;
+        case 4:
+            [self.navigationController pushViewController:[[FoundHoldController alloc] init] animated:YES];
+            break;
+        case 5:
+            [self.navigationController pushViewController:[[EntrustCancleOrderController alloc] init] animated:YES];
+            break;
+        case 6:
+            [self.navigationController pushViewController:[[QueryController alloc] init] animated:YES];
+            break;
+        case 7:
+            [self.navigationController pushViewController:[[HistoryEntrustController alloc] init] animated:YES];
+            break;
+        case 8:
+            [self.navigationController pushViewController:[[HistoryDealController alloc] init] animated:YES];
+            break;
+        case 9:
+            [self.navigationController pushViewController:[[InOutMoneyController alloc] init] animated:YES];
+            break;
+            
+        default:
+            break;
+    }
+}
+
+#pragma mark -
+#pragma mark 添加分段选择器
+
+- (void)addSegmentedController
+{
+    CGFloat inerW = [UIImage imageNamed:@"infomation_selected.png"].size.width;
+    CGFloat inerH = [UIImage imageNamed:@"selectedBg.png"].size.height;
+    
+    CGFloat x = (self.view.frame.size.width - inerW * 2 ) * 0.5;
+    CGFloat y = CGRectGetMaxY(_ButtonListView.frame) + 18;
+    CGFloat width = inerW * 2;
+    CGFloat height = inerH;
+    
+    _segmentedControl = [[AKSegmentedControl alloc] initWithFrame:CGRectMake(x, y, width, height)];
+    [_segmentedControl setDelegate:self];
+    [self setupSegmentedControl];
+}
+
+- (void)setupSegmentedControl
+{
+    UIImage *backgroundImage = [[UIImage imageNamed:@"selectedBg.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(10.0, 10.0, 10.0, 10.0)];
+    [_segmentedControl setBackgroundImage:backgroundImage];
+    [_segmentedControl setContentEdgeInsets:UIEdgeInsetsMake(1.0, 1.0, 1.0, 1.0)];
+    [_segmentedControl setSegmentedControlMode:AKSegmentedControlModeSticky];
+    [_segmentedControl setAutoresizingMask:UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleBottomMargin];
+    
+    UIImage *buttonBackgroundImagePressedLeft = [[UIImage imageNamed:@"announcement_selected.png"]
+                                                 resizableImageWithCapInsets:UIEdgeInsetsMake(0.0, 4.0, 0.0, 1.0)];
+    UIImage *buttonBackgroundImagePressedRight = [[UIImage imageNamed:@"infomation_selected.png"]
+                                                  resizableImageWithCapInsets:UIEdgeInsetsMake(0.0, 1.0, 0.0, 4.0)];
+    
+    // Button 1
+    UIButton *buttonSocial = [[UIButton alloc] init];
+    UIImage *buttonSocialImageNormal = [UIImage imageNamed:@"announcement.png"];
+    
+    [buttonSocial setImageEdgeInsets:UIEdgeInsetsMake(0.0, 0.0, 0.0, 5.0)];
+    [buttonSocial setBackgroundImage:buttonBackgroundImagePressedLeft forState:UIControlStateHighlighted];
+    [buttonSocial setBackgroundImage:buttonBackgroundImagePressedLeft forState:UIControlStateSelected];
+    [buttonSocial setBackgroundImage:buttonBackgroundImagePressedLeft forState:(UIControlStateHighlighted|UIControlStateSelected)];
+    [buttonSocial setImage:buttonSocialImageNormal forState:UIControlStateNormal];
+    [buttonSocial setImage:buttonSocialImageNormal forState:UIControlStateSelected];
+    [buttonSocial setImage:buttonSocialImageNormal forState:UIControlStateHighlighted];
+    [buttonSocial setImage:buttonSocialImageNormal forState:(UIControlStateHighlighted|UIControlStateSelected)];
+    
+    // Button 3
+    UIButton *buttonSettings = [[UIButton alloc] init];
+    UIImage *buttonSettingsImageNormal = [UIImage imageNamed:@"infomation.png"];
+    
+    [buttonSettings setBackgroundImage:buttonBackgroundImagePressedRight forState:UIControlStateHighlighted];
+    [buttonSettings setBackgroundImage:buttonBackgroundImagePressedRight forState:UIControlStateSelected];
+    [buttonSettings setBackgroundImage:buttonBackgroundImagePressedRight forState:(UIControlStateHighlighted|UIControlStateSelected)];
+    [buttonSettings setImage:buttonSettingsImageNormal forState:UIControlStateNormal];
+    [buttonSettings setImage:buttonSettingsImageNormal forState:UIControlStateSelected];
+    [buttonSettings setImage:buttonSettingsImageNormal forState:UIControlStateHighlighted];
+    [buttonSettings setImage:buttonSettingsImageNormal forState:(UIControlStateHighlighted|UIControlStateSelected)];
+    
+    //    [segmentedControl1 setButtonsArray:@[buttonSocial, buttonStar, buttonSettings]];
+    [_segmentedControl setButtonsArray:@[buttonSocial, buttonSettings]];
+    [self.view addSubview:_segmentedControl];
+    
+    [self segmentedViewController:_segmentedControl touchedAtIndex:0];
+}
+
+- (void)segmentedViewController:(AKSegmentedControl *)segmentedControl touchedAtIndex:(NSUInteger)index
+{
+    if (segmentedControl == _segmentedControl)
+    {
+        NSLog(@"%@",_segmentedControl.buttonsArray);
+        
+        if (index == 0) {
+            
+            UIImage *buttonSettingsImageNormal = [UIImage imageNamed:@"infomation.png"];
+            
+            UIButton *btn1 = _segmentedControl.buttonsArray.firstObject;
+            [btn1 setImage:nil forState:UIControlStateNormal];
+            [btn1 setImage:nil forState:UIControlStateSelected];
+            [btn1 setImage:nil forState:UIControlStateHighlighted];
+            [btn1 setImage:nil forState:(UIControlStateHighlighted|UIControlStateSelected)];
+            
+            UIButton *btn2 = _segmentedControl.buttonsArray.lastObject;
+            [btn2 setImage:buttonSettingsImageNormal forState:UIControlStateNormal];
+            [btn2 setImage:buttonSettingsImageNormal forState:UIControlStateSelected];
+            [btn2 setImage:buttonSettingsImageNormal forState:UIControlStateHighlighted];
+            [btn2 setImage:buttonSettingsImageNormal forState:(UIControlStateHighlighted|UIControlStateSelected)];
+        } else
+        {
+            UIImage *buttonSocialImageNormal = [UIImage imageNamed:@"announcement.png"];
+            
+            UIButton *btn1 = _segmentedControl.buttonsArray.firstObject;
+            [btn1 setImage:buttonSocialImageNormal forState:UIControlStateNormal];
+            [btn1 setImage:buttonSocialImageNormal forState:UIControlStateSelected];
+            [btn1 setImage:buttonSocialImageNormal forState:UIControlStateHighlighted];
+            [btn1 setImage:buttonSocialImageNormal forState:(UIControlStateHighlighted|UIControlStateSelected)];
+            
+            UIButton *btn2 = _segmentedControl.buttonsArray.lastObject;
+            [btn2 setImage:nil forState:UIControlStateNormal];
+            [btn2 setImage:nil forState:UIControlStateSelected];
+            [btn2 setImage:nil forState:UIControlStateHighlighted];
+            [btn2 setImage:nil forState:(UIControlStateHighlighted|UIControlStateSelected)];
+        }
+        
+        NSLog(@"SegmentedControl #1 : Selected Index %lu", (unsigned long)index);
+    }
+}
+
+#pragma mark -
+#pragma mark UITableView
+- (void)addTableView
+{
+    CGRect rect = CGRectMake(0, CGRectGetMaxY(_segmentedControl.frame) + 8, self.view.bounds.size.width, self.view.bounds.size.height - CGRectGetMaxY(_ButtonListView.frame));
+    _tableView = [[UITableView alloc] initWithFrame:rect style:UITableViewStylePlain];
+    _tableView.dataSource = self;
+    _tableView.delegate = self;
+    _tableView.backgroundColor = COLOR_HOME_TABBLE_BG;
+    _tableView.separatorColor = COLOR_HOME_CELL_SEPLITELINE;
+    [self.view addSubview:_tableView];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 63;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return 4;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString *cellID = @"cellID";
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellID];
+        cell.textLabel.font = [UIFont systemFontOfSize:13 weight:_tableView.rowHeight * 0.5];
+        cell.detailTextLabel.font = [UIFont systemFontOfSize:10 weight:_tableView.rowHeight * 0.5];
+        cell.detailTextLabel.lineBreakMode = NSLineBreakByWordWrapping;
+    }
+    
+    cell.textLabel.text = @"日本民众冒雨集会反对安保法 1.2万人参加(图)";
+    cell.textLabel.textColor = COLOR_HOME_CELL_TEXTLABLE;
+    cell.textLabel.font = FONT_HOME_CELL_TEXTLABEL;
+    cell.detailTextLabel.text = @"有日本大学生组成的团体\"SELDs\"及\"反对安保相关法案学者之会\"日前联合在东京新宿举行反对该法案的集会。";
+    cell.detailTextLabel.textColor = COLOR_HOME_CELL_DETAILTEXT;
+    cell.detailTextLabel.font = FONT_HOME_CELL_DETAILTEXT;
+    cell.detailTextLabel.numberOfLines = 2;
+    cell.imageView.image = [UIImage imageNamed:@"newsIcon"];
+    cell.backgroundColor = COLOR_HOME_CELL_BG;
+    
+    return cell;
+}
+
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [_tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+- (void)queto_ui_hisKDataFirst_rsp:(NSString *)data count:(int)count
+{
+    MYLOGFUN;
+    MYLog(@"data = = = %@,%d",data,count);
+}
+
+- (void)viewDidLayoutSubviews
+{
+    //设置TableView Separatorinset 分割线从边框顶端开始
+    if ([self.tableView respondsToSelector:@selector(setSeparatorInset:)]) {
+        [self.tableView setSeparatorInset:UIEdgeInsetsMake(0, 0, 0, 0)];
+    }
+    
+    if ([self.tableView respondsToSelector:@selector(setLayoutMargins:)]) {
+        [self.tableView setLayoutMargins:UIEdgeInsetsMake(0, 0, 0, 0)];
+    }
+}
+
+-(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    //设置TableView Separatorinset 分割线从边框顶端开始
+    if ([cell respondsToSelector:@selector(setSeparatorInset:)]) {
+        [cell setSeparatorInset:UIEdgeInsetsZero];
+    }
+    
+    if ([cell respondsToSelector:@selector(setLayoutMargins:)]) {
+        [cell setLayoutMargins:UIEdgeInsetsZero];
+    }
+}
+
+
+
+
+@end

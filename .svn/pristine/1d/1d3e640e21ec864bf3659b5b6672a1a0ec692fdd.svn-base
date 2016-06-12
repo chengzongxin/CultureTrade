@@ -1,0 +1,123 @@
+//
+//  TransferQueryController.m
+//  CultureTrade
+//
+//  Created by SZFT1 on 16/3/16.
+//  Copyright © 2016年 cheng.zongxin. All rights reserved.
+//
+
+#import "TransferQueryController.h"
+#import "TransferQueryCell.h"
+#import "UIBarButtonItem+helper.h"
+#define kBannerHeight 20
+#define kCellHeight 35
+@interface TransferQueryController ()
+{
+    NSMutableArray *_transferArray;
+}
+@end
+
+@implementation TransferQueryController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    
+    [self addTitleBanner];
+    
+    [self addTableView];
+}
+
+- (void)addTitleBanner
+{
+    self.title = LocalizedStringByInt(2400);
+    
+    self.navigationItem.leftBarButtonItem = [UIBarButtonItem itemWithIcon:@"back" highlightedIcon:nil target:self action:@selector(back)];
+    
+    _titleBanner = [[TitleBanner alloc] initWithFrame:CGRectMake(0, 20, self.view.frame.size.width, kBannerHeight)];
+    _titleBanner.bannerTitles = @[@"ID",@"操作类型",@"金额",@"时间",@"执行状态",@"备注"];
+    [self.view addSubview:_titleBanner];
+}
+
+- (void)addTableView
+{
+    CGRect rect = CGRectMake(0, CGRectGetMaxY(_titleBanner.frame) + 5,self.view.frame.size.width, self.view.frame.size.height - kBannerHeight - 64);
+    _tableView = [[UITableView alloc] initWithFrame:rect style:UITableViewStylePlain];
+    _tableView.delegate = self;
+    _tableView.dataSource = self;
+    _tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+    _tableView.separatorColor = COLOR_TRANSFER_QUERY_CELL_SEPLITELINE;
+    _tableView.backgroundColor = COLOR_TRANSFER_QUERY_TABLE_BG;
+    _tableView.bounces = YES;
+    [self.view addSubview:_tableView];
+}
+
+- (void)back
+{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    _transferArray = [NSMutableArray array];
+    
+    [NSTradeEngine sharedInstance].delegate = self;
+    [[NSTradeEngine sharedInstance] trade_request_transferquery];
+}
+
+- (void)trade_ui_transferquery_rsp:(int)nSeq results:(NSString *)results
+{
+    if (results == nil) return;
+//    [self closeProgressSuccess:@"Success!"];
+    _transferArray = [NSMutableArray array];
+    NSError *error;
+    NSDictionary *str2dict = [NSJSONSerialization JSONObjectWithData:[results dataUsingEncoding:NSUTF8StringEncoding]
+                                                             options:NSJSONReadingMutableContainers
+                                                               error:&error];
+    NSArray *jsonArray = [str2dict objectForKey:@"INTPRTCL"];
+    for (NSDictionary *dict in jsonArray) {
+        TransferQuery *transferQuery = [TransferQuery transferQueryWithDictionary:dict];
+        [_transferArray addObject:transferQuery];
+    }
+    [_tableView reloadData];
+}
+#pragma mark - UITableView Delegate
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return kCellHeight;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return _transferArray.count;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString *cellID = @"TransferQueryID";
+    TransferQueryCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
+    if (cell == nil) {
+        cell = [[TransferQueryCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellID];
+    }
+    
+    TransferQuery *transferQuery = _transferArray[indexPath.row];
+
+    cell.stockName.text = transferQuery.ID;
+    cell.entrustPrice.text = transferQuery.operatorType;
+    if ([transferQuery.operatorType isEqualToString:@"1"]) {
+        cell.entrustPrice.text = @"转入";
+    }else{
+        cell.entrustPrice.text = @"转出";
+    }
+    cell.entrustDeal.text = [NSString stringWithFormat:@"%0.2f",[transferQuery.money doubleValue]];
+    cell.status.text = transferQuery.time;
+    cell.buySell.text = transferQuery.performState;
+    if ([transferQuery.performState isEqualToString:@"3"]) {
+        cell.buySell.text = @"已审核";
+    }
+    cell.nowPrice.text = transferQuery.detail;
+    
+    return cell;
+}
+@end
