@@ -76,6 +76,8 @@
     [self addDownList];
     
     [self fillData];
+    
+    [self requestPreTrade];
 }
 
 - (void)addTitleView
@@ -183,11 +185,17 @@
             [NSTradeEngine sharedInstance].delegate = self;
         }
         GLOBAL.sortUnit = GLOBAL.sortUnitArray[indexPath.row];
+        [self requestPreTrade];
         [self fillData];
         [self loadData];
     }];
     
     [self.view addSubview:_tableBlock];
+}
+
+- (void)requestPreTrade
+{
+    [[NSTradeEngine sharedInstance] trade_request_pretrade:[NSString stringWithFormat:@"%d",GLOBAL.sortUnit.m_CodeInfo.m_uiCode] type:@"0B"];
 }
 
 - (void)changeOpenStatus:(id)sender {
@@ -483,6 +491,13 @@
         [alertView show];
     }
     
+}
+
+- (void)trade_ui_pretrade_rsp:(int)nSeq pretrade:(NSString *)pretrades
+{
+    NSData *data = [pretrades dataUsingEncoding:NSUTF8StringEncoding];
+    NSDictionary *jsonDic = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+    _maxCanBuy.text = jsonDic[@"9801"];
 }
 
 #pragma mark touches event

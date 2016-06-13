@@ -79,9 +79,15 @@
             [_productName.downListButton sendActionsForControlEvents:UIControlEventTouchUpInside];
         }
         GLOBAL.shareHold = GLOBAL.shareHoldArray[indexPath.row];
+        [self requestPreTrade];
         [self updateUserinterface];
         [self loadData];
     }];
+}
+
+- (void)requestPreTrade
+{
+    [[NSTradeEngine sharedInstance] trade_request_pretrade:[NSString stringWithFormat:@"%d",GLOBAL.sortUnit.m_CodeInfo.m_uiCode] type:@"0S"];
 }
 
 - (void)updateUserinterface
@@ -187,6 +193,13 @@
                                                           }];
         [alertView show];
     }
+}
+
+- (void)trade_ui_pretrade_rsp:(int)nSeq pretrade:(NSString *)pretrades
+{
+//    NSData *data = [pretrades dataUsingEncoding:NSUTF8StringEncoding];
+//    NSDictionary *jsonDic = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+//    _maxCanBuy.text = jsonDic[@"9803"];
 }
 
 @end

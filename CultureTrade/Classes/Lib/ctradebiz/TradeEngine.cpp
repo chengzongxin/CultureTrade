@@ -573,7 +573,7 @@ extern "C"
             strcat(allcodes, code.c_str());
             strcat(allcodes, ",");
         }
-        int lastindex = strlen(allcodes) -1;
+        int lastindex = (int)strlen(allcodes) -1;
         if(lastindex > -1)
         {
             allcodes[lastindex] = '\0';
@@ -967,7 +967,7 @@ extern "C"
         cJSON *accountstatus;
 //        cJSON *needchangepwd;
         cJSON *accounttype;
-        printBusLogEx("trade_login_rsp json:%s\n",json);
+//        printBusLogEx("trade_login_rsp json:%s\n",json);
         root = cJSON_Parse(json);
         int nRet=-1;
         if (root) {
@@ -8286,6 +8286,11 @@ extern "C"
         tradeuievents.trade_ui_historyturnover_rsp(nSeq,json);
     }
     
+    void trade_pretrade_rsp(int nSeq,char *json)
+    {
+        tradeuievents.trade_ui_pretrade_rsp(nSeq,json);
+    }
+    
     void queto_hisKDataFirst_rsp(int nCmd ,unsigned char* data,int nLen)
     {
         tradeuievents.quote_ui_hisKDataFirst_rsp(data,nLen);
@@ -8496,6 +8501,22 @@ extern "C"
         return nSeq;
     }
     
+    int trade_pretrade_req(char *securityID,char *orderType)
+    {
+        cJSON *root;
+        char *out;
+        root=cJSON_CreateObject();
+        cJSON_AddStringToObjectEx(root, FIX_TAG_HEADER_SESSION, LoginedSession);
+        cJSON_AddStringToObjectEx(root, FIX_TAG_BODY_SECURITYID, securityID);
+        cJSON_AddStringToObjectEx(root, FIX_TAG_BODY_ORDERTYPE, orderType);
+        out = cJSON_Print(root);
+        cJSON_Delete(root);
+        printBusLogEx("trade_pretrade_req json:%s", out);
+        int nSeq = nhp_pretrade_req(out);
+        free(out);
+        return nSeq;
+    }
+    
     const char * getBankName()
     {
         return BankName;
@@ -8632,6 +8653,7 @@ extern "C"
         events.on_nhp_quote_stkDealData_rsp = &quote_stkDealDate_rsp;
         events.on_nhp_trade_historyorder_rsp = &trade_historyorder_rsp;
         events.on_nhp_trade_historyturnover_rsp = &trade_historyturnover_rsp;
+        events.on_nhp_trade_pretrade_rsp = &trade_pretrade_rsp;
         set_nhp_trade_events(events);
     }
 }

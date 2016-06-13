@@ -87,6 +87,8 @@
     UIBarButtonItem *button10 = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:0];
     
     drawer.items = @[button2, button3, button4, button5, button6, button7, button8, button9, button10];
+    
+    [self toMonth];
 }
 
 - (void)addTitleView

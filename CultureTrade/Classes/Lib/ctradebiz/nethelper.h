@@ -453,6 +453,9 @@ typedef struct nhp_trade_events
     //历史成交
     void(*on_nhp_trade_historyturnover_rsp)(int nSeq,char *json);
     
+    //预交易
+    void(*on_nhp_trade_pretrade_rsp)(int nSeq,char *json);
+    
     // 首次历史K线回调
     void(*on_nhp_quote_hisKDataFirst_rsp)(int nCmd,unsigned char* data,int nLen);
     
@@ -551,6 +554,8 @@ typedef struct nhp_trade_events
     int nhp_trade_historyorder_req(const char * json);
     // 历史成交
     int nhp_trade_historyturnover_req(const char * json);
+    // 与交易
+    int nhp_pretrade_req(const char *json);
     
 //////////////////////////////文交所客户端 END  /////////////////////////////////
     //查资金

@@ -135,6 +135,8 @@ extern NSString * const REFRESH_NOTIFY;
 
 - (void)trade_ui_historyturnover_rsp:(int)nSeq deals:(NSString *)deals;
 
+- (void)trade_ui_pretrade_rsp:(int)nSeq pretrade:(NSString *)pretrades;
+
 // 行情登陆
 - (void)quote_ui_login_rsp:(int)nRet;
 
@@ -854,5 +856,5 @@ extern NSString * const REFRESH_NOTIFY;
 
 - (int)trade_request_transferquery;
 
-
+- (int)trade_request_pretrade:(NSString *)securityID type:(NSString *)orderType;
 @end

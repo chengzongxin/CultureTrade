@@ -416,6 +416,8 @@ bool on_nhp_session_trans_package_callback_handle(int nSid, int nCmd, int nSeq, 
         tradeevents.on_nhp_trade_historyorder_rsp(nSeq, json);
     } else if (nCmd == atoi(FIX_MSGTYPE_QUERY_HISTORYTURNOVER_RES)){
         tradeevents.on_nhp_trade_historyturnover_rsp(nSeq,json);
+    } else if (nCmd == atoi(FIX_MSGTYPE_PRETRADE_RES)){
+        tradeevents.on_nhp_trade_pretrade_rsp(nSeq,json);
     }
     
     //异常处理
@@ -1408,5 +1410,12 @@ int nhp_trade_historyturnover_req(const char *json)
 {
     int mSeq = nhp_get_nseq();
     SendRequestEx(FIX_MSGTYPE_QUERY_HISTORYTURNOVER_REQ, mSeq, json);
+    return mSeq;
+}
+
+int nhp_pretrade_req(const char *json)
+{
+    int mSeq = nhp_get_nseq();
+    SendRequestEx(FIX_MSGTYPE_PRETRADE_REQ, mSeq, json);
     return mSeq;
 }

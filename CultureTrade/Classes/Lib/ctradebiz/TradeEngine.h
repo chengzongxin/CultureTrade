@@ -156,6 +156,9 @@ typedef struct trade_ui_events
     //历史成交
     void(*trade_ui_historyturnover_rsp)(int nSeq,char *json);
     
+    //预交易
+    void(*trade_ui_pretrade_rsp)(int nSeq,char *json);
+    
     // 行情登陆
     void(*quote_ui_login_rsp)(int nRet);
     
@@ -897,6 +900,8 @@ typedef struct trade_ui_events
     int trade_request_historyorder(char *startDate,char *endDate);
     // 历史成交
     int trade_request_historyturnover(char *startDate,char *endDate);
+    // 历史成交
+    int trade_pretrade_req(char *securityID,char *orderType);
     // 出入金请求
     int trade_request_inout_money(int transferType,double money,const char * moneyPwd,const char *bankPwd);
     

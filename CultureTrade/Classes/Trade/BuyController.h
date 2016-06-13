@@ -46,4 +46,5 @@
 - (void)loadData;
 - (void)startTimer;
 - (void)stopTimer;
+- (void)requestPreTrade;
 @end

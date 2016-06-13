@@ -414,6 +414,16 @@ void trade_ui_historyturnover_rspUI(int nSeq,char *deals)
     }
 }
 
+void trade_ui_pretrade_rspUI(int nSeq,char *pretrades)
+{
+    if( [NSTradeEngine setup].delegate != nil
+       && [[NSTradeEngine setup].delegate respondsToSelector:@selector(trade_ui_pretrade_rsp:pretrade:)])
+    {
+        NSString* nsDataStr = toNString(pretrades);
+        [[NSTradeEngine setup].delegate trade_ui_pretrade_rsp:nSeq pretrade:nsDataStr];
+    }
+}
+
 
 void trade_ui_sharehold_rspUI(int nRet,const char *data)
 {
@@ -2444,14 +2454,16 @@ return [NSString stringWithFormat:@"%.3f", getApplySettlementprirce(pp)];
                             文交所
      ************************************************************/
     
-    // 今日成交，今日委托
+    // 交易
     uievents.trade_ui_symbol_change_notice = &trade_ui_symbol_change_notice_rspUI;
     uievents.trade_ui_today_deal_rsp = &trade_ui_today_deal_rspUI;
     uievents.trade_ui_today_entrust_rsp = &trade_ui_today_entrust_rspUI;
     uievents.trade_ui_sharehold_rsp = &trade_ui_sharehold_rspUI;
     uievents.trade_ui_historyorder_rsp = &trade_ui_historyorder_rspUI;
     uievents.trade_ui_historyturnover_rsp = &trade_ui_historyturnover_rspUI;
-    // 行情登陆
+    uievents.trade_ui_pretrade_rsp = &trade_ui_pretrade_rspUI;
+    
+    // 行情
     uievents.quote_ui_login_rsp = &quote_ui_login_rspUI;
     uievents.quote_ui_hisKDataFirst_rsp = &quote_ui_hisKDataFirst_rspUI;
     uievents.quote_ui_hisKDataCurDate_rsp = &quote_ui_hisKDataCurDate_rspUI;
@@ -2771,6 +2783,13 @@ return [NSString stringWithFormat:@"%.3f", getApplySettlementprirce(pp)];
 - (int)trade_request_transferquery
 {
     return trade_query_inout_monery();
+}
+
+- (int)trade_request_pretrade:(NSString *)securityID type:(NSString *)orderType
+{
+    char * csecurityID = toCString(securityID);
+    char * corderType = toCString(orderType);
+    return trade_pretrade_req(csecurityID, corderType);
 }
 
 @end

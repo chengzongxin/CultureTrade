@@ -82,7 +82,7 @@
         {
             // spin while we wait for the task to actually end.
             NSLog(@"等待180s循环进程的结束");
-            [NSThread sleepForTimeInterval:1];
+//            [NSThread sleepForTimeInterval:1];
         }
         // Restart the background task so we can run forever.
         [selfRef startBackgroundTask];
@@ -124,7 +124,7 @@
      */
     [self.window makeKeyAndVisible];
     
-    sleep(2);
+//    sleep(2);
     
     return YES;
 }
