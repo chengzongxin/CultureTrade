@@ -68,7 +68,7 @@
     [[NSNetHelper setup] initNet];
     
     UIApplication* app = [UIApplication sharedApplication];
-    
+    app.delegate = self;
     __weak AppDelegate* selfRef = self;
     isLogined = YES;
     
@@ -76,14 +76,14 @@
         [app endBackgroundTask:selfRef.bgTask];
         selfRef.bgTask = UIBackgroundTaskInvalid;
         selfRef.bgTask = [app beginBackgroundTaskWithExpirationHandler:selfRef.expirationHandler];
-        NSLog(@"Expired");
+//        NSLog(@"Expired");
         selfRef.jobExpired = YES;
-        while(selfRef.jobExpired)
-        {
-            // spin while we wait for the task to actually end.
-            NSLog(@"等待180s循环进程的结束");
+//        while(selfRef.jobExpired)
+//        {
+////             spin while we wait for the task to actually end.
+//            NSLog(@"等待180s循环进程的结束");
 //            [NSThread sleepForTimeInterval:1];
-        }
+//        }
         // Restart the background task so we can run forever.
         [selfRef startBackgroundTask];
     };
@@ -94,7 +94,7 @@
     [self monitorBatteryStateInBackground];
     _locationManager = [[CLLocationManager alloc] init];
     _locationManager.delegate = self;
-    
+    [_locationManager requestAlwaysAuthorization];//添加这句
     if(![CLLocationManager locationServicesEnabled] || ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusDenied))//判断定位服务是否打开
     {
         MYLog(@"please open location service!");
@@ -134,6 +134,14 @@
 {
     self.background = YES;
     [self startBackgroundTask];
+}
+
+- (void)applicationWillEnterForeground:(UIApplication *)application
+{
+    if (_bgTask!=UIBackgroundTaskInvalid) {
+        [application endBackgroundTask:_bgTask];
+        _bgTask = UIBackgroundTaskInvalid;
+    }
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
@@ -185,11 +193,11 @@
 
 - (void)startBackgroundTask
 {
-    NSLog(@"Restarting task");
+//    NSLog(@"Restarting task");
     if(isLogined)//当登陆状态才进入后台循环
     {
         // Start the long-running task.
-        NSLog(@"登录状态后台进程开启");
+//        NSLog(@"登录状态后台进程开启");
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             // When the job expires it still keeps running since we never exited it. Thus have the expiration handler
             // set a flag that the job expired and use that to exit the while loop and end the task.
@@ -216,7 +224,7 @@
                 if(!isLogined)//未登录或者掉线状态下关闭后台
                 {
                     NSLog(@"保持在线进程失效，退出后台进程");
-//                    showAlert(@"保持在线失效，登录已被注销，请重新登录");
+                    showAlert(@"保持在线失效，登录已被注销，请重新登录");
                     [[UIApplication sharedApplication] endBackgroundTask:self.bgTask];
                     return;//退出循环
                 }
@@ -232,13 +240,18 @@
                 {
                     [[NSNotificationCenter defaultCenter] postNotificationName:@"MessageUpdate" object:@"刷新后台时间成功\n"];
                     FlushBackgroundTime=true;
-                    //[InterfaceFuncation ShowLocalNotification:@"刷新后台时间成功"];
+//                    [InterfaceFuncation ShowLocalNotification:@"刷新后台时间成功"];
+                }
+                if (backgroundTimeRemaining>86400) {//进入到前台了，趋于无限大
+                    self.background = NO;
                 }
             }
             self.jobExpired = NO;
+            
         });
     }
 }
+
 
 //一、始终隐藏状态栏
 //如果在App中需要状态栏一直是隐藏着的，可以在AppDelegate的application:didFinishLaunchingWithOptions:函数中进行设置，比如下面这段示意代码可以让状态栏以淡出的方式隐藏起来：

@@ -85,7 +85,7 @@
     _tableView.delegate = self;
     _tableView.alpha = 0.7;
     _tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;   // UNAVAILABLE IOS_7 EARLY
-    _tableView.separatorInset = UIEdgeInsetsMake(0, 0, 0, 0);
+    _tableView.separatorInset = UIEdgeInsetsZero;
     _tableView.separatorColor = [UIColor blackColor];
     _tableView.backgroundColor = COLOR_CELL_BG;
     _tableView.bounces = NO;

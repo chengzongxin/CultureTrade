@@ -22,7 +22,7 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         self.backgroundColor = COLOR_CELL_BG;
-        [self setSeparatorInset:UIEdgeInsetsZero];
+//        [self setSeparatorInset:UIEdgeInsetsZero];
         [self addLabels];
     }
     
@@ -63,9 +63,12 @@
     _name.text = shareHold.productName;
     _code.text = shareHold.productID;
     float newPrice = [[NSTradeEngine sharedInstance] getNewPrice:[shareHold.productID intValue]];
+    if (newPrice == 0) {
+        newPrice = [[NSTradeEngine sharedInstance] getPreClosePrice:[shareHold.productID intValue]];
+    }
     _newPrice.text = [NSString stringWithFormat:@"%0.2f",newPrice];
-    NSInteger location = [shareHold.turnOverPrice rangeOfString:@"."].location+3;
-    _turnOverPrice.text = [shareHold.keepCost substringToIndex:location];
+    float turnOverPrice = [shareHold.turnOverPrice floatValue];
+    _turnOverPrice.text = [NSString stringWithFormat:@"%0.2f",turnOverPrice];
     _shareHold.text = shareHold.totalBalance;
     _available.text =  [NSString stringWithFormat:@"%d",[shareHold.totalBalance intValue] - [shareHold.freezeVolume intValue]];
     float marketPrice = newPrice * [shareHold.totalBalance intValue];

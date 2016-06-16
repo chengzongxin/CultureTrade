@@ -32,8 +32,8 @@
     
     [_dock addSpliteLine];
     
-//    [self initalization];
-    [[NSTradeEngine setup] userloginwithnet:@"chengzongxin" password:@"123456" tradeip:@"192.168.3.166" tradeport:TRADESERVER_PORT quoteip:@"192.168.0.194" quoteport:QUOTESERVER_PORT];
+    [self initalization];
+//    [[NSTradeEngine setup] userloginwithnet:@"xigua" password:@"a123456" tradeip:@"192.168.3.166" tradeport:TRADESERVER_PORT quoteip:@"192.168.0.194" quoteport:QUOTESERVER_PORT];
 //    [[NSTradeEngine setup] userloginwithnet:@"chengzongxin" password:@"123456" tradeip:@"192.168.0.194" tradeport:TRADESERVER_PORT quoteip:@"192.168.0.194" quoteport:QUOTESERVER_PORT];
     
 }
