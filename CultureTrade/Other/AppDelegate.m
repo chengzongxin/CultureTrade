@@ -194,6 +194,7 @@
 - (void)startBackgroundTask
 {
 //    NSLog(@"Restarting task");
+    
     if(isLogined)//当登陆状态才进入后台循环
     {
         // Start the long-running task.
