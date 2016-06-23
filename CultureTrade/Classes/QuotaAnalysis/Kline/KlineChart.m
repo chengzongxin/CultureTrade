@@ -55,8 +55,12 @@
     CGMutablePathRef path = CGPathCreateMutable();
     
     CGFloat interalValue = self.frame.size.height / 6;
+    
+    CGFloat length[2] = {5,5};
+    CGContextSaveGState(context);
     for (int i = 1; i < 6; i++) {
         CGFloat y = interalValue * i;
+        CGContextSetLineDash(context, 0, length, 1);
         CGPathMoveToPoint(path, NULL, 0, y);
         CGPathAddLineToPoint(path, NULL, self.frame.size.width, y);
     }
@@ -80,7 +84,7 @@
     CGMutablePathRef pathMA5 = CGPathCreateMutable();
     CGMutablePathRef pathMA10 = CGPathCreateMutable();
     CGMutablePathRef pathMA20 = CGPathCreateMutable();
-    
+    CGContextRestoreGState(context);
     // MA5/MA10/MA20
     ChartPoint *oldestPoint = self.pointArray.firstObject;
     CGPathMoveToPoint(pathMA5, NULL, oldestPoint.MA5point.x, oldestPoint.MA5point.y);

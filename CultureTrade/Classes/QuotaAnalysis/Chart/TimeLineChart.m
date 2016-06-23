@@ -45,10 +45,12 @@
     CGContextRef context = UIGraphicsGetCurrentContext();
     CGContextSetShouldAntialias(context, NO);
     CGMutablePathRef path = CGPathCreateMutable();
-    
+    CGContextSaveGState(context);
     CGFloat interalValue = self.frame.size.height / 6;
+    CGFloat length[2] = {5,5};
     for (int i = 1; i < 6; i++) {
         CGFloat y = interalValue * i;
+        CGContextSetLineDash(context, 0, length, 1);
         CGPathMoveToPoint(path, NULL, 0, y);
         CGPathAddLineToPoint(path, NULL, self.frame.size.width, y);
     }
@@ -69,7 +71,7 @@
 //    CGContextSetShouldAntialias(context, NO);
     CGMutablePathRef newPath = CGPathCreateMutable();
     CGMutablePathRef avePath = CGPathCreateMutable();
-    
+    CGContextRestoreGState(context);
     TimeChartPoint *firstTimePoint = self.pointArray.firstObject;
     CGPathMoveToPoint(newPath, NULL, firstTimePoint.newPricepoint.x, firstTimePoint.newPricepoint.y);
     CGPathMoveToPoint(avePath, NULL, firstTimePoint.averagePricepoint.x, firstTimePoint.averagePricepoint.y);
