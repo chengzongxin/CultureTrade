@@ -9,6 +9,13 @@
 #import "TimeVolumeChart.h"
 #import "TimeChartPoint.h"
 
+@interface TimeVolumeChart ()
+{
+    CGFloat previousHeight;
+}
+
+@end
+
 @implementation TimeVolumeChart
 
 - (instancetype)initWithFrame:(CGRect)frame
@@ -21,6 +28,7 @@
 - (void)initalization
 {
     self.kLineWidth = 1.0f;
+    previousHeight = 0.0f;
 }
 
 - (void)setPointArray:(NSArray *)pointArray
@@ -52,7 +60,12 @@
         CGRect rect = CGRectMake(x, y, width, height);
         CGContextAddRect(context, rect);
         // 1.先设置填充颜色，再填充颜色，否则是把当前设置填充颜色填到下一个矩形，导致右偏移bug
-        CGContextSetFillColorWithColor(context, [UIColor redColor].CGColor);
+        if (height > previousHeight) {
+            CGContextSetFillColorWithColor(context, [UIColor redColor].CGColor);
+        }else{
+            CGContextSetFillColorWithColor(context, [UIColor greenColor].CGColor);
+        }
+        previousHeight = height;
         // 2.填充上下文指定的rect
         CGContextFillRect(context, rect);
         CGContextDrawPath(context, kCGPathStroke);

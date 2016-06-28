@@ -31,11 +31,21 @@
     [self addDockItem];
     
     [_dock addSpliteLine];
-    
+#if BALANCE_ENABLE
+    [self useBalace];
+#else
     [self initalization];
+#endif
 //    [[NSTradeEngine setup] userloginwithnet:@"xigua" password:@"a123456" tradeip:@"192.168.3.166" tradeport:TRADESERVER_PORT quoteip:@"192.168.0.194" quoteport:QUOTESERVER_PORT];
 //    [[NSTradeEngine setup] userloginwithnet:@"chengzongxin" password:@"123456" tradeip:@"192.168.0.194" tradeport:TRADESERVER_PORT quoteip:@"192.168.0.194" quoteport:QUOTESERVER_PORT];
     
+}
+
+- (void)useBalace
+{
+    [[NSTradeEngine sharedInstance] add_balance:@"192.168.0.194" port:5212];
+    
+    [[NSTradeEngine sharedInstance] start_balance];
 }
 
 - (void)initalization

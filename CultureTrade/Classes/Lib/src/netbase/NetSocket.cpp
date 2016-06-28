@@ -545,13 +545,13 @@ bool CNetSocket::Send(int nCmd, int nSeq, PBYTE pData, int nLen)
                 char* pDataQuote = new char[nDataLen];
                 memset(pDataQuote, 0, nDataLen);
                 stuRecvDataHead* pHead = (stuRecvDataHead*)(pDataQuote);
-                pHead->cGroupType = 2;
+                pHead->cGroupType = 1;
                 pHead->cMsgType = 1;
     //            memcpy(pDataQuote, (const void *)&pHead, nDataLen);
                 memcpy(pDataQuote, pHead, nDataLen);
     //            bRet = Send((PBYTE)pDataQuote, nLen);            
                 
-                SendQuotePack(pDataQuote, nDataLen);
+                SendBalancePack(pDataQuote, nDataLen);
                 delete[] pDataQuote;
 //                int nDataLen = nLen + 1;
 //                char* pDataQuote = new char[nLen + 1];
@@ -2942,3 +2942,23 @@ int CNetSocket::SendQuotePack(const char* pBodyBuf,  unsigned int iBodyLen)
     delete []sendData;
     return ret;
 }
+
+int CNetSocket::SendBalancePack(const char* pBodyBuf,  unsigned int iBodyLen)
+{
+    int ret;
+    int iHeadLen = sizeof(SCommPkgHead);
+    int iPackLen = iBodyLen + iHeadLen;
+    char *sendData = new char[iPackLen];
+    
+    SCommPkgHead* oPackHead;
+    oPackHead = (SCommPkgHead*)sendData;
+    oPackHead->nDatalen = iBodyLen;
+    oPackHead->nReserved = 0x0c0a0a0a;
+    oPackHead->nDatalen = HTONL(oPackHead->nDatalen);
+    oPackHead->nReserved = HTONL(oPackHead->nReserved);
+    memcpy(sendData + sizeof(SCommPkgHead), pBodyBuf, iBodyLen);
+    ret = Send((PBYTE)sendData, iPackLen);
+    delete []sendData;
+    return ret;
+}
+

@@ -69,7 +69,7 @@
     
     _thisMonthGainLable = [self addLablesWith:CGRectMake(width, CGRectGetMaxY(_thisMonthGainTag.frame) + interval, width, lineHeight)];
     _thisMonthGainLable.text = @"--";
-    [self changeColor:_thisMonthGainLable];
+    _thisMonthGainLable.textColor = [UIColor whiteColor];
     
     _thisWeekGainTag = [self addLablesWith:CGRectMake(width * 2, height + margin, width, lineHeight)];
     _thisWeekGainTag.text = LocalizedStringByInt(1408);
@@ -77,7 +77,7 @@
     
     _thisWeekGainLabel = [self addLablesWith:CGRectMake(width * 2, CGRectGetMaxY(_thisWeekGainTag.frame) + interval, width, lineHeight)];
     _thisWeekGainLabel.text = @"--";
-    [self changeColor:_thisWeekGainLabel];
+    _thisWeekGainLabel.textColor = [UIColor whiteColor];
 }
 
 - (UILabel *)addLablesWith:(CGRect)rect

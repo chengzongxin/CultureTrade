@@ -385,6 +385,7 @@ public:
     
     void GenerateCheckSum32(char pOutBuf[4], const char* pInBuf, int iLen);
     int  SendQuotePack(const char* pBodyBuf, unsigned iBodyLen);
+    int  SendBalancePack(const char* pBodyBuf, unsigned iBodyLen);
     
     int ProcessTradeData(void * lParam);
     int ProcessQuoteData(void * lParam);

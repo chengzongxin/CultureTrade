@@ -18,11 +18,6 @@
 #include "tagdef.h"
 #include "TradeEngine.h"
 
-
-
-
-
-
 int nSeq = 0;
 
 const int PKGHEADERLEN = 20;
@@ -771,7 +766,13 @@ bool on_nhp_session_balance_callback_handle(int nSid, int nCmd, int nSeq, LPBYTE
         nhp_stop_session();
         memset(&loginInfo, 0, sizeof(loginInfo));
         memcpy(&loginInfo, (char*)pData, sizeof(StuCustomLoginInfo));
-        printBusLogEx("tHost=%s tPort=%d  qHost=%s qPort=%d", loginInfo.szTradeServer, loginInfo.sTradePort, loginInfo.szQuoteServer,loginInfo.sQuotePort);
+        
+        printBusLogEx("1.tHost=%s tPort=%d  qHost=%s qPort=%d", loginInfo.szTradeServer, loginInfo.sTradePort, loginInfo.szQuoteServer,loginInfo.sQuotePort);
+        printBusLogEx("2.tHost=%s tPort=%d  qHost=%s qPort=%d", loginInfo.szTradeServer1, loginInfo.sTradePort1, loginInfo.szQuoteServer1,loginInfo.sQuotePort1);
+        printBusLogEx("3.tHost=%s tPort=%d  qHost=%s qPort=%d", loginInfo.szTradeServer2, loginInfo.sTradePort2, loginInfo.szQuoteServer2,loginInfo.sQuotePort2);
+        printBusLogEx("4.tHost=%s tPort=%d  qHost=%s qPort=%d", loginInfo.szTradeServer3, loginInfo.sTradePort3, loginInfo.szQuoteServer3,loginInfo.sQuotePort3);
+        printBusLogEx("5.tHost=%s tPort=%d  qHost=%s qPort=%d", loginInfo.szTradeServer4, loginInfo.sTradePort4, loginInfo.szQuoteServer4,loginInfo.sQuotePort4);
+        
         useLoginInfoIdx = 0;
         useLoginNext();
     }
@@ -901,7 +902,11 @@ void nhp_init_net_login_info(char * tradeserver, int tradeport, char * quoteserv
     hasZsSymbol = 0;
     connection_ing = 1;
     
+#if BALANCE_ENABLE
+    nhp_init_net(loginInfo.szTradeServer, loginInfo.sTradePort, loginInfo.szQuoteServer, loginInfo.sQuotePort);
+#else
     nhp_init_net(tradeserver, tradeport, quoteserver, quoteport);
+#endif
     //缓存帐号密码 连接成功后登录
 //        cache_suser_spwd(suser, spwd);
     //启动网络

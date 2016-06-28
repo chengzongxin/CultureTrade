@@ -316,7 +316,6 @@
 
 - (void)fillGuideView
 {
-    
     _guideView.foundLable.text = [NSString changePriceByFloat:GLOBAL.moneyHold.totalBalance];
     _guideView.monthDealLable.text = [NSString changePriceByFloat:GLOBAL.moneyHold.accountBalance];
     _guideView.sucRatioLabel.text = [NSString changePriceByFloat:GLOBAL.moneyHold.accountFreeze];
@@ -400,6 +399,13 @@
         allCost += (newPrice - [shareHold.keepCost floatValue])*[shareHold.totalBalance intValue];
     }
     _guideView.totalGainLable.text = [NSString changePriceByFloat:allCost];
+    if (allCost > 0) {
+        _guideView.totalGainLable.textColor = [UIColor redColor];
+    }else if (allCost == 0){
+        _guideView.totalGainLable.textColor = [UIColor whiteColor];
+    }else{
+        _guideView.totalGainLable.textColor = [UIColor greenColor];
+    }
     
 }
 

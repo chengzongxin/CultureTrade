@@ -6694,6 +6694,7 @@ extern "C"
     void loginquotewithnet(char * quoteip, int quoteport)
     {
         memset(LoginedAccountName, 0, 256);
+        
         nhp_init_net_login_quote(quoteip, quoteport);
     }
     

@@ -2022,6 +2022,7 @@
 					"DEBUG=1",
 					"$(inherited)",
 					"SSL_ENABLE=0",
+					"BALANCE_ENABLE=1",
 				);
 				HEADER_SEARCH_PATHS = "$(SRCROOT)/CultureTrade/Classes/Lib/src/openssl/include";
 				INFOPLIST_FILE = CultureTrade/Info.plist;
@@ -2060,7 +2061,10 @@
 				);
 				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/CultureTrade/Other/PrefixHeader.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = "SSL_ENABLE=0";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"SSL_ENABLE=0",
+					"BALANCE_ENABLE=1",
+				);
 				HEADER_SEARCH_PATHS = "$(SRCROOT)/CultureTrade/Classes/Lib/src/openssl/include";
 				INFOPLIST_FILE = CultureTrade/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
