@@ -396,6 +396,9 @@
     float allCost = 0.0f;
     for (ShareHold *shareHold in GLOBAL.shareHoldArray) {
         float newPrice = [[NSTradeEngine sharedInstance] getNewPrice:[shareHold.productID intValue]];
+        if (newPrice == 0) {
+            newPrice = [[NSTradeEngine sharedInstance] getPreClosePrice:[shareHold.productID intValue]];
+        }
         allCost += (newPrice - [shareHold.keepCost floatValue])*[shareHold.totalBalance intValue];
     }
     _guideView.totalGainLable.text = [NSString changePriceByFloat:allCost];

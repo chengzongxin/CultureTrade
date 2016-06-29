@@ -182,6 +182,8 @@ typedef struct trade_ui_events
     
     //转账查询
     void(*trade_ui_transferquery_rsp)(int nRet,const char *data);
+    
+    void(*callback_cache_user_pwd)();
 }trade_ui_events;      //回调给NSTradeEngine
     
     void init_engine();

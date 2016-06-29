@@ -19,7 +19,8 @@
 #import "NSTradeBizUtils.h"
 #import "GlobalModel.h"
 #import "tagdef.h"
-
+#define kAccountKey     @"Account"
+#define kPasswordKey    @"Password"
 
 
 NSTradeEngine *instanceEngine = nil;
@@ -684,6 +685,13 @@ void trade_ui_transferquery_rspUI(int nRet,const char *data)
     {
         [[NSTradeEngine setup].delegate trade_ui_transferquery_rsp:nRet results:nsData];
     }
+}
+
+void cache_user_pwd_ui(char **user,char **pwd)
+{
+    *user = toCString([[NSUserDefaults standardUserDefaults] objectForKey:kAccountKey]);
+    
+    *pwd = toCString([[NSUserDefaults standardUserDefaults] objectForKey:kPasswordKey]);
 }
 
 +(NSTradeEngine*) sharedInstance {
@@ -2473,6 +2481,15 @@ return [NSString stringWithFormat:@"%.3f", getApplySettlementprirce(pp)];
     uievents.trade_ui_moneyhold_rsp = &trade_ui_moneyhold_rspUI;
     uievents.trade_ui_transferquery_rsp = &trade_ui_transferquery_rspUI;
     set_trade_ui_events(uievents);
+    
+    
+    
+    /**
+     *  call back from nethelp.c
+     */
+    callback_logic callbacklogic;
+    callbacklogic.cache_user_pwd = &cache_user_pwd_ui;
+    set_callback_logics(callbacklogic);
 }
 
 //请求登录 带地址信息

@@ -1064,7 +1064,6 @@ extern "C"
         printBusLogEx("trade_login end");
     }
     
-    
     //
     void get_ordertickets_from_json(cJSON * root)
     {
@@ -8655,6 +8654,7 @@ extern "C"
         events.on_nhp_trade_historyorder_rsp = &trade_historyorder_rsp;
         events.on_nhp_trade_historyturnover_rsp = &trade_historyturnover_rsp;
         events.on_nhp_trade_pretrade_rsp = &trade_pretrade_rsp;
+//        events.callback_cache_user_pwd = &cache_user_pwd;
         set_nhp_trade_events(events);
     }
 }

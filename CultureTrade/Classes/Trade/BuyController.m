@@ -238,6 +238,8 @@
     _productID.text = [NSString stringWithFormat:@"%d",GLOBAL.sortUnit.m_CodeInfo.m_uiCode];
     _productName.text = [NSString stringWithFormat:@"%@",GLOBAL.sortUnit.productName];
     _buyInPrice.text = [NSString stringWithFormat:@"%0.2f",preClose];
+    float canbuy = GLOBAL.moneyHold.canOut/[_buyInPrice.text floatValue];
+    _maxCanBuy.text = [NSString stringWithFormat:@"%d",(int)canbuy];
     
     if (code == 0) _productID.text = @"";
     if (name  == nil || name == 0) _productName.text = @"";
@@ -495,9 +497,9 @@
 
 - (void)trade_ui_pretrade_rsp:(int)nSeq pretrade:(NSString *)pretrades
 {
-    NSData *data = [pretrades dataUsingEncoding:NSUTF8StringEncoding];
-    NSDictionary *jsonDic = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-    _maxCanBuy.text = jsonDic[@"9801"];
+//    NSData *data = [pretrades dataUsingEncoding:NSUTF8StringEncoding];
+//    NSDictionary *jsonDic = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+//    _maxCanBuy.text = jsonDic[@"9801"];
 }
 
 #pragma mark touches event
@@ -519,6 +521,8 @@
     if ([NSTradeEngine sharedInstance].delegate != self) {
         [NSTradeEngine sharedInstance].delegate = self;
     }
+    
+    [[NSTradeEngine sharedInstance] trade_request_moneyholdNS];
     
     [self startTimer];
 }
@@ -584,6 +588,17 @@
         }
     }
     [_tableView reloadData];
+}
+
+- (void)trade_ui_moneyhold_rsp:(int)nRet
+{
+    if (nRet) {
+//        [self fillGuideView];
+        float canbuy = GLOBAL.moneyHold.canOut/[_buyInPrice.text floatValue];
+        _maxCanBuy.text = [NSString stringWithFormat:@"%d",(int)canbuy];
+    }else{
+        MYLog(@"error  nRet = %d",nRet);
+    }
 }
 
 @end

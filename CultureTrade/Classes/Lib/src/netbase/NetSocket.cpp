@@ -597,6 +597,7 @@ bool CNetSocket::Send(int nCmd, int nSeq, PBYTE pData, int nLen)
                 pUserPwd->m_uiSoftWareVersion = SOFTWARE_VERSION;
                 memset(pUserPwd->m_szHardDiskInfo, 0, sizeof(pUserPwd->m_szHardDiskInfo));
                 printBusLogEx("USERPWDVALID  QuoteUser= [%s] QuotePwd= [%s]\n",pUserPwd->m_szUser, pUserPwd->m_szPwd);
+                sleep(1);   // 这里不知道什么原因，如果不暂停，会导致没有回复
                 SendQuotePack(pDataQuote, nDataLen);
                 delete []user;
                 delete []pwd;

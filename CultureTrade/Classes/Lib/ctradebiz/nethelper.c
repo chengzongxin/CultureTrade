@@ -29,6 +29,7 @@ int  n_pwd_md5;
 
 nhp_net_events netevents;
 nhp_trade_events tradeevents;
+callback_logic callbacklogics;
 
 int nSID = -1;
 void clear_suser_spwd();
@@ -472,6 +473,7 @@ void set_nhp_trade_events(nhp_trade_events events) {
 }
 
 void login_on_quote() {
+    printBusLogEx("login_on_quote");
     if(nQuoteLogined != 0) return;
     LPBYTE account = new BYTE[40];
     memset(account, 0, 40);
@@ -520,7 +522,17 @@ bool on_nhp_session_status_callback_handle(int nSid,int nFlag)
     if (nSid == nSID) {
         if (CST_CONNECTED == nFlag) {
             if (strlen(str_user) > 0 && strlen(str_pwd) > 0) {
-                nhp_request_login();//tradeevents.callback_trade_login(str_user, str_pwd);
+                nhp_request_login();
+                tradeevents.callback_trade_login(str_user, str_pwd);
+            }else{
+                char *user[USERACCLEN] = {0};
+                char *pwd[USERACCLEN] = {0};
+                callbacklogics.cache_user_pwd(user,pwd);
+                if (strlen(*user) > 0 && strlen(*pwd) > 0)
+                {
+                    refresh_begin();
+                    tradeevents.callback_trade_login(*user, *pwd);
+                }
             }
         } else {
             if(useBalance && useLoginInfoIdx < 5){//重连5次
@@ -533,6 +545,11 @@ bool on_nhp_session_status_callback_handle(int nSid,int nFlag)
         connection_ing = 0;
     }
     return 1;
+}
+
+void set_callback_logics(callback_logic callbacklogic)
+{
+    callbacklogics = callbacklogic;
 }
 
 //网络层有事件通知，切换会主线程来处理事件

@@ -67,13 +67,13 @@
         newPrice = [[NSTradeEngine sharedInstance] getPreClosePrice:[shareHold.productID intValue]];
     }
     _newPrice.text = [NSString stringWithFormat:@"%0.2f",newPrice];
-    float turnOverPrice = [shareHold.turnOverPrice floatValue];
-    _turnOverPrice.text = [NSString stringWithFormat:@"%0.2f",turnOverPrice];
+    float chengben = [shareHold.keepCost floatValue];
+    _turnOverPrice.text = [NSString stringWithFormat:@"%0.2f",chengben];
     _shareHold.text = shareHold.totalBalance;
     _available.text =  [NSString stringWithFormat:@"%d",[shareHold.totalBalance intValue] - [shareHold.freezeVolume intValue]];
     float marketPrice = newPrice * [shareHold.totalBalance intValue];
     _marketPrice.text = [NSString changePriceByFloat:marketPrice];
-    float cost = (newPrice - [_turnOverPrice.text floatValue])*[shareHold.totalBalance intValue]; //(newPrice - [shareHold.turnOverPrice intValue])*[shareHold.totalBalance intValue];
+    float cost = (newPrice - chengben)*[shareHold.totalBalance intValue]; //(newPrice - [shareHold.turnOverPrice intValue])*[shareHold.totalBalance intValue];
     _cost.text = [NSString changePriceByFloat:cost];
     
     for (UILabel *label in self.contentView.subviews) {
