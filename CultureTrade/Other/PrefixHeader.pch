@@ -30,6 +30,9 @@
 #define BAICHUAN_USERID @"shaxf@21cn.com"
 #define BAICHUAN_USERPWD @"Gongxiaofeng&123"
 #define ONLINECONFIG    0
+#define OUTER_BALANCE_IP          @"120.25.224.254"
+#define INNER_BALANCE_IP          @"192.168.0.194"
+#define OUTER_BALANCE_PORT      5212
 #define TRADESERVER_IP          @"120.25.224.254"
 #define QUOTESERVER_IP          @"120.25.224.254"
 //#define TRADESERVER_IP          @"192.168.0.194"

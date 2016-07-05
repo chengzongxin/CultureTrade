@@ -167,6 +167,12 @@
 
 - (void)trade_ui_today_entrust_rsp:(NSString *)data
 {
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"HH:mm"];
+    NSString *now = [formatter stringFromDate:[NSDate date]];
+    
+    if ([now compare:@"15:30"] == NSOrderedDescending) return; //大于15:30
+    
     _orderArray = [NSMutableArray array];
     NSError *error = nil;
     NSDictionary *str2dict = [NSJSONSerialization JSONObjectWithData:[data dataUsingEncoding:NSUTF8StringEncoding]

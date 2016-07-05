@@ -243,7 +243,7 @@
         return;
     }
     NSDateFormatter* formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"yyyy-MM-dd"];
+    [formatter setDateFormat:@"yyyy-MM-dd HH:mm"];
     if (self.requestType == isHistoryOrder) {
         [[NSTradeEngine setup] trade_request_historyorder_fromDate:[formatter stringFromDate:startDate] toDate:[formatter stringFromDate:endDate]];
     }else if(self.requestType == isHistoryTurnOver){

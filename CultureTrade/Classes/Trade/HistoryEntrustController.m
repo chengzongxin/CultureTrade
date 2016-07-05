@@ -107,12 +107,12 @@
     [adcomps setYear:0];
     NSDate *newdate = [calendar dateByAddingComponents:adcomps toDate:mydate options:0];
     NSDateFormatter* formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"yyyy-MM-01"];
+    [formatter setDateFormat:@"yyyy-MM-01 00:00"];
     NSString *start = [formatter stringFromDate:newdate];
     
     NSDateComponents *adcomps2 = [[NSDateComponents alloc] init];
     NSDate *newdate2 = [calendar dateByAddingComponents:adcomps2 toDate:mydate options:0];
-    [formatter setDateFormat:@"yyyy-MM-dd"];
+    [formatter setDateFormat:@"yyyy-MM-dd HH:mm"];
     NSString *end = [formatter stringFromDate:newdate2];;
     [self request_his_order:start end:end];
 }
@@ -129,12 +129,14 @@
     [adcomps setDay:0];
     NSDate *newdate = [calendar dateByAddingComponents:adcomps toDate:mydate options:0];
     NSDateFormatter* formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"yyyy-MM-dd"];
+    [formatter setDateFormat:@"yyyy-MM-dd 00:00"];
     NSString *start = [formatter stringFromDate:newdate];
     
     NSDateComponents *adcomps2 = [[NSDateComponents alloc] init];
     NSDate *newdate2 = [calendar dateByAddingComponents:adcomps2 toDate:mydate options:0];
-    NSString *end = [formatter stringFromDate:newdate2];
+    NSDateFormatter* formatter2 = [[NSDateFormatter alloc] init];
+    [formatter2 setDateFormat:@"yyyy-MM-dd HH:mm"];
+    NSString *end = [formatter2 stringFromDate:newdate2];
     [self request_his_order:start end:end];
 }
 -(void) customDate
@@ -181,13 +183,13 @@
     NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
     
     NSDateFormatter* formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"yyyy-MM-dd"];
+    [formatter setDateFormat:@"yyyy-MM-dd HH:mm"];
     
     NSDateComponents *adcomps2 = [[NSDateComponents alloc] init];
     NSDate *newdate2 = [calendar dateByAddingComponents:adcomps2 toDate:mydate options:0];
     NSString *end = [formatter stringFromDate:newdate2];;
     
-    [self request_his_order:@"2010-01-01" end:end];
+    [self request_his_order:@"2010-01-01 00:00" end:end];
 }
 
 -(void) request_his_order:(NSString*)start end:(NSString*)end

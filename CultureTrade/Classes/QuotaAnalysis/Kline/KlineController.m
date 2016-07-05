@@ -100,25 +100,28 @@
             case 0:{
                 btn.layer.borderWidth = 1;
                 btn.layer.borderColor = [UIColor whiteColor].CGColor ;
-                [btn setTitle: LocalizedStringByInt(1612) forState:UIControlStateNormal];
+                [btn setTitle: LocalizedStringByInt(1611) forState:UIControlStateNormal];
                 break;
             }
             case 1:
-                [btn setTitle: LocalizedStringByInt(1613) forState:UIControlStateNormal];
+                [btn setTitle: LocalizedStringByInt(1612) forState:UIControlStateNormal];
                 break;
             case 2:
-                [btn setTitle: LocalizedStringByInt(1614) forState:UIControlStateNormal];
+                [btn setTitle: LocalizedStringByInt(1613) forState:UIControlStateNormal];
                 break;
             case 3:
-                [btn setTitle: LocalizedStringByInt(1615) forState:UIControlStateNormal];
+                [btn setTitle: LocalizedStringByInt(1614) forState:UIControlStateNormal];
                 break;
             case 4:
-                [btn setTitle: LocalizedStringByInt(1616) forState:UIControlStateNormal];
+                [btn setTitle: LocalizedStringByInt(1615) forState:UIControlStateNormal];
                 break;
             case 5:
-                [btn setTitle: LocalizedStringByInt(1617) forState:UIControlStateNormal];
+                [btn setTitle: LocalizedStringByInt(1616) forState:UIControlStateNormal];
                 break;
             case 6:
+                [btn setTitle: LocalizedStringByInt(1617) forState:UIControlStateNormal];
+                break;
+            case 7:
                 [btn setTitle: LocalizedStringByInt(1618) forState:UIControlStateNormal];
                 break;
             default:
@@ -157,24 +160,27 @@
     NSString *productID = [NSString stringWithFormat:@"%d",GLOBAL.sortUnit.m_CodeInfo.m_uiCode];
     switch (index) {
         case 0:
-            [_lineView loadHisKData:MINUTES5_HISK productID:productID];
+            [_lineView loadHisKData:MINUTE1_HISK productID:productID];
             break;
         case 1:
-            [_lineView loadHisKData:MINUTES15_HISK productID:productID];
+            [_lineView loadHisKData:MINUTES5_HISK productID:productID];
             break;
         case 2:
-            [_lineView loadHisKData:MINUTES30_HISK productID:productID];
+            [_lineView loadHisKData:MINUTES15_HISK productID:productID];
             break;
         case 3:
-            [_lineView loadHisKData:MINUTES60_HISK productID:productID];
+            [_lineView loadHisKData:MINUTES30_HISK productID:productID];
             break;
         case 4:
-            [_lineView loadHisKData:DAY_HISK productID:productID];
+            [_lineView loadHisKData:MINUTES60_HISK productID:productID];
             break;
         case 5:
-            [_lineView loadHisKData:WEEK_HISK productID:productID];
+            [_lineView loadHisKData:DAY_HISK productID:productID];
             break;
         case 6:
+            [_lineView loadHisKData:WEEK_HISK productID:productID];
+            break;
+        case 7:
             [_lineView loadHisKData:MONTH_HISK productID:productID];
             break;
         default:

@@ -98,38 +98,6 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "CultureTrade/Classes/Lib/src/netbase/NetSocket.cpp"
-            timestampString = "488885946.932254"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2736"
-            endingLineNumber = "2736"
-            landmarkName = "CNetSocket::ConnectByProxy(ServerPropertyData spd, SOCKET &amp;socket, void *pthis)"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CultureTrade/Classes/Lib/src/netbase/NetSocket.cpp"
-            timestampString = "488885946.932254"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2732"
-            endingLineNumber = "2732"
-            landmarkName = "CNetSocket::ConnectByProxy(ServerPropertyData spd, SOCKET &amp;socket, void *pthis)"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "CultureTrade/Classes/Trade/BuyController.m"
             timestampString = "488882450.425152"
             startingColumnNumber = "9223372036854775807"
@@ -147,11 +115,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CultureTrade/Classes/Lib/src/netbase/NetSocket.cpp"
-            timestampString = "488885946.932254"
+            timestampString = "489294976.938751"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2250"
-            endingLineNumber = "2250"
+            startingLineNumber = "2292"
+            endingLineNumber = "2292"
             landmarkName = "CNetSocket::ProcessQuoteData(void *lParam)"
             landmarkType = "5">
          </BreakpointContent>
@@ -162,14 +130,14 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "CultureTrade/Classes/Lib/src/netbase/NetSocket.cpp"
-            timestampString = "488885946.932254"
+            filePath = "CultureTrade/Classes/Lib/ctradebiz/nethelper.c"
+            timestampString = "489384418.388122"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "601"
-            endingLineNumber = "601"
-            landmarkName = "CNetSocket::Send(int nCmd, int nSeq, PBYTE pData, int nLen)"
-            landmarkType = "5">
+            startingLineNumber = "169"
+            endingLineNumber = "169"
+            landmarkName = "on_nhp_session_trans_package_callback_handle_quote()"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

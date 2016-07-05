@@ -71,6 +71,8 @@ typedef struct trunOver {
 - (void)addBanner
 {
     _banner = [[EntrustCancelBanner alloc] initWithFrame:CGRectMake(0, 20, self.view.frame.size.width, kBannerHeight)];
+    UILabel *label = _banner.subviews[0];
+    label.text = @"成交价";
     [self.view addSubview:_banner];
 }
 
@@ -194,6 +196,12 @@ typedef struct trunOver {
 
 - (void)trade_ui_today_deal_rsp:(NSString *)data
 {
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"HH:mm"];
+    NSString *now = [formatter stringFromDate:[NSDate date]];
+    
+    if ([now compare:@"15:30"] == NSOrderedDescending) return; //大于15:30
+    
     NSError *error;
     NSDictionary *str2dict = [NSJSONSerialization JSONObjectWithData:[data dataUsingEncoding:NSUTF8StringEncoding]
                                                              options:NSJSONReadingMutableContainers

@@ -127,10 +127,12 @@ bool on_nhp_session_trans_package_callback_handle_quote(int nSid, int nCmd, int 
     printBusLogEx("on_nhp_session_trans_package_callback_handle_quote  nSid: [%d] nCmd: [%0x] nSeq: [%d] nSize: [%d]\n", nSid, nCmd, nSeq, nLen);
     switch (nCmd){
         case USERPWDVALID: {
+            printBusLogEx("quote step 1 rep");
             update_zs_report = 0;
             update_zyj_report = 0;
             if (nLen == 1) {
                 printBusLogEx("quote server login success");
+                printBusLogEx("quote step 2 : init market ");
                 nQuoteLogined = 1;
                 nhp_send_init_market_req();
                 tradeevents.on_nhp_quote_login_rsp(1);
@@ -495,6 +497,7 @@ bool on_nhp_session_status_callback_handle_quote(int nSid,int nFlag)
     quoteStuats = nFlag;
     //行情连接成功发登录包
     if (CST_CONNECTED == nFlag) {
+        printBusLogEx("quote step 1 :login quote");
         nQuoteLogined=0;
         login_on_quote();
         nQuoteReqPanKou = 0;
