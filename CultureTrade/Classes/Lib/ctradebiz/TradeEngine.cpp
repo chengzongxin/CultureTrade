@@ -1035,7 +1035,7 @@ extern "C"
             set_login_progress_rsp(); // 需要放到初始化交易信息后面，最大进度条初始化
             printBusLogEx("初始化登陆:step:[%d] 登陆应答",nNowProgress);
         } else {
-            nhp_stop_session();
+//            nhp_stop_session();    //首次自动登录交易失败会断开行情链路导致bug
         }
     }
     

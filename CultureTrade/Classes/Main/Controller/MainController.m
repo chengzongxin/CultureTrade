@@ -43,8 +43,8 @@
 
 - (void)useBalace
 {
-    [[NSTradeEngine sharedInstance] add_balance:OUTER_BALANCE_IP port:OUTER_BALANCE_PORT];
-    
+//    [[NSTradeEngine sharedInstance] add_balance:INNER_BALANCE_IP port:OUTER_BALANCE_PORT];
+    [[NSTradeEngine sharedInstance] add_balance:@"192.168.0.168" port:5213];
     [[NSTradeEngine sharedInstance] start_balance];
 }
 
