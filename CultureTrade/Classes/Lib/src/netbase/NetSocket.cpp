@@ -1042,7 +1042,21 @@ bool CNetSocket::SendData()
 #else
             nBytes = write(m_hSocket,(const char *)pData , nSendDataLen - nBytesSent);
 #endif
-            printBusLogEx("send ==> m_nSid=[%d] nBytes[%d]", m_nSid, nBytes);
+//            printBusLogEx("send ==> m_nSid=[%d] nBytes[%d]", m_nSid, nBytes);
+            
+            if (m_nPackType == 0) {//trade
+                unsigned int cmd;
+//                memcpy(&cmd, pData, 6);
+                printBusLogEx("[%d] Trade Send ==> m_hSocket = [%d],cmd = [%d],m_nSid = [%d],nBytes = [%d]\n",time(NULL),m_hSocket, cmd, m_nSid, nBytes);
+            }else if (m_nPackType == 1){//quote
+                unsigned short cmd;
+                memcpy(&cmd, pData+sizeof(PacketHead), sizeof(unsigned short));
+                printBusLogEx("[%d] Quote Send ==> m_hSocket = [%d],cmd = [%x],m_nSid = [%d],nBytes = [%d]\n",time(NULL),m_hSocket, cmd, m_nSid, nBytes);
+            }else if (m_nPackType == 2){//balance
+                unsigned short cmd;
+                memcpy(&cmd, pData+sizeof(SCommPkgHead), sizeof(unsigned short));
+                printBusLogEx("Balan Send ==> m_hSocket = [%d],cmd = [%d],m_nSid = [%d],nBytes = [%d]\n",m_hSocket, cmd, m_nSid, nBytes);
+            }
 			if(nBytes > 0 )
             {
                 nBytesSent += nBytes;
@@ -1232,10 +1246,19 @@ bool CNetSocket::OnRead() {
 #else
     read_len = (int)read(m_hSocket, pData, dwSize);
 #endif
-    if(m_nPackType)
-        HX_LOG("Quote read,m_hSocket=%d len=%d",m_hSocket, read_len);
-    else
-        HX_LOG("Trade read,m_hSocket=%d len=%d",m_hSocket, read_len);
+//    if(m_nPackType)
+//        HX_LOG("Quote read,m_hSocket=%d len=%d",m_hSocket, read_len);
+//    else
+//        HX_LOG("Trade read,m_hSocket=%d len=%d",m_hSocket, read_len);
+    if(m_nPackType == 0) {
+        printBusLogEx("[%d] Trade Read ==>,m_hSocket=%d len=%d",time(NULL),m_hSocket, read_len);
+    }else if (m_nPackType == 1) {
+        unsigned short cmd;
+        memcpy(&cmd, (void*)(pData + sizeof(PacketHead)), sizeof(unsigned short));
+        printBusLogEx("[%d] Quote Read ==> cmd = [%x] ,Len = [%d] ",time(NULL),cmd,read_len);
+    }else if (m_nPackType == 2) {
+        printBusLogEx("Balan read ==> m_hSocket=%d len=%d",m_hSocket, read_len);
+    }else {HX_LOG("%d",m_nPackType);}
 
 	if(read_len < 0) {
         delete[] pData;
@@ -2249,19 +2272,16 @@ int CNetSocket::ProcessQuoteData(void *lParam)
     switch (rspPkg) {
         case USERPWDVALID:
             {
-                SUserPwdRes resPkg;
-                memcpy(&resPkg, (void*)(lpQuotePs->pData + sizeof(PacketHead)), sizeof(SUserPwdRes));
-                if (resPkg.m_uisize == 0) {
-                    printBusLogEx("quote server login success!");
-                    pThis->m_pfFireBlockMessage(pThis->m_nSid, USERPWDVALID, 0, NULL, 1);
-                    pThis->m_nQuoteLoginFlag = 1;
-                }  else {
-                    printBusLogEx("quote server login fail!");
-                }
+//                SUserPwdRes resPkg;
+//                memcpy(&resPkg, (void*)(lpQuotePs->pData + sizeof(PacketHead)), sizeof(SUserPwdRes));
+                pThis->m_pfFireBlockMessage(pThis->m_nSid, USERPWDVALID, 0, NULL, 1);
+                pThis->m_nQuoteLoginFlag = 1;
+                
             }
             break;
         case HEARTBEAT:
             printBusLogEx("quote heartbeat response!");
+            break;
         case REPORTDATA:
             {
                 SSortData sortPkg;

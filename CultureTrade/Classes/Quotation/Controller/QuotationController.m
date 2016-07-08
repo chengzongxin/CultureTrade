@@ -43,6 +43,8 @@
     [self addTableView];
     
     [self clickQuota];
+    
+    [self showProgress:@"Loading..."];
 }
 
 
@@ -75,7 +77,7 @@
 - (void)startTimer
 {
     if (mTimer == nil) { // 30秒刷一次
-        mTimer = [[NSTimer alloc] initWithFireDate:[NSDate date] interval:10.0f target:self selector:@selector(refreshPanKouData) userInfo:nil repeats:YES];
+        mTimer = [[NSTimer alloc] initWithFireDate:[NSDate date] interval:2.0f target:self selector:@selector(refreshPanKouData) userInfo:nil repeats:YES];
         [[NSRunLoop currentRunLoop] addTimer:mTimer forMode:NSDefaultRunLoopMode];
         
     }
@@ -349,6 +351,7 @@
     }
     [_mainTableView reloadData];
     [_leftTableView reloadData];
+    [self closeProgressSuccess:@"Success!"];
 }
 
 -(void) on_net_status_rsp:(int)type nFlag:(int)nFlag{

@@ -287,6 +287,7 @@ public:
     int                     m_nPackType;
     int                     m_nQuoteFlag;
     int                     m_nQuoteLoginFlag;
+    int                     m_nTradeLoginFlag;
     
 private:
     //这里不是一个好的设计思路 但这样做是在SOCKET层面定义的消息不太符合框架导致的，收到的包没有回业务上的商品ID！服务器发完这消息后，收到的任何消息都要将此删除。

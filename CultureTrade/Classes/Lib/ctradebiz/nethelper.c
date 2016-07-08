@@ -127,19 +127,13 @@ bool on_nhp_session_trans_package_callback_handle_quote(int nSid, int nCmd, int 
     printBusLogEx("on_nhp_session_trans_package_callback_handle_quote  nSid: [%d] nCmd: [%0x] nSeq: [%d] nSize: [%d]\n", nSid, nCmd, nSeq, nLen);
     switch (nCmd){
         case USERPWDVALID: {
-            printBusLogEx("quote step 1 rep");
+            printBusLogEx("quote step 1 : login rsp");
+            printBusLogEx("quote step 2 : init market ");
             update_zs_report = 0;
             update_zyj_report = 0;
-            if (nLen == 1) {
-                printBusLogEx("quote server login success");
-                printBusLogEx("quote step 2 : init market ");
-                nQuoteLogined = 1;
-                nhp_send_init_market_req();
-                tradeevents.on_nhp_quote_login_rsp(1);
-            } else {
-                tradeevents.on_nhp_quote_login_rsp(0);
-                printBusLogEx("quote server login failed");
-            }
+            nQuoteLogined = 1;
+            nhp_send_init_market_req();
+            tradeevents.on_nhp_quote_login_rsp(1);
             break;
         }
         case MINUTE1_HISK:        //= (char)1,   //表明为一分钟线
@@ -278,7 +272,7 @@ bool on_nhp_session_trans_package_callback_handle(int nSid, int nCmd, int nSeq, 
     json = (char *)ty_malloc(nLen - PKGHEADERLEN + 1);
     memcpy((void *)json, (const void *) (pData + PKGHEADERLEN ), nLen - PKGHEADERLEN);
     printBusLogEx("on_nhp_session_trans_package_callback_handle nSid: [%d] nCmd: [%d] nSeq: [%d] nSize: [%d]\n", nSid, nCmd, nSeq, nLen);
-    printBusLogEx("on_nhp_session_trans_package_callback_handle pData = \n%s",json);
+//    printBusLogEx("on_nhp_session_trans_package_callback_handle pData = \n%s",json);
     ////////////////////////trade rsp///////////////////////////
     
     //登录应答
@@ -714,7 +708,7 @@ static bool on_nhp_recv_balance_notify_event(int nSid)
 }
 
 bool on_nhp_session_balance_status_callback_handle(int nSid,int nFlag){
-    printBusLogEx("on_nhp_session_balance_status_callback_handle %d", nFlag);
+    printBusLogEx("on_nhp_session_balance_status_callback_handle nSid = [%d],nFlag = [%d]",nSid,nFlag);
     //行情连接成功发登录包
     if (CST_CONNECTED == nFlag) {
         Send(nBalanceSID, 0x01, 1, NULL, 0);        
@@ -731,13 +725,13 @@ bool on_nhp_session_balance_status_callback_handle(int nSid,int nFlag){
 //        SendQuotePack(pDataQuote, nDataLen);
 //        delete[] pDataQuote;
     } else {
-        if(CST_UNCONNECTED != nFlag) {
-            if(mBalanceInfo.rIdx >= mBalanceInfo.mSize || !use_start_balance_next()){
-                mBalanceInfo.rIdx = 0;
-                nhp_stop_session();
-                netevents.nhp_net_status_rsp(TRADE_TYPE, nFlag);
-            }
-        }
+//        if(CST_UNCONNECTED != nFlag) {
+//            if(mBalanceInfo.rIdx >= mBalanceInfo.mSize || !use_start_balance_next()){
+//                mBalanceInfo.rIdx = 0;
+//                nhp_stop_session();
+//                netevents.nhp_net_status_rsp(TRADE_TYPE, nFlag);
+//            }
+//        }
     }
     return 1;
 }
@@ -783,7 +777,7 @@ bool on_nhp_session_balance_callback_handle(int nSid, int nCmd, int nSeq, LPBYTE
     printBusLogEx("on_nhp_session_balance_callback_handle nCmd=%d  nLen=%d", nCmd, nLen);
     int iCount = nLen / sizeof(StuCustomLoginInfo);
     if(iCount > 0) {
-        nhp_stop_session();
+//        nhp_stop_session();
         memset(&loginInfo, 0, sizeof(loginInfo));
         memcpy(&loginInfo, (char*)pData, sizeof(StuCustomLoginInfo));
         
@@ -917,7 +911,8 @@ void nhp_start_balance(){
 void nhp_init_net_login_info(char * tradeserver, int tradeport, char * quoteserver, int quoteport)
 {
 //    nhp_init_net_balance("192.168.0.186", 1988);
-    nhp_stop_session();
+//    nhp_stop_session();
+    StopSession(nBalanceSID);
     hasZyjSymbol = 0;
     hasZsSymbol = 0;
     connection_ing = 1;
