@@ -124,7 +124,6 @@
      */
     [self.window makeKeyAndVisible];
     
-//    sleep(2);
     
     return YES;
 }
@@ -210,14 +209,14 @@
             while(self.background && !self.jobExpired)
             {
                 NSLog(@"进入后台进程循环");
-                [NSThread sleepForTimeInterval:1];
+                [NSThread sleepForTimeInterval:0.1];
                 count++;
                 if(count>60)//每60s进行一次开启定位，刷新后台时间
                 {
                     count=0;
                     [_locationManager startUpdatingLocation];
                     NSLog(@"开始位置服务");
-                    [NSThread sleepForTimeInterval:1];
+                    [NSThread sleepForTimeInterval:0.1];
                     [_locationManager stopUpdatingLocation];
                     NSLog(@"停止位置服务");
                     FlushBackgroundTime=false;

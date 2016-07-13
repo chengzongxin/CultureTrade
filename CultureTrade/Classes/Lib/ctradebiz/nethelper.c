@@ -779,7 +779,7 @@ bool on_nhp_session_balance_callback_handle(int nSid, int nCmd, int nSeq, LPBYTE
     printBusLogEx("on_nhp_session_balance_callback_handle nCmd=%d  nLen=%d", nCmd, nLen);
     int iCount = nLen / sizeof(StuCustomLoginInfo);
     if(iCount > 0) {
-//        nhp_stop_session();
+        nhp_stop_session();
         memset(&loginInfo, 0, sizeof(loginInfo));
         memcpy(&loginInfo, (char*)pData, sizeof(StuCustomLoginInfo));
         
@@ -913,8 +913,7 @@ void nhp_start_balance(){
 void nhp_init_net_login_info(char * tradeserver, int tradeport, char * quoteserver, int quoteport)
 {
 //    nhp_init_net_balance("192.168.0.186", 1988);
-//    nhp_stop_session();
-    StopSession(nBalanceSID);
+    nhp_stop_session();
     hasZyjSymbol = 0;
     hasZsSymbol = 0;
     connection_ing = 1;

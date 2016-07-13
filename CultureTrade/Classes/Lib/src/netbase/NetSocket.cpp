@@ -597,7 +597,6 @@ bool CNetSocket::Send(int nCmd, int nSeq, PBYTE pData, int nLen)
                 pUserPwd->m_uiSoftWareVersion = SOFTWARE_VERSION;
                 memset(pUserPwd->m_szHardDiskInfo, 0, sizeof(pUserPwd->m_szHardDiskInfo));
                 printBusLogEx("USERPWDVALID  QuoteUser= [%s] QuotePwd= [%s]\n",pUserPwd->m_szUser, pUserPwd->m_szPwd);
-//                sleep(1);   // 这里不知道什么原因，如果不暂停，会导致没有回复
                 SendQuotePack(pDataQuote, nDataLen);
                 delete []user;
                 delete []pwd;
@@ -1043,21 +1042,23 @@ bool CNetSocket::SendData()
 #else
             nBytes = (int)(write(m_hSocket,(const char *)pData , nSendDataLen - nBytesSent));
 #endif
-//            printBusLogEx("send ==> m_nSid=[%d] nBytes[%d]", m_nSid, nBytes);
             
+#if DEBUG
+//            printBusLogEx("send ==> m_nSid=[%d] nBytes[%d]", m_nSid, nBytes);
             if (m_nPackType == 0) {//trade
                 unsigned int cmd;
-//                memcpy(&cmd, pData, 6);
-                printBusLogEx("Trade Send ==> m_hSocket = [%d],cmd = [%d],m_nSid = [%d],nBytes = [%d]\n",m_hSocket, cmd, m_nSid, nBytes);
+                memcpy(&cmd, pData+6, sizeof(unsigned short));
+                printBusLogEx("Trade Send ==> cmd = [%d],m_hSocket = [%d],m_nSid = [%d],nBytes = [%d]\n",HTONS(cmd), m_hSocket,m_nSid, nBytes);
             }else if (m_nPackType == 1){//quote
                 unsigned short cmd;
                 memcpy(&cmd, pData+sizeof(PacketHead), sizeof(unsigned short));
-                printBusLogEx("Quote Send ==> m_hSocket = [%d],cmd = [%x],m_nSid = [%d],nBytes = [%d]\n",m_hSocket, cmd, m_nSid, nBytes);
+                printBusLogEx("Quote Send ==> cmd = [%x],m_hSocket = [%d],m_nSid = [%d],nBytes = [%d]\n",cmd, m_hSocket, m_nSid, nBytes);
             }else if (m_nPackType == 2){//balance
                 unsigned short cmd;
                 memcpy(&cmd, pData+sizeof(SCommPkgHead), sizeof(unsigned short));
-                printBusLogEx("Balan Send ==> m_hSocket = [%d],cmd = [%d],m_nSid = [%d],nBytes = [%d]\n",m_hSocket, cmd, m_nSid, nBytes);
+                printBusLogEx("Balan Send ==> cmd = [%d],m_hSocket = [%d],m_nSid = [%d],nBytes = [%d]\n",cmd, m_hSocket, m_nSid, nBytes);
             }
+#endif
 			if(nBytes > 0 )
             {
                 nBytesSent += nBytes;
@@ -1247,20 +1248,28 @@ bool CNetSocket::OnRead() {
 #else
     read_len = (int)read(m_hSocket, pData, dwSize);
 #endif
-//    if(m_nPackType)
-//        HX_LOG("Quote read,m_hSocket=%d len=%d",m_hSocket, read_len);
-//    else
-//        HX_LOG("Trade read,m_hSocket=%d len=%d",m_hSocket, read_len);
+
+    
+#if DEBUG
+    //    if(m_nPackType)
+    //        HX_LOG("Quote read,m_hSocket=%d len=%d",m_hSocket, read_len);
+    //    else
+    //        HX_LOG("Trade read,m_hSocket=%d len=%d",m_hSocket, read_len);
     if(m_nPackType == 0) {
-        printBusLogEx("Trade Read ==>,m_hSocket=%d len=%d",m_hSocket, read_len);
+        unsigned short cmd;
+        memcpy(&cmd, (void*)(pData + 6), sizeof(unsigned short));
+        printBusLogEx("Trade Read ==> cmd = [%d],m_hSocket = [%d],byte = [%d]",HTONS(cmd),m_hSocket,read_len);
     }else if (m_nPackType == 1) {
         unsigned short cmd;
         memcpy(&cmd, (void*)(pData + sizeof(PacketHead)), sizeof(unsigned short));
-        printBusLogEx("Quote Read ==> cmd = [%x] ,Len = [%d] ",cmd,read_len);
+        printBusLogEx("Quote Read ==> cmd = [%x],m_hSocket = [%d],byte = [%d]",cmd,m_hSocket,read_len);
     }else if (m_nPackType == 2) {
-        printBusLogEx("Balan read ==> m_hSocket=%d len=%d",m_hSocket, read_len);
+        unsigned short cmd;
+        memcpy(&cmd, (void*)(pData + sizeof(SCommPkgHead)), sizeof(unsigned short));
+        printBusLogEx("Balan Read ==> cmd = [%d],m_hSocket = [%d],byte = [%d]",cmd,m_hSocket,read_len);
     }else {HX_LOG("%d",m_nPackType);}
-
+#endif
+    
 	if(read_len < 0) {
         delete[] pData;
         if((errno == EAGAIN || errno == EWOULDBLOCK)) {
@@ -1756,7 +1765,7 @@ void* net_thread_run(void* para)
         if(net_soc->GetConnectStatusType()  == CST_CONNECTED)
             net_soc->main_loop(2000);
 
-        usleep(20000);
+        usleep(200);
     }
 	net_soc->OnClose();
 	net_soc->m_is_start = 0;
