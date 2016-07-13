@@ -174,7 +174,7 @@
     [formatter setDateFormat:@"HH:mm"];
     NSString *now = [formatter stringFromDate:[NSDate date]];
     
-//    if ([now compare:@"15:30"] == NSOrderedDescending) return; //大于15:30
+    if ([now compare:@"15:30"] == NSOrderedDescending) return; //大于15:30
     
     _orderArray = [NSMutableArray array];
     NSError *error = nil;
