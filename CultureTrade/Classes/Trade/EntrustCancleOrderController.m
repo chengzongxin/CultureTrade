@@ -11,6 +11,7 @@
 #import "BasicAlertView.h"
 #import "OrderModel.h"
 #import "GlobalModel.h"
+#import "tagdef.h"
 
 #define kBannerHeight 20
 #define kCellHeight 35
@@ -134,6 +135,7 @@
                                             afterDismiss:^(int buttonIndex) {
                                                 if (buttonIndex == 0) {
                                                     [self alertViewClickConfirmButtonAtIndex:order.orderID];
+                                                    [self showProgress:@"Loading..."];
                                                 }
                                             }];
     
@@ -161,6 +163,7 @@
 - (void)request_today_order
 {
     [[NSTradeEngine sharedInstance] trade_request_today_entrustNS];
+    [self showProgress:@"Loading..."];
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
 }
 
@@ -171,7 +174,7 @@
     [formatter setDateFormat:@"HH:mm"];
     NSString *now = [formatter stringFromDate:[NSDate date]];
     
-    if ([now compare:@"15:30"] == NSOrderedDescending) return; //大于15:30
+//    if ([now compare:@"15:30"] == NSOrderedDescending) return; //大于15:30
     
     _orderArray = [NSMutableArray array];
     NSError *error = nil;
@@ -190,7 +193,26 @@
 //    _tableView.frame = CGRectMake(_tableView.frame.origin.x, _tableView.frame.origin.y, _tableView.frame.size.width, _tableView.frame.size.height*_orderArray.count);
     [_tableView reloadData];
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    [self closeProgressSuccess:@"Success!"];
 }
+
+
+- (void)trade_ui_canceltrade_rsp:(int)nSeq canceltrades:(NSString *)canceltrades
+{
+    MYLog(@"%@",canceltrades);
+    [self request_today_order];
+    /*  直接从回复结果删除，不重新请求
+    NSError *error;
+    NSDictionary *str2dict = [NSJSONSerialization JSONObjectWithData:[canceltrades dataUsingEncoding:NSUTF8StringEncoding]
+                                                             options:NSJSONReadingMutableContainers
+                                                               error:&error];
+    NSString *value = str2dict[INT2STRING(FIX_TAG_BODY_EXECUTETYPE)];
+    if ([value isEqualToString:@"0"]) {
+     
+    }
+     */
+}
+
 
 
 - (void)viewDidLayoutSubviews

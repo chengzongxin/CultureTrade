@@ -8288,7 +8288,12 @@ extern "C"
     
     void trade_pretrade_rsp(int nSeq,char *json)
     {
-        tradeuievents.trade_ui_pretrade_rsp(nSeq,json);
+        tradeuievents.trade_ui_canceltrade_rsp(nSeq,json);
+    }
+    
+    void trade_canceltrade_rsp(int nSeq,char *json)
+    {
+        tradeuievents.trade_ui_canceltrade_rsp(nSeq,json);
     }
     
     void queto_hisKDataFirst_rsp(int nCmd ,unsigned char* data,int nLen)
@@ -8654,7 +8659,7 @@ extern "C"
         events.on_nhp_trade_historyorder_rsp = &trade_historyorder_rsp;
         events.on_nhp_trade_historyturnover_rsp = &trade_historyturnover_rsp;
         events.on_nhp_trade_pretrade_rsp = &trade_pretrade_rsp;
-//        events.callback_cache_user_pwd = &cache_user_pwd;
+        events.on_nhp_trade_canceltrade_rsp = &trade_canceltrade_rsp;
         set_nhp_trade_events(events);
     }
 }

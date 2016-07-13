@@ -137,6 +137,8 @@ extern NSString * const REFRESH_NOTIFY;
 
 - (void)trade_ui_pretrade_rsp:(int)nSeq pretrade:(NSString *)pretrades;
 
+- (void)trade_ui_canceltrade_rsp:(int)nSeq canceltrades:(NSString *)canceltrades;
+
 // 行情登陆
 - (void)quote_ui_login_rsp:(int)nRet;
 

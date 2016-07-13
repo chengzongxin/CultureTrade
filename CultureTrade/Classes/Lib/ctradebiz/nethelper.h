@@ -468,7 +468,7 @@ typedef struct nhp_trade_events
     // 初始化市场
     void (*on_nhp_quote_initMarket_rsp)(const char* pData, int count);
     
-    void (*callback_cache_user_pwd)();
+    void (*on_nhp_trade_canceltrade_rsp)(int nSeq,char *json);
     
 } nhp_trade_events; // 从nethelper回调
     

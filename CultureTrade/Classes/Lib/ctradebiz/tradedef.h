@@ -16,7 +16,7 @@
 
 #define TRADE_TYPE (1)
 #define QUOTE_TYPE (2)
-
+#define BALAN_TYPE (3)
 #define WIFI (10)
 
 #define             KLINE_LENGHT           4096  //K线数据长度

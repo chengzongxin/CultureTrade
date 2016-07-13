@@ -425,6 +425,15 @@ void trade_ui_pretrade_rspUI(int nSeq,char *pretrades)
     }
 }
 
+void trade_ui_canceltrade_rspUI(int nSeq,char *canceltrade)
+{
+    if( [NSTradeEngine setup].delegate != nil
+       && [[NSTradeEngine setup].delegate respondsToSelector:@selector(trade_ui_canceltrade_rsp:canceltrades:)])
+    {
+        NSString* nsDataStr = toNString(canceltrade);
+        [[NSTradeEngine setup].delegate trade_ui_canceltrade_rsp:nSeq canceltrades:nsDataStr];
+    }
+}
 
 void trade_ui_sharehold_rspUI(int nRet,const char *data)
 {
@@ -2470,6 +2479,7 @@ return [NSString stringWithFormat:@"%.3f", getApplySettlementprirce(pp)];
     uievents.trade_ui_historyorder_rsp = &trade_ui_historyorder_rspUI;
     uievents.trade_ui_historyturnover_rsp = &trade_ui_historyturnover_rspUI;
     uievents.trade_ui_pretrade_rsp = &trade_ui_pretrade_rspUI;
+    uievents.trade_ui_canceltrade_rsp = &trade_ui_canceltrade_rspUI;
     
     // 行情
     uievents.quote_ui_login_rsp = &quote_ui_login_rspUI;

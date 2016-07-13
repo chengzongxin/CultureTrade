@@ -696,16 +696,17 @@ bool CNetSocket::Send(int nCmd, int nSeq, PBYTE pData, int nLen)
                 break;
             case INITMARKET:
                 {
-                    printBusLogEx("INITMARKET is sending!\n");
                     int nDataLen = sizeof(SRequestData);
                     char* pData = new char[nDataLen];
-                    for(int i = 0; i < nDataLen; i ++)
-                        pData[i] = 0;
+                    memset(pData, 0, nDataLen);
+//                    for(int i = 0; i < nDataLen; i ++)
+//                        pData[i] = 0;
                     SRequestData* pRes = (SRequestData*)(pData);
                     pRes->m_usType = INITMARKET;
                     pRes->m_usIndex = nSeq;
                     SendQuotePack(pData, nDataLen);
                     delete []pData;
+                    printBusLogEx("INITMARKET is sending!\n");
                 }
                 break;
             case REPORTDATA:
@@ -1040,18 +1041,18 @@ bool CNetSocket::SendData()
                 nBytes = (int)write(m_hSocket,(const char *)pData , nSendDataLen - nBytesSent);
             }
 #else
-            nBytes = write(m_hSocket,(const char *)pData , nSendDataLen - nBytesSent);
+            nBytes = (int)(write(m_hSocket,(const char *)pData , nSendDataLen - nBytesSent));
 #endif
 //            printBusLogEx("send ==> m_nSid=[%d] nBytes[%d]", m_nSid, nBytes);
             
             if (m_nPackType == 0) {//trade
                 unsigned int cmd;
 //                memcpy(&cmd, pData, 6);
-                printBusLogEx("[%d] Trade Send ==> m_hSocket = [%d],cmd = [%d],m_nSid = [%d],nBytes = [%d]\n",time(NULL),m_hSocket, cmd, m_nSid, nBytes);
+                printBusLogEx("Trade Send ==> m_hSocket = [%d],cmd = [%d],m_nSid = [%d],nBytes = [%d]\n",m_hSocket, cmd, m_nSid, nBytes);
             }else if (m_nPackType == 1){//quote
                 unsigned short cmd;
                 memcpy(&cmd, pData+sizeof(PacketHead), sizeof(unsigned short));
-                printBusLogEx("[%d] Quote Send ==> m_hSocket = [%d],cmd = [%x],m_nSid = [%d],nBytes = [%d]\n",time(NULL),m_hSocket, cmd, m_nSid, nBytes);
+                printBusLogEx("Quote Send ==> m_hSocket = [%d],cmd = [%x],m_nSid = [%d],nBytes = [%d]\n",m_hSocket, cmd, m_nSid, nBytes);
             }else if (m_nPackType == 2){//balance
                 unsigned short cmd;
                 memcpy(&cmd, pData+sizeof(SCommPkgHead), sizeof(unsigned short));
@@ -1251,11 +1252,11 @@ bool CNetSocket::OnRead() {
 //    else
 //        HX_LOG("Trade read,m_hSocket=%d len=%d",m_hSocket, read_len);
     if(m_nPackType == 0) {
-        printBusLogEx("[%d] Trade Read ==>,m_hSocket=%d len=%d",time(NULL),m_hSocket, read_len);
+        printBusLogEx("Trade Read ==>,m_hSocket=%d len=%d",m_hSocket, read_len);
     }else if (m_nPackType == 1) {
         unsigned short cmd;
         memcpy(&cmd, (void*)(pData + sizeof(PacketHead)), sizeof(unsigned short));
-        printBusLogEx("[%d] Quote Read ==> cmd = [%x] ,Len = [%d] ",time(NULL),cmd,read_len);
+        printBusLogEx("Quote Read ==> cmd = [%x] ,Len = [%d] ",cmd,read_len);
     }else if (m_nPackType == 2) {
         printBusLogEx("Balan read ==> m_hSocket=%d len=%d",m_hSocket, read_len);
     }else {HX_LOG("%d",m_nPackType);}
@@ -1641,7 +1642,8 @@ int CNetSocket::loop_heartbeat(void)
             // 可能要加锁访问
             Send(NET_SINGAL_HEARTBEAT, /*pThis->GetNextSeq()*/0, szBuf, sizeof(HeartBeatRequest));
         }
-        else{
+        else if (m_nPackType == 1){
+            if (m_nQuoteLoginFlag == 1)
             Send(HEARTBEAT, 0, NULL, 0);
         }
 
@@ -2272,8 +2274,8 @@ int CNetSocket::ProcessQuoteData(void *lParam)
     switch (rspPkg) {
         case USERPWDVALID:
             {
-//                SUserPwdRes resPkg;
-//                memcpy(&resPkg, (void*)(lpQuotePs->pData + sizeof(PacketHead)), sizeof(SUserPwdRes));
+                pThis->Send(INITMARKET, m_nSeq+1, NULL, 0);
+                printBusLogEx("quote login response!");
                 pThis->m_pfFireBlockMessage(pThis->m_nSid, USERPWDVALID, 0, NULL, 1);
                 pThis->m_nQuoteLoginFlag = 1;
                 

@@ -127,13 +127,13 @@ bool on_nhp_session_trans_package_callback_handle_quote(int nSid, int nCmd, int 
     printBusLogEx("on_nhp_session_trans_package_callback_handle_quote  nSid: [%d] nCmd: [%0x] nSeq: [%d] nSize: [%d]\n", nSid, nCmd, nSeq, nLen);
     switch (nCmd){
         case USERPWDVALID: {
+//            nhp_send_init_market_req();
+            tradeevents.on_nhp_quote_login_rsp(1);
             printBusLogEx("quote step 1 : login rsp");
             printBusLogEx("quote step 2 : init market ");
-            update_zs_report = 0;
-            update_zyj_report = 0;
+//            update_zs_report = 0;
+//            update_zyj_report = 0;
             nQuoteLogined = 1;
-            nhp_send_init_market_req();
-            tradeevents.on_nhp_quote_login_rsp(1);
             break;
         }
         case MINUTE1_HISK:        //= (char)1,   //表明为一分钟线
@@ -272,7 +272,7 @@ bool on_nhp_session_trans_package_callback_handle(int nSid, int nCmd, int nSeq, 
     json = (char *)ty_malloc(nLen - PKGHEADERLEN + 1);
     memcpy((void *)json, (const void *) (pData + PKGHEADERLEN ), nLen - PKGHEADERLEN);
     printBusLogEx("on_nhp_session_trans_package_callback_handle nSid: [%d] nCmd: [%d] nSeq: [%d] nSize: [%d]\n", nSid, nCmd, nSeq, nLen);
-//    printBusLogEx("on_nhp_session_trans_package_callback_handle pData = \n%s",json);
+    printBusLogEx("on_nhp_session_trans_package_callback_handle pData = \n%s",json);
     ////////////////////////trade rsp///////////////////////////
     
     //登录应答
@@ -410,6 +410,8 @@ bool on_nhp_session_trans_package_callback_handle(int nSid, int nCmd, int nSeq, 
         tradeevents.on_nhp_trade_historyturnover_rsp(nSeq,json);
     } else if (nCmd == atoi(FIX_MSGTYPE_PRETRADE_RES)){
         tradeevents.on_nhp_trade_pretrade_rsp(nSeq,json);
+    } else if (nCmd == atoi(FIX_MSGTYPE_CANCELTRADE_RES)){
+        tradeevents.on_nhp_trade_canceltrade_rsp(nSeq,json);
     }
     
     //异常处理
@@ -729,7 +731,7 @@ bool on_nhp_session_balance_status_callback_handle(int nSid,int nFlag){
 //            if(mBalanceInfo.rIdx >= mBalanceInfo.mSize || !use_start_balance_next()){
 //                mBalanceInfo.rIdx = 0;
 //                nhp_stop_session();
-//                netevents.nhp_net_status_rsp(TRADE_TYPE, nFlag);
+                netevents.nhp_net_status_rsp(BALAN_TYPE, nFlag);
 //            }
 //        }
     }
@@ -1406,7 +1408,6 @@ int nhp_send_init_market_req()
 {
     int id = nhp_get_nseq();
     Send(nQuoteSID, INITMARKET, id, NULL, 0);//初始化中远期
-    //    Send(nQuoteSID, INIT_MARKET_ZYQ, id, NULL, 0);
     return id;
 }
 

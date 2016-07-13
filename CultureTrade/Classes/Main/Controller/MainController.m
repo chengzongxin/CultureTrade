@@ -31,20 +31,29 @@
     [self addDockItem];
     
     [_dock addSpliteLine];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onlineConfigCallBack:) name:UMOnlineConfigDidFinishedNotification object:nil];
 #if BALANCE_ENABLE
-    [self useBalace];
+//    [self useBalaceWith:INNER_BALANCE_IP port:OUTER_BALANCE_PORT];
 #else
     [self initalization];
 #endif
-//    [[NSTradeEngine setup] userloginwithnet:@"xigua" password:@"a123456" tradeip:@"192.168.3.166" tradeport:TRADESERVER_PORT quoteip:@"192.168.0.194" quoteport:QUOTESERVER_PORT];
-//    [[NSTradeEngine setup] userloginwithnet:@"chengzongxin" password:@"123456" tradeip:@"192.168.0.194" tradeport:TRADESERVER_PORT quoteip:@"192.168.0.194" quoteport:QUOTESERVER_PORT];
-    
 }
 
-- (void)useBalace
+- (void)onlineConfigCallBack:(NSNotification *)notification {
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    NSLog(@"online config has fininshed and params = %@", notification.userInfo);
+    NSDictionary *paramDict = notification.userInfo;
+    NSString *serverIP = [paramDict objectForKey:@"serverIP"];
+    int serverPort = [[paramDict objectForKey:@"serverPort"] intValue];
+    [self useBalaceWith:serverIP port:serverPort];
+}
+
+
+- (void)useBalaceWith:(NSString *)ip port:(int)port
 {
-    [[NSTradeEngine sharedInstance] add_balance:INNER_BALANCE_IP port:OUTER_BALANCE_PORT];
-//    [[NSTradeEngine sharedInstance] add_balance:@"192.168.0.168" port:5213];
+//    [[NSTradeEngine sharedInstance] add_balance:OUTER_BALANCE_IP port:OUTER_BALANCE_PORT];
+    [[NSTradeEngine sharedInstance] add_balance:ip port:port];
     [[NSTradeEngine sharedInstance] start_balance];
 }
 
