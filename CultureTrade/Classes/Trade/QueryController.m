@@ -192,10 +192,12 @@ typedef struct trunOver {
         [NSTradeEngine sharedInstance].delegate = self;
     }
     [[NSTradeEngine sharedInstance] trade_request_today_dealNS];
+    [self showProgress:@"Loading..."];
 }
 
 - (void)trade_ui_today_deal_rsp:(NSString *)data
 {
+    [self closeProgressSuccess:@"Success!"];
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"HH:mm"];
     NSString *now = [formatter stringFromDate:[NSDate date]];

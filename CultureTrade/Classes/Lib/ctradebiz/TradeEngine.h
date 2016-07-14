@@ -240,12 +240,12 @@ typedef struct trade_ui_events
     int trade_current_monery_flowing();
     //下市价单
 //    int trade_open_market_order(char * symbolcode, char direction, double price, double shoushu);
-    int trade_open_market_order(char * symbolcode, int shoushu, double sl, double tp, char direction, double price, int diff);
+    int trade_open_market_order(char * symbolcode, int shoushu, double sl, double tp, char *direction, double price, int diff);
     
-    int trade_open_orderex(char * symbolcode, char direction, double price, int shoushu);
+    int trade_open_orderex(char * symbolcode, char *direction, double price, int shoushu);
 
     //下限价单
-    int trade_open_limit_order(char * symbolcode, double shoushu, double sl, double tp, char ordertype, double price, char valdate_type, char * valdate);
+//    int trade_open_limit_order(char * symbolcode, double shoushu, double sl, double tp, char ordertype, double price, char valdate_type, char * valdate);
 
     const char * getLimitHintToString(char * symbolcode, char sub_order_type);
     const char * getLimitHintToString2(char * symbolcode, double price, char sub_order_type);

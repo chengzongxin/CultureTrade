@@ -23,6 +23,7 @@
 #import "FoundHoldController.h"
 #import "SpliteLineView.h"
 #import "LoginController.h"
+#import "ApplyPurchaseController.h"
 #define kButtonListHeight 196
 #define KButtonRow  4
 #define kBUttonCol  3
@@ -123,10 +124,10 @@
     float width = _ButtonListView.frame.size.width / KButtonRow;
     float height = _ButtonListView.frame.size.height / kBUttonCol;
     
-    ButtonItem *applyPurchase = [[ButtonItem alloc] initWithFrame:CGRectMake(0, 0, width, height) icon:@"trade_buy" title:LocalizedStringByInt(1111)];
-    applyPurchase.tag = 1;
-    [applyPurchase addTarget:self action:@selector(eventDistribution:) forControlEvents:UIControlEventTouchUpInside];
-    [_ButtonListView addSubview:applyPurchase];
+    ButtonItem *buy = [[ButtonItem alloc] initWithFrame:CGRectMake(0, 0, width, height) icon:@"trade_buy" title:LocalizedStringByInt(1111)];
+    buy.tag = 1;
+    [buy addTarget:self action:@selector(eventDistribution:) forControlEvents:UIControlEventTouchUpInside];
+    [_ButtonListView addSubview:buy];
     
     ButtonItem *entrustcancleOrder = [[ButtonItem alloc] initWithFrame:CGRectMake(width, 0, width, height) icon:@"trade_sell" title:LocalizedStringByInt(1112)];
     entrustcancleOrder.tag = 2;
@@ -167,6 +168,11 @@
     tracemoney.tag = 9;
     [tracemoney addTarget:self action:@selector(eventDistribution:) forControlEvents:UIControlEventTouchUpInside];
     [_ButtonListView addSubview:tracemoney];
+    
+    ButtonItem *applyPurchase = [[ButtonItem alloc] initWithFrame:CGRectMake(width, height * 2, width, height) icon:@"applyPurchase" title:LocalizedStringByInt(1120)];
+    applyPurchase.tag = 10;
+    [applyPurchase addTarget:self action:@selector(eventDistribution:) forControlEvents:UIControlEventTouchUpInside];
+    [_ButtonListView addSubview:applyPurchase];
 }
 
 - (void)addSpliteLine
@@ -241,7 +247,9 @@
         case 9:
             [self.navigationController pushViewController:[[InOutMoneyController alloc] init] animated:YES];
             break;
-            
+        case 10:
+            [self.navigationController pushViewController:[[ApplyPurchaseController alloc] init] animated:YES];
+            break;
         default:
             break;
     }

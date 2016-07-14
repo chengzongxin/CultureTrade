@@ -1338,7 +1338,6 @@ void nhp_init() {
 int nhp_trade_request_symbol(const char * json_content)
 {
     int mSeq = nhp_get_nseq();
-    //    SendRequestEx(FIX_MSGTYPE_SYMBOL_REQ, mSeq, json_content);
     SendRequestEx(FIX_MSGTYPE_QUERY_PRODUCT_REQ, mSeq, json_content);
     return mSeq;
 }

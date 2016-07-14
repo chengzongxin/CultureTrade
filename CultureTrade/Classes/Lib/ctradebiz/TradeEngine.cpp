@@ -1032,8 +1032,8 @@ extern "C"
         tradeuievents.trade_ui_login_rsp(TRADE_TYPE, nRet);
         if(TRADE_MSGTYPE_RES_OK == nRet) {
             request_trade_info();
-            set_login_progress_rsp(); // 需要放到初始化交易信息后面，最大进度条初始化
-            printBusLogEx("初始化登陆:step:[%d] 登陆应答",nNowProgress);
+//            set_login_progress_rsp(); // 需要放到初始化交易信息后面，最大进度条初始化
+//            printBusLogEx("初始化登陆:step:[%d] 登陆应答",nNowProgress);
         } else {
 //            nhp_stop_session();    //首次自动登录交易失败会断开行情链路导致bug
         }
@@ -1539,7 +1539,8 @@ extern "C"
         }
         return 0;
     }
-    int trade_open_orderex(char * symbolcode, char direction, double price, int shoushu) {
+    
+    int trade_open_orderex(char * symbolcode, char *direction, double price, int shoushu) {
         cJSON *root;
         char *out;
         char sstmp[32];
@@ -1574,11 +1575,8 @@ extern "C"
         cJSON_AddStringToObjectEx(root, FIX_TAG_BODY_SECURITYID, sstmp);
         
         memset(sstmp, 0, 32);
-        if (direction == 'b') {
-            sprintf(sstmp, "%s", "0B");
-        }else if (direction == 's'){
-            sprintf(sstmp, "%s", "0S");
-        }
+        sprintf(sstmp, "%s", direction);
+        
         cJSON_AddStringToObjectEx(root, FIX_TAG_BODY_ORDERTYPE, sstmp);
         
         memset(sstmp, 0, 32);
@@ -1603,22 +1601,23 @@ extern "C"
         return nSeq;
     }
     
-    int trade_open_market_order(char * symbolcode, int shoushu, double sl, double tp, char direction, double price, int diff)
+    int trade_open_market_order(char * symbolcode, int shoushu, double sl, double tp, char *direction, double price, int diff)
     {
         return trade_open_orderex(symbolcode,direction,price,shoushu);
     }
+    
     //int trade_open_orderex(char * symbolcode, char direction, double price, double shoushu)
     
-    int trade_open_limit_order(char * symbolcode, double shoushu, double sl, double tp, char ordertype, double price, char valdate_type, char * valdate)
-    {
-        char direction;
-        if(ordertype == SUB_ORDER_TYPE_BUY_LIMIT || ordertype == SUB_ORDER_TYPE_BUY_STOP ) {
-            direction = DIRECTION_TYPE_BUY;
-        } else{
-            direction = DIRECTION_TYPE_SELL;
-        }
-        return trade_open_orderex(symbolcode, direction, price, shoushu);
-    }
+//    int trade_open_limit_order(char * symbolcode, double shoushu, double sl, double tp, char ordertype, double price, char valdate_type, char * valdate)
+//    {
+//        char direction;
+//        if(ordertype == SUB_ORDER_TYPE_BUY_LIMIT || ordertype == SUB_ORDER_TYPE_BUY_STOP ) {
+//            direction = DIRECTION_TYPE_BUY;
+//        } else{
+//            direction = DIRECTION_TYPE_SELL;
+//        }
+//        return trade_open_orderex(symbolcode, direction, price, shoushu);
+//    }
     
     
     int trade_modify_limit_order(long long orderticket, double price, double sl, double tp)

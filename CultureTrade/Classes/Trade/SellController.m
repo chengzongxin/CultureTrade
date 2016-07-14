@@ -166,7 +166,7 @@
     {
         [NSTradeEngine sharedInstance].delegate = self;
     }
-    [[NSTradeEngine sharedInstance] trade_open_market_order:productID direction:'s' price:price  shoushu:shoushu];
+    [[NSTradeEngine sharedInstance] trade_open_market_order:productID direction:@"0S" price:price  shoushu:shoushu];
     [super showProgressByDelay:@"Loading..." delayInSeconds:10];
 }
 

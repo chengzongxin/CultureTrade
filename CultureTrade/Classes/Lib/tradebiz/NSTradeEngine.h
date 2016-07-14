@@ -187,7 +187,7 @@ extern NSString * const REFRESH_NOTIFY;
 
 
 
--(int)trade_open_limit_order:(NSString *)symbolcode  shoushu:(double)shoushu  sl:(double)sl  tp:(double)tp  ordertype:(char)ordertype price:( double) price type:(char)type date:(NSString*)date;
+//-(int)trade_open_limit_order:(NSString *)symbolcode  shoushu:(double)shoushu  sl:(double)sl  tp:(double)tp  ordertype:(char)ordertype price:( double) price type:(char)type date:(NSString*)date;
 
 // 查询单据 
 -(void) trade_request_order;
@@ -829,7 +829,7 @@ extern NSString * const REFRESH_NOTIFY;
 - (void)requestPankouData;
 
 //下市价单 2014.07.30 增加偏离点差字段
--(int)trade_open_market_order:(NSString *)symbolcode direction:(char)direction price:(double)price shoushu:(int)shoushu;
+-(int)trade_open_market_order:(NSString *)symbolcode direction:(NSString *)direction price:(double)price shoushu:(int)shoushu;
 
 // 今日委托
 - (int)trade_request_today_entrustNS;

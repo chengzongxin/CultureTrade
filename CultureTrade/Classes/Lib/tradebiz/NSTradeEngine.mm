@@ -880,12 +880,12 @@ void cache_user_pwd_ui(char **user,char **pwd)
 
 
 //下限价单
--(int)trade_open_limit_order:(NSString *)symbolcode  shoushu:(double)shoushu  sl:(double)sl  tp:(double)tp  ordertype:(char)ordertype price:( double) price type:(char)type date:(NSString*)date
-{
-    char * cpSymbol = toCString(symbolcode);
-    char * cpDate = toCString(date);
-    return trade_open_limit_order(cpSymbol, shoushu, sl, tp, ordertype, price, type, cpDate);
-}
+//-(int)trade_open_limit_order:(NSString *)symbolcode  shoushu:(double)shoushu  sl:(double)sl  tp:(double)tp  ordertype:(char)ordertype price:( double) price type:(char)type date:(NSString*)date
+//{
+//    char * cpSymbol = toCString(symbolcode);
+//    char * cpDate = toCString(date);
+//    return trade_open_limit_order(cpSymbol, shoushu, sl, tp, ordertype, price, type, cpDate);
+//}
 
 //-(NSString*)getNSStringLimitHint:(NSString *)symbolcode ordertype:(char)ordertype
 //{
@@ -2762,10 +2762,11 @@ return [NSString stringWithFormat:@"%.3f", getApplySettlementprirce(pp)];
 }
 
 //下市价单
--(int)trade_open_market_order:(NSString *)symbolcode direction:(char)direction price:(double)price shoushu:(int)shoushu
+-(int)trade_open_market_order:(NSString *)symbolcode direction:(NSString *)direction price:(double)price shoushu:(int)shoushu
 {
     char * cpSymbol = toCString(symbolcode);
-    return trade_open_market_order(cpSymbol, shoushu, 0, 0, direction, price, 0);
+    char * cpDirection = toCString(direction);
+    return trade_open_market_order(cpSymbol, shoushu, 0, 0, cpDirection, price, 0);
 }
 
 

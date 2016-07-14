@@ -170,11 +170,13 @@
 
 - (void)trade_ui_today_entrust_rsp:(NSString *)data
 {
+    [self closeProgressSuccess:@"Success!"];
+    
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"HH:mm"];
     NSString *now = [formatter stringFromDate:[NSDate date]];
     
-    if ([now compare:@"15:30"] == NSOrderedDescending) return; //大于15:30
+//    if ([now compare:@"15:30"] == NSOrderedDescending) return; //大于15:30
     
     _orderArray = [NSMutableArray array];
     NSError *error = nil;
@@ -192,8 +194,7 @@
     _orderArray = [NSMutableArray arrayWithArray:extraArray];
 //    _tableView.frame = CGRectMake(_tableView.frame.origin.x, _tableView.frame.origin.y, _tableView.frame.size.width, _tableView.frame.size.height*_orderArray.count);
     [_tableView reloadData];
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-    [self closeProgressSuccess:@"Success!"];
+    
 }
 
 
