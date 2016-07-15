@@ -116,15 +116,13 @@
     cell.entrustDeal.text = [NSString changePriceByFloat:[transferQuery.money doubleValue]];
     
     
-    // status 1.已受理 2.支付完成 3.系统拒绝 4.已审核
-    if ([transferQuery.performState isEqualToString:@"3"]) {
-        cell.status.text = @"已受理";
-    }else if ([transferQuery.performState isEqualToString:@"2"]){
+    // status 
+    if ([transferQuery.performState isEqualToString:@"2"]){
         cell.status.text = @"系统拒绝";
     }else if ([transferQuery.performState isEqualToString:@"1"]){
-        cell.status.text = @"已处理";
+        cell.status.text = @"支付完成";
     }else if ([transferQuery.performState isEqualToString:@"0"]){
-        cell.status.text = @"未处理";
+        cell.status.text = @"已受理";
     }
     
     return cell;

@@ -43,6 +43,32 @@
     _maxCanBuy.leftLabel.text = LocalizedStringByInt(1809);
 }
 
+- (void)moniterTextField
+{
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textFieldDidChange:) name:UITextFieldTextDidChangeNotification object:_buyInNumber];
+    
+    [_maxCanBuy addObserver:self forKeyPath:@"text" options:NSKeyValueObservingOptionNew context:nil];
+}
+
+- (void)textFieldDidChange:(NSNotification *)notification
+{
+    UITextField *textFied = [notification object];
+    if (textFied == _buyInNumber) {
+        if ([_buyInNumber.text intValue]>[_maxCanBuy.text intValue]) {
+            _buyInNumber.text = @"";
+        }
+    }
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context
+{
+    if ([keyPath isEqualToString:@"text"]&&object == _maxCanBuy) {
+        if ([_maxCanBuy.text intValue] < 0) {
+            _maxCanBuy.text = @"";
+        }
+    }
+}
+
 - (void)addDownList
 {
     [super addDownList];

@@ -560,7 +560,8 @@ void trade_ui_symbol_change_notice_rspUI(int nRet, const char * allSymbols)
     GLOBAL.symbolArray = [NSMutableArray array];
     for (NSDictionary *dict in array) {
         SymbolModel *s = [SymbolModel symbolWithDictionary:dict];
-        [GLOBAL.symbolArray addObject:s];
+        if ([s.productState isEqualToString:@"\u0002"])
+            [GLOBAL.symbolArray addObject:s];  // 只保留状态为2的
     }
     
     if( [NSTradeEngine setup].delegate != nil

@@ -41,6 +41,7 @@
 
 - (void)addTitleView;
 - (void)addTextFied;
+- (void)moniterTextField;
 - (void)addDownList;
 - (void)fillData;
 - (void)loadData;

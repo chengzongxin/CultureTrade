@@ -153,11 +153,11 @@
             GLOBAL.sortUnit.m_uiPreClose = stockInfo.m_uiPrevClose;
         }
     }
-    for (SymbolModel *symbol in GLOBAL.symbolArray) {
-        if ([symbol.productID intValue] == GLOBAL.sortUnit.m_CodeInfo.m_uiCode ) {
-            GLOBAL.symbolModel = symbol;
-        }
-    }
+//    for (SymbolModel *symbol in GLOBAL.symbolArray) {
+//        if ([symbol.productID intValue] == GLOBAL.sortUnit.m_CodeInfo.m_uiCode ) {
+//            GLOBAL.symbolModel = symbol;
+//        }
+//    }
     self.tableView.hidden = YES;
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];

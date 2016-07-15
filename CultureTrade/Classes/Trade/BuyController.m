@@ -69,6 +69,8 @@
     
     [self addTextFied];
     
+    [self moniterTextField];
+    
     [self addTableView];
     
     [self addButton];
@@ -141,7 +143,10 @@
     _maxCanBuy.font = FONT_BUYIN_TEXTFIELD;
     _maxCanBuy.userInteractionEnabled = NO;
     [self.view addSubview:_maxCanBuy];
-    
+}
+
+- (void)moniterTextField
+{
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textFieldDidChange:) name:UITextFieldTextDidChangeNotification object:_buyInPrice];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textFieldDidChange:) name:UITextFieldTextDidChangeNotification object:_buyInNumber];
