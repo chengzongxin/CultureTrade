@@ -141,6 +141,36 @@
     _maxCanBuy.font = FONT_BUYIN_TEXTFIELD;
     _maxCanBuy.userInteractionEnabled = NO;
     [self.view addSubview:_maxCanBuy];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textFieldDidChange:) name:UITextFieldTextDidChangeNotification object:_buyInPrice];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textFieldDidChange:) name:UITextFieldTextDidChangeNotification object:_buyInNumber];
+    
+    [_maxCanBuy addObserver:self forKeyPath:@"text" options:NSKeyValueObservingOptionNew context:nil];
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context
+{
+    if ([keyPath isEqualToString:@"text"]&&object == _maxCanBuy) {
+        if ([_maxCanBuy.text intValue] < 0) {
+            _maxCanBuy.text = @"";
+        }
+    }
+}
+
+- (void)textFieldDidChange:(NSNotification *)notification
+{
+    UITextField *textFied = [notification object];
+    if (textFied == _buyInPrice) {
+        float canbuy = GLOBAL.moneyHold.canOut/[_buyInPrice.text floatValue];
+        _maxCanBuy.text = [NSString stringWithFormat:@"%d",(int)canbuy];
+    }
+    
+    if (textFied == _buyInNumber) {
+        if ([_buyInNumber.text intValue]>[_maxCanBuy.text intValue]) {
+            _buyInNumber.text = @"";
+        }
+    }
 }
 
 - (void)addDownList
