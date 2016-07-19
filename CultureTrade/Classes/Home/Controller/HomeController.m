@@ -24,6 +24,8 @@
 #import "SpliteLineView.h"
 #import "LoginController.h"
 #import "ApplyPurchaseController.h"
+#import "ApplyEntrustController.h"
+#import "ApplyQueryController.h"
 #define kButtonListHeight 196
 #define KButtonRow  4
 #define kBUttonCol  3
@@ -173,6 +175,16 @@
     applyPurchase.tag = 10;
     [applyPurchase addTarget:self action:@selector(eventDistribution:) forControlEvents:UIControlEventTouchUpInside];
     [_ButtonListView addSubview:applyPurchase];
+    
+    ButtonItem *applyEntrust = [[ButtonItem alloc] initWithFrame:CGRectMake(width * 2, height * 2, width, height) icon:@"apply_entrust" title:LocalizedStringByInt(1121)];
+    applyEntrust.tag = 11;
+    [applyEntrust addTarget:self action:@selector(eventDistribution:) forControlEvents:UIControlEventTouchUpInside];
+    [_ButtonListView addSubview:applyEntrust];
+    
+    ButtonItem *applyQuery = [[ButtonItem alloc] initWithFrame:CGRectMake(width * 3, height * 2, width, height) icon:@"apply_query" title:LocalizedStringByInt(1122)];
+    applyQuery.tag = 12;
+    [applyQuery addTarget:self action:@selector(eventDistribution:) forControlEvents:UIControlEventTouchUpInside];
+    [_ButtonListView addSubview:applyQuery];
 }
 
 - (void)addSpliteLine
@@ -249,6 +261,12 @@
             break;
         case 10:
             [self.navigationController pushViewController:[[ApplyPurchaseController alloc] init] animated:YES];
+            break;
+        case 11:
+            [self.navigationController pushViewController:[[ApplyEntrustController alloc] init] animated:YES];
+            break;
+        case 12:
+            [self.navigationController pushViewController:[[ApplyQueryController alloc] init] animated:YES];
             break;
         default:
             break;

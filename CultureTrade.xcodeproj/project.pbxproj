@@ -168,6 +168,8 @@
 		1DA3C7871C3B71610099BB13 /* TimeLineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DA3C7861C3B71610099BB13 /* TimeLineView.m */; };
 		1DA3C78D1C3B74130099BB13 /* TimeLineChart.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DA3C78C1C3B74130099BB13 /* TimeLineChart.m */; };
 		1DA3C7931C3B944D0099BB13 /* DataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DA3C7921C3B944D0099BB13 /* DataModel.m */; };
+		1DAB89571D3E4894001DDB19 /* ApplyEntrustController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DAB89561D3E4894001DDB19 /* ApplyEntrustController.m */; };
+		1DAB895A1D3E48A6001DDB19 /* ApplyQueryController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DAB89591D3E48A6001DDB19 /* ApplyQueryController.m */; };
 		1DADBD301CF6F72000F5CECB /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DADBD2E1CF6F72000F5CECB /* libcrypto.a */; };
 		1DADBD311CF6F72000F5CECB /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DADBD2F1CF6F72000F5CECB /* libssl.a */; };
 		1DAF87C81CA38087008B82C4 /* FoundHoldController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DAF87C71CA38087008B82C4 /* FoundHoldController.m */; };
@@ -549,6 +551,10 @@
 		1DA3C78C1C3B74130099BB13 /* TimeLineChart.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TimeLineChart.m; sourceTree = "<group>"; };
 		1DA3C7911C3B944D0099BB13 /* DataModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataModel.h; sourceTree = "<group>"; };
 		1DA3C7921C3B944D0099BB13 /* DataModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataModel.m; sourceTree = "<group>"; };
+		1DAB89551D3E4894001DDB19 /* ApplyEntrustController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApplyEntrustController.h; sourceTree = "<group>"; };
+		1DAB89561D3E4894001DDB19 /* ApplyEntrustController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApplyEntrustController.m; sourceTree = "<group>"; };
+		1DAB89581D3E48A6001DDB19 /* ApplyQueryController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApplyQueryController.h; sourceTree = "<group>"; };
+		1DAB89591D3E48A6001DDB19 /* ApplyQueryController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApplyQueryController.m; sourceTree = "<group>"; };
 		1DADBD2E1CF6F72000F5CECB /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libcrypto.a; sourceTree = "<group>"; };
 		1DADBD2F1CF6F72000F5CECB /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libssl.a; sourceTree = "<group>"; };
 		1DADBDCC1CF6FD6D00F5CECB /* aes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = aes.h; sourceTree = "<group>"; };
@@ -1491,6 +1497,11 @@
 				1D09208C1D375D8D00FDBF88 /* ApplyPurchase */,
 				1D0920991D378BA900FDBF88 /* ApplyPurchaseTradeController.h */,
 				1D09209A1D378BA900FDBF88 /* ApplyPurchaseTradeController.m */,
+				1DAB89551D3E4894001DDB19 /* ApplyEntrustController.h */,
+				1DAB89561D3E4894001DDB19 /* ApplyEntrustController.m */,
+				1DAB895B1D3E48C2001DDB19 /* ApplyEntrust */,
+				1DAB89581D3E48A6001DDB19 /* ApplyQueryController.h */,
+				1DAB89591D3E48A6001DDB19 /* ApplyQueryController.m */,
 				1D9FD66D1CA3DDF300A8028D /* ShareHoldCell.h */,
 				1D9FD66E1CA3DDF300A8028D /* ShareHoldCell.m */,
 				1D96586C1C1E99D3006B4F5C /* GlobalModel.h */,
@@ -1524,6 +1535,13 @@
 				1D91AC741C18054000830059 /* BasicAlertView.m */,
 			);
 			path = BasicAlertView;
+			sourceTree = "<group>";
+		};
+		1DAB895B1D3E48C2001DDB19 /* ApplyEntrust */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ApplyEntrust;
 			sourceTree = "<group>";
 		};
 		1DADBD2D1CF6F72000F5CECB /* lib */ = {
@@ -1823,6 +1841,7 @@
 				1DA3C77C1C3B65720099BB13 /* NetManager.m in Sources */,
 				1DB18A791CACCA9100467018 /* TitleViewButton.m in Sources */,
 				1D7211F81C0EC294008FC6F3 /* nt_rc4.c in Sources */,
+				1DAB89571D3E4894001DDB19 /* ApplyEntrustController.m in Sources */,
 				1D0F11A61C91552600BBFA5D /* MMProgressHUD+Class.m in Sources */,
 				1D7211F41C0EC294008FC6F3 /* nt_aes.c in Sources */,
 				1D59E16E1BFC2660007493FC /* BaseCell.m in Sources */,
@@ -1892,6 +1911,7 @@
 				1DE681941C96689D00C378FE /* TraderController.m in Sources */,
 				1D5974991BFF1353002E4F85 /* QuotaionBanner.m in Sources */,
 				1D59E17A1BFC2660007493FC /* HomeController.m in Sources */,
+				1DAB895A1D3E48A6001DDB19 /* ApplyQueryController.m in Sources */,
 				1D96586E1C1E99D3006B4F5C /* GlobalModel.m in Sources */,
 				1D1B5AA21C5860AB006EDB43 /* SuperViewController.m in Sources */,
 				1D09209B1D378BA900FDBF88 /* ApplyPurchaseTradeController.m in Sources */,
