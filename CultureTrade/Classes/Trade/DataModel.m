@@ -337,6 +337,28 @@
 }
 @end
 
+@implementation ApplyPurchaseEntrust
+
+
+
++ (instancetype)applyPurchaseEntrustWithDictionary:(NSDictionary *)dict
+{
+    return [[self alloc] initWithDictionary:dict];
+}
+- (instancetype)initWithDictionary:(NSDictionary *)data
+{
+    self = [super init];
+    if (self) {
+        if ([self propertyMapDic] == nil) {// 属性名与Key对应
+            [super assginToPropertyWithDictionary:data];
+        } else {
+            [super assginToPropertyWithNoMapDictionary:data];
+        }
+    }
+    return self;
+}
+@end
+
 
 
 

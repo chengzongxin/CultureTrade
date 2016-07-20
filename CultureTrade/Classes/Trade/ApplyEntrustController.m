@@ -7,9 +7,11 @@
 //
 
 #import "ApplyEntrustController.h"
-
+#import "ApplyPurchaseURL.h"
 @interface ApplyEntrustController ()
-
+{
+    NSMutableArray *_applyEntrustArray;
+}
 @end
 
 @implementation ApplyEntrustController
@@ -272,7 +274,8 @@
     
     NSString *session =[[NSTradeEngine sharedInstance] getSession];
     
-    NSString *strURL = [NSString stringWithFormat:@"http://192.168.0.173:8082//Admin/index.php/applyapi/deposit/accountname/admin/sessionid/1/accountname/%@/sessionid/%@",accountName,session];
+    NSString *strURL = [NSString stringWithFormat:ENTRUSTQUERY,accountName,session,_startBtn.currentTitle,_endBtn.currentTitle];
+    
     NSURL *url = [NSURL URLWithString:strURL];
     NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
     NSURLConnection *connection = [[NSURLConnection alloc]
@@ -294,6 +297,15 @@
     NSDictionary* dict = [NSJSONSerialization JSONObjectWithData:_datas 
                                                          options:NSJSONReadingAllowFragments error:nil]; 
     MYLog(@"connectionDidFinishLoading = %@",dict);
+    
+    _applyEntrustArray = [NSMutableArray array];
+    NSArray *entrusts = dict[@"data"];
+    
+    for (NSDictionary *subdict in entrusts) {
+        ApplyPurchaseEntrust *entrust = [ApplyPurchaseEntrust applyPurchaseEntrustWithDictionary:subdict];
+        [_applyEntrustArray addObject:entrust];
+    }
+    
 }
 
 

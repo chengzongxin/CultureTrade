@@ -175,4 +175,23 @@
 - (instancetype)initWithDictionary:(NSDictionary *)data;
 @end
 
+@interface ApplyPurchaseEntrust : DataModel
+@property (nonatomic,retain) NSString *askvol;
+@property (nonatomic,retain) NSString *contractcode;
+@property (nonatomic,retain) NSString *customid;
+@property (nonatomic,retain) NSString *endid;
+@property (nonatomic,retain) NSString *productname;
+@property (nonatomic,retain) NSString *productstatus;
+@property (nonatomic,retain) NSString *psgcommision;
+@property (nonatomic,retain) NSString *sgcommision;
+@property (nonatomic,retain) NSString *signdatetime;
+@property (nonatomic,retain) NSString *signprice;
+@property (nonatomic,retain) NSString *signstate;
+@property (nonatomic,retain) NSString *signvol;
+@property (nonatomic,retain) NSString *startid;
+@property (nonatomic,retain) NSString *symbolcode;
++ (instancetype)applyPurchaseEntrustWithDictionary:(NSDictionary *)dict;
+- (instancetype)initWithDictionary:(NSDictionary *)data;
+@end
+
 

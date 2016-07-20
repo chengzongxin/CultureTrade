@@ -35,4 +35,7 @@ singleton_interface(GlobalModel)
 // 份额持仓
 @property (nonatomic,retain) ShareHold *shareHold;
 @property (nonatomic,retain) NSMutableArray *shareHoldArray;
+
+// 申购委托
+
 @end
