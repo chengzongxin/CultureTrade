@@ -682,6 +682,7 @@
 		1DDCAD7C1D3F13D500AEBAE4 /* ApplyEntrustBanner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApplyEntrustBanner.m; sourceTree = "<group>"; };
 		1DDCAD7E1D3F13F500AEBAE4 /* ApplyEntrustCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApplyEntrustCell.h; sourceTree = "<group>"; };
 		1DDCAD7F1D3F13F500AEBAE4 /* ApplyEntrustCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApplyEntrustCell.m; sourceTree = "<group>"; };
+		1DDCAD811D3F6F2700AEBAE4 /* ApplyPurchaseURL.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ApplyPurchaseURL.h; sourceTree = "<group>"; };
 		1DE681861C96445B00C378FE /* JZSelectDateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JZSelectDateViewController.h; sourceTree = "<group>"; };
 		1DE681871C96445B00C378FE /* JZSelectDateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JZSelectDateViewController.m; sourceTree = "<group>"; };
 		1DE6818F1C96459B00C378FE /* JZSelectView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JZSelectView.h; sourceTree = "<group>"; };
@@ -1529,6 +1530,7 @@
 				1DAB895B1D3E48C2001DDB19 /* ApplyEntrust */,
 				1DAB89581D3E48A6001DDB19 /* ApplyQueryController.h */,
 				1DAB89591D3E48A6001DDB19 /* ApplyQueryController.m */,
+				1DDCAD811D3F6F2700AEBAE4 /* ApplyPurchaseURL.h */,
 				1D9FD66D1CA3DDF300A8028D /* ShareHoldCell.h */,
 				1D9FD66E1CA3DDF300A8028D /* ShareHoldCell.m */,
 				1D96586C1C1E99D3006B4F5C /* GlobalModel.h */,

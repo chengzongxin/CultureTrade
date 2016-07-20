@@ -2556,6 +2556,11 @@ extern "C"
         return LoginedAccountName;
     }
     
+    const char * getSession()
+    {
+        return LoginedSession;
+    }
+    
     const char * getLoginUser() {
         return get_str_user();
     }

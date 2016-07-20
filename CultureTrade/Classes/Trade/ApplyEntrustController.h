@@ -25,6 +25,8 @@
     
     UITableView *_leftTable;
     UITableView *_mainTable;
+    
+    NSMutableData *_datas;
 }
 
 @property (nonatomic,retain) UILabel *dateLabel;

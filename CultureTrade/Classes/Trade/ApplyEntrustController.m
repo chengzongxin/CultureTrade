@@ -70,6 +70,7 @@
     _searchBtn.frame = CGRectMake(CGRectGetMaxX(_endBtn.frame)+20, y, searchImg.size.width, searchImg.size.height);
     [_searchBtn setImage:searchImg forState:UIControlStateNormal];
     [_searchBtn setImage:[UIImage imageNamed:@"apply_search_selected"] forState:UIControlStateHighlighted];
+    [_searchBtn addTarget:self action:@selector(clickSearch) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:_searchBtn];
     
     // set back view
@@ -86,7 +87,8 @@
     calendarPicker.calendarBlock = ^(NSInteger day, NSInteger month, NSInteger year){
         NSString *str = [NSString stringWithFormat:@"%li-%02li-%02li",(long)year,(long)month,(long)day];
         [_startBtn setTitle:str forState:UIControlStateNormal];
-        MYLog(@"endbtn = %@",str);
+        
+        MYLog(@"_startBtn.currentTitle  = %@",_startBtn.currentTitle );
     };
 }
 
@@ -101,6 +103,34 @@
         [_endBtn setTitle:str forState:UIControlStateNormal];
         MYLog(@"endbtn = %@",str);
     };
+}
+
+- (void)clickSearch
+{
+    if (!(_startBtn.currentTitle && _endBtn.currentTitle)) { // null
+        showAlert(@"请输入完整的日期");
+        return;
+    }
+    
+    NSDateFormatter *dateformat = [[NSDateFormatter alloc] init];
+    [dateformat setDateFormat:@"yyyy-MM-dd"];
+    
+    NSDate *startDate = [dateformat dateFromString:_startBtn.currentTitle];
+    NSDate *endDate = [dateformat dateFromString:_endBtn.currentTitle];
+    MYLog(@"startDate = %@,endDate = %@",startDate,endDate);
+    MYLog(@"startStr = %@,endStr = %@",_startBtn.currentTitle,_endBtn.currentTitle);  // 格式化字符串后自动增加东八区 +0800
+    
+    NSComparisonResult resulut = [startDate compare:endDate];
+    if (resulut  == NSOrderedAscending) { // start < end
+        MYLog(@"start < end ");
+    }else if (resulut == NSOrderedSame){  // start == end
+        MYLog(@"start = end ");
+    }else if (resulut == NSOrderedDescending){  // start > end  ! illigle
+        showAlert(@"开始日期应小于结束日期");
+        return;
+    }
+    
+    [self startRequest];
 }
 
 - (void)addTableView
@@ -234,6 +264,39 @@
     MYLOGFUN;
     MYLog(@"%@",symbolcodes);
 }
+
+
+-(void)startRequest {
+    
+    NSString *accountName = [[NSTradeEngine sharedInstance] getLoginedAccountName];
+    
+    NSString *session =[[NSTradeEngine sharedInstance] getSession];
+    
+    NSString *strURL = [NSString stringWithFormat:@"http://192.168.0.173:8082//Admin/index.php/applyapi/deposit/accountname/admin/sessionid/1/accountname/%@/sessionid/%@",accountName,session];
+    NSURL *url = [NSURL URLWithString:strURL];
+    NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
+    NSURLConnection *connection = [[NSURLConnection alloc]
+                                   initWithRequest:request
+                                   delegate:self];
+    if (connection) {
+        _datas = [NSMutableData new];
+    }
+}
+#pragma mark- NSURLConnection 回调方法
+- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
+    [_datas appendData:data];
+}
+-(void) connection:(NSURLConnection *)connection didFailWithError: (NSError *)error {
+    NSLog(@"%@",[error localizedDescription]);
+}
+- (void) connectionDidFinishLoading: (NSURLConnection*) connection {
+    NSLog(@"请求完成…");
+    NSDictionary* dict = [NSJSONSerialization JSONObjectWithData:_datas 
+                                                         options:NSJSONReadingAllowFragments error:nil]; 
+    MYLog(@"connectionDidFinishLoading = %@",dict);
+}
+
+
 
 - (void)viewDidLayoutSubviews
 {

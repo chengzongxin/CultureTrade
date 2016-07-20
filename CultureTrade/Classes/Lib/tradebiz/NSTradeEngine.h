@@ -237,7 +237,7 @@ extern NSString * const REFRESH_NOTIFY;
 
 -(NSString *)getLoginUser;
 
-
+-(NSString *)getSession;
 
 //获取商品属性
 //获取所有商品编码

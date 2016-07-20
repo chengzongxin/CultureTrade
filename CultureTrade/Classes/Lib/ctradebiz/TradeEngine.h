@@ -321,7 +321,8 @@ typedef struct trade_ui_events
     int    getUserStatus();
     //用户名
     const char * getUserName();
-    
+    // session
+    const char * getSession();
     //用户名
     const char * getLoginUser();
     

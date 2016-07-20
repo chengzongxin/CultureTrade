@@ -969,6 +969,11 @@ void cache_user_pwd_ui(char **user,char **pwd)
 {
     return toNString(getUserName());
 }
+//session
+-(NSString *)getSession
+{
+    return toNString(getSession());
+}
 
 
 -(NSString *)getLoginUser{
