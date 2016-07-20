@@ -6,8 +6,7 @@
 //  Copyright © 2016年 cheng.zongxin. All rights reserved.
 //
 
-#import "SuperViewController.h"
-
-@interface ApplyQueryController : SuperViewController
+#import "ApplyEntrustController.h"
+@interface ApplyQueryController : ApplyEntrustController
 
 @end

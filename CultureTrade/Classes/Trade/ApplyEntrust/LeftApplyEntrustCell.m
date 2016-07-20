@@ -1,15 +1,14 @@
 //
-//  LeftPurchaseCell.m
+//  LeftApplyEntrustCell.m
 //  CultureTrade
 //
-//  Created by SZFT1 on 16/7/14.
+//  Created by SZFT1 on 16/7/20.
 //  Copyright © 2016年 cheng.zongxin. All rights reserved.
 //
 
-#import "LeftPurchaseCell.h"
+#import "LeftApplyEntrustCell.h"
 #import "SymbolModel.h"
-
-@implementation LeftPurchaseCell
+@implementation LeftApplyEntrustCell
 
 - (void)awakeFromNib {
     // Initialization code
@@ -25,7 +24,7 @@
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        self.backgroundColor = COLOR_QUOTA_CELL_BG;
+        self.backgroundColor = COLOR_APPLYPURCHASE_CELL_BG;
         [self addLables];
     }
     return self;
@@ -65,7 +64,7 @@
     [super setFrame:frame];
 }
 
-- (LeftPurchaseCell *)initWithSymbol:(SymbolModel *)symbol
+- (LeftApplyEntrustCell *)initWithSymbol:(SymbolModel *)symbol
 {
     self.productName.text = [NSString stringWithFormat:@"%@",symbol.productName];
     self.productID.text = [NSString stringWithFormat:@"%@",symbol.productID];

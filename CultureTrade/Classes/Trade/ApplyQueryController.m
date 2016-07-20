@@ -17,6 +17,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    self.title = @"中签查询";
 }
 
 - (void)didReceiveMemoryWarning {
@@ -24,14 +26,39 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+//overwride
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    if (tableView == _leftTable) {
+        return [[LeftApplyEntrustBanner alloc] initWithFrame:CGRectMake(0, 0, kLeftTableWith, kQuotaBannerHeight)];
+    }else if (tableView == _mainTable){
+        ApplyEntrustBanner *mainBanner = [[ApplyEntrustBanner alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width*kMainTableViewWithRatio, kQuotaBannerHeight)];
+        [mainBanner setCount:7 textIndex:2901];
+        return mainBanner;
+    }else{
+        return NULL;
+    }
 }
-*/
+//overwrite
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    SymbolModel *symbol = GLOBAL.symbolArray[indexPath.row];
+    if (tableView.tag == 0) {
+        static NSString *cellID = @"LeftPurchaseCell";
+        LeftApplyEntrustCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
+        if (cell == nil) {
+            cell = [[LeftApplyEntrustCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
+        }
+        return [cell initWithSymbol:symbol];
+    }else{
+        static NSString *cellID = @"PurchaseCell";
+        ApplyEntrustCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
+        if (cell == nil) {
+            cell = [[ApplyEntrustCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
+        }
+        cell.labelCount = 7;
+        return [cell initWithSymbol:symbol];
+    }
+}
 
 @end

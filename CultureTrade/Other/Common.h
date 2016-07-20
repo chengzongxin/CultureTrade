@@ -67,6 +67,12 @@
 
 #define COLOR_ME_TEXTVIEW_BG        COLOR(46, 46, 46, 1)
 
+#define COLOR_APPLYPURCHASE_TOPTOOL_BG          COLOR(37, 37, 37, 1)
+#define COLOR_APPLYPURCHASE_BANNER_BG           COLOR(25, 25, 25, 1)
+#define COLOR_APPLYPURCHASE_BANNER_TEXT         [UIColor colorWithHexString:@"#E2BC53" withAlpha:1]
+#define COLOR_APPLYPURCHASE_CELL_BG             COLOR(37, 37, 37, 1)
+#define COLOR_APPLYPURCHASE_VC_BG               COLOR(25, 25, 25, 1)
+
 
 // FTtrader
 #define RGBCOLOR(r,g,b) [UIColor colorWithRed:r/255.0 green:g/255.0 blue:b/255.0 alpha:1]
