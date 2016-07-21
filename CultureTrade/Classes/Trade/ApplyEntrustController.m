@@ -290,6 +290,14 @@
                                                          options:NSJSONReadingAllowFragments error:nil]; 
     MYLog(@"connectionDidFinishLoading = %@",dict);
     
+    int retValue = [dict[@"code"] intValue];
+    
+    if (retValue != 0) {
+        [self closeProgress:nil];
+        showAlert(dict[@"msg"]);
+        return;
+    }
+    
     _applyEntrustArray = [NSMutableArray array];
     NSArray *entrusts = dict[@"data"];
     
