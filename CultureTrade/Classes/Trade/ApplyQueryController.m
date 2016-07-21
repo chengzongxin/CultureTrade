@@ -9,7 +9,9 @@
 #import "ApplyQueryController.h"
 
 @interface ApplyQueryController ()
-
+{
+    NSMutableArray *_applySuccessArray;
+}
 @end
 
 @implementation ApplyQueryController
@@ -24,6 +26,11 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return _applySuccessArray.count;
 }
 
 //overwride
@@ -42,23 +49,69 @@
 //overwrite
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    SymbolModel *symbol = GLOBAL.symbolArray[indexPath.row];
+    ApplyPurchaseSuccess *success = _applySuccessArray[indexPath.row];
     if (tableView.tag == 0) {
-        static NSString *cellID = @"LeftPurchaseCell";
+        static NSString *cellID = @"LeftApplyPurchaseSuccess";
         LeftApplyEntrustCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
         if (cell == nil) {
             cell = [[LeftApplyEntrustCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
         }
-        return [cell initWithSymbol:symbol];
+        return [cell initWithSuccess:success];
     }else{
-        static NSString *cellID = @"PurchaseCell";
+        static NSString *cellID = @"ApplyPurchaseSuccess";
         ApplyEntrustCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
         if (cell == nil) {
             cell = [[ApplyEntrustCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
+            cell.labelCount = 7;
         }
-        cell.labelCount = 7;
-        return [cell initWithSymbol:symbol];
+        
+        return [cell initWithSuccess:success];
     }
 }
 
+-(void)startRequest {
+    
+    [self showProgress:@"Loading..."];
+    
+    NSString *accountName = [[NSTradeEngine sharedInstance] getLoginedAccountName];
+    
+    NSString *session =[[NSTradeEngine sharedInstance] getSession];
+    
+    NSString *strURL = [NSString stringWithFormat:ENTRUSTSUCCESS,accountName,session,_startBtn.currentTitle,_endBtn.currentTitle];
+    
+    NSURL *url = [NSURL URLWithString:strURL];
+    NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
+    NSURLConnection *connection = [[NSURLConnection alloc]
+                                   initWithRequest:request
+                                   delegate:self];
+    if (connection) {
+        _datas = [NSMutableData new];
+    }
+}
+#pragma mark- NSURLConnection 回调方法
+- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
+    [_datas appendData:data];
+}
+-(void) connection:(NSURLConnection *)connection didFailWithError: (NSError *)error {
+    NSLog(@"%@",[error localizedDescription]);
+}
+- (void) connectionDidFinishLoading: (NSURLConnection*) connection {
+    NSLog(@"请求完成…");
+    NSDictionary* dict = [NSJSONSerialization JSONObjectWithData:_datas
+                                                         options:NSJSONReadingAllowFragments error:nil];
+    MYLog(@"connectionDidFinishLoading = %@",dict);
+    
+    _applySuccessArray = [NSMutableArray array];
+    NSArray *entrusts = dict[@"data"];
+    
+    for (NSDictionary *subdict in entrusts) {
+        ApplyPurchaseSuccess *entrust = [ApplyPurchaseSuccess applyPurchaseSuccessWithDictionary:subdict];
+        [_applySuccessArray addObject:entrust];
+    }
+    
+    [_leftTable reloadData];
+    [_mainTable reloadData];
+    
+    [self closeProgressSuccess:@"Success!"];
+}
 @end

@@ -13,6 +13,8 @@
 #import "ApplyEntrustBanner.h"
 #import "ApplyEntrustCell.h"
 #import "GlobalModel.h"
+#import "ApplyPurchaseURL.h"
+#import "NSDate+helper.h"
 #define kLeftTableWith 70
 #define kMainTableViewWithRatio 2.2
 @interface ApplyEntrustController : SuperViewController<NSTradeEngineDelegate,UITableViewDelegate,UITableViewDataSource>

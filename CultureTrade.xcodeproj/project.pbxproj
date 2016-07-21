@@ -184,6 +184,7 @@
 		1DBD5F2E1C9A3A8300FE3CB1 /* ModifyPasswordController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DBD5F2D1C9A3A8300FE3CB1 /* ModifyPasswordController.m */; };
 		1DBDFD3F1C9037D0009F3A43 /* HistoryEntrustController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DBDFD3E1C9037D0009F3A43 /* HistoryEntrustController.m */; };
 		1DBDFD451C90395B009F3A43 /* HistoryDealController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DBDFD441C90395B009F3A43 /* HistoryDealController.m */; };
+		1DD17F891D4071D300E14CB2 /* NSDate+helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DD17F881D4071D300E14CB2 /* NSDate+helper.m */; };
 		1DD43ADB1CD0B68B00A13EF3 /* FeedbackController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DD43ADA1CD0B68B00A13EF3 /* FeedbackController.m */; };
 		1DD43ADE1CD0B6A700A13EF3 /* AboutController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DD43ADD1CD0B6A700A13EF3 /* AboutController.m */; };
 		1DD551971C3CC6C30016AA57 /* TimeChartPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DD551961C3CC6C30016AA57 /* TimeChartPoint.m */; };
@@ -666,6 +667,8 @@
 		1DBDFD3E1C9037D0009F3A43 /* HistoryEntrustController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HistoryEntrustController.m; sourceTree = "<group>"; };
 		1DBDFD431C90395B009F3A43 /* HistoryDealController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HistoryDealController.h; sourceTree = "<group>"; };
 		1DBDFD441C90395B009F3A43 /* HistoryDealController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HistoryDealController.m; sourceTree = "<group>"; };
+		1DD17F871D4071D300E14CB2 /* NSDate+helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+helper.h"; sourceTree = "<group>"; };
+		1DD17F881D4071D300E14CB2 /* NSDate+helper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+helper.m"; sourceTree = "<group>"; };
 		1DD43AD91CD0B68B00A13EF3 /* FeedbackController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedbackController.h; sourceTree = "<group>"; };
 		1DD43ADA1CD0B68B00A13EF3 /* FeedbackController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedbackController.m; sourceTree = "<group>"; };
 		1DD43ADC1CD0B6A700A13EF3 /* AboutController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutController.h; sourceTree = "<group>"; };
@@ -945,6 +948,8 @@
 				1D59E11D1BFC2660007493FC /* UIImage+helper.m */,
 				1D0F118F1C914FF800BBFA5D /* UIButton+helper.h */,
 				1D0F11901C914FF800BBFA5D /* UIButton+helper.m */,
+				1DD17F871D4071D300E14CB2 /* NSDate+helper.h */,
+				1DD17F881D4071D300E14CB2 /* NSDate+helper.m */,
 				1D0F118C1C914E7D00BBFA5D /* JZNavigationBarDrawer.h */,
 				1D0F118D1C914E7D00BBFA5D /* JZNavigationBarDrawer.m */,
 				1D78991D1C9C14E5003D90A6 /* TableViewWithBlock.h */,
@@ -1979,6 +1984,7 @@
 				1D7211EB1C0EC294008FC6F3 /* nethelper.c in Sources */,
 				1D59E1911BFC2660007493FC /* QuotationCell.m in Sources */,
 				1DE681941C96689D00C378FE /* TraderController.m in Sources */,
+				1DD17F891D4071D300E14CB2 /* NSDate+helper.m in Sources */,
 				1D5974991BFF1353002E4F85 /* QuotaionBanner.m in Sources */,
 				1D59E17A1BFC2660007493FC /* HomeController.m in Sources */,
 				1DAB895A1D3E48A6001DDB19 /* ApplyQueryController.m in Sources */,

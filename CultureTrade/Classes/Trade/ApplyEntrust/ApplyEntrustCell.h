@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "SymbolModel.h"
+#import "DataModel.h"
 @interface ApplyEntrustCell : UITableViewCell
 @property (nonatomic,assign) int labelCount;
-- (ApplyEntrustCell *)initWithSymbol:(SymbolModel *)symbol;
+- (ApplyEntrustCell *)initWithEntrust:(ApplyPurchaseEntrust *)entrust;
+- (ApplyEntrustCell *)initWithSuccess:(ApplyPurchaseSuccess *)suceess;
 @end

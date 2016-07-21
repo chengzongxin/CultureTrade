@@ -7,7 +7,7 @@
 //
 
 #import "ApplyEntrustController.h"
-#import "ApplyPurchaseURL.h"
+
 @interface ApplyEntrustController ()
 {
     NSMutableArray *_applyEntrustArray;
@@ -26,6 +26,18 @@
     [self addDatePickView];
     
     [self addTableView];
+    
+    [self initailization];
+    
+    [self startRequest];
+}
+
+- (void)initailization
+{
+    NSString *endDateStr = [NSDate stringFromDate:[NSDate date]];
+    NSString *startDateStr = [NSDate fewDaysAgo:7];
+    [_startBtn setTitle:startDateStr forState:UIControlStateNormal];
+    [_endBtn setTitle:endDateStr forState:UIControlStateNormal];
 }
 
 - (void)addDatePickView
@@ -35,7 +47,7 @@
     
     UIImage *searchImg = [UIImage imageNamed:@"apply_search"];
     CGFloat x = 20;
-    CGFloat y = 20;
+    CGFloat y = 15;
     CGFloat widthBtn = self.view.frame.size.width / 3.5;
     CGFloat widthLab = 30;
     CGFloat height = searchImg.size.height;
@@ -119,8 +131,6 @@
     
     NSDate *startDate = [dateformat dateFromString:_startBtn.currentTitle];
     NSDate *endDate = [dateformat dateFromString:_endBtn.currentTitle];
-    MYLog(@"startDate = %@,endDate = %@",startDate,endDate);
-    MYLog(@"startStr = %@,endStr = %@",_startBtn.currentTitle,_endBtn.currentTitle);  // 格式化字符串后自动增加东八区 +0800
     
     NSComparisonResult resulut = [startDate compare:endDate];
     if (resulut  == NSOrderedAscending) { // start < end
@@ -151,7 +161,7 @@
     leftTable.tag = 0;
     _leftTable = leftTable;
     
-    UIScrollView *leftScrollView=[[UIScrollView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(_dateLabel.frame) + 10, kLeftTableWith, self.view.frame.size.height -64)];
+    UIScrollView *leftScrollView=[[UIScrollView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(_dateLabel.frame) + 12, kLeftTableWith, self.view.frame.size.height -64)];
     [leftScrollView addSubview:leftTable];
     leftScrollView.bounces=NO;
     leftScrollView.contentSize=CGSizeMake(kLeftTableWith,0);
@@ -170,7 +180,7 @@
     mainTable.tag = 1;
     _mainTable = mainTable;
     
-    UIScrollView *scrollView=[[UIScrollView alloc]initWithFrame:CGRectMake(kLeftTableWith, CGRectGetMaxY(_dateLabel.frame) + 10, self.view.frame.size.width-kLeftTableWith, self.view.frame.size.height -64)];
+    UIScrollView *scrollView=[[UIScrollView alloc]initWithFrame:CGRectMake(kLeftTableWith, CGRectGetMaxY(_dateLabel.frame) + 12, self.view.frame.size.width-kLeftTableWith, self.view.frame.size.height -64)];
     [scrollView addSubview:mainTable];
     scrollView.bounces=NO;
     scrollView.contentSize=CGSizeMake(self.view.frame.size.width*kMainTableViewWithRatio,0);
@@ -203,22 +213,22 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    SymbolModel *symbol = GLOBAL.symbolArray[indexPath.row];
+    ApplyPurchaseEntrust *applyEntrust = _applyEntrustArray[indexPath.row];
     if (tableView.tag == 0) {
-        static NSString *cellID = @"LeftPurchaseCell";
+        static NSString *cellID = @"LeftApplyPurchaseEntrustCell";
         LeftApplyEntrustCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
         if (cell == nil) {
             cell = [[LeftApplyEntrustCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
         }
-        return [cell initWithSymbol:symbol];
+        return [cell initWithEntrust:applyEntrust];
     }else{
-        static NSString *cellID = @"PurchaseCell";
+        static NSString *cellID = @"ApplyPurchaseEntrustCell";
         ApplyEntrustCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
         if (cell == nil) {
             cell = [[ApplyEntrustCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
+            cell.labelCount = 9;
         }
-        cell.labelCount = 9;
-        return [cell initWithSymbol:symbol];
+        return [cell initWithEntrust:applyEntrust];
     }
 }
 
@@ -229,30 +239,14 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return GLOBAL.symbolArray.count;
+    return _applyEntrustArray.count;
 }
 
 // 取消选中,选择cell
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//    GLOBAL.symbolModel = GLOBAL.symbolArray[indexPath.row];
-    //    for (StockInfoNS *stockInfo in GLOBAL.stockInfoArray) { // 获取缓存initmarket中对应的stockinfo对象
-    //        if (stockInfo.m_uiCode == GLOBAL.sortUnit.m_CodeInfo.m_uiCode ) {
-    //            GLOBAL.stockInfo = stockInfo;
-    //            GLOBAL.sortUnit.m_uiPreClose = stockInfo.m_uiPrevClose;
-    //        }
-    //    }
-    //    for (SymbolModel *symbol in GLOBAL.symbolArray) {
-    //        if ([symbol.productID intValue] == GLOBAL.sortUnit.m_CodeInfo.m_uiCode ) {
-    //            GLOBAL.symbolModel = symbol;
-    //        }
-    //    }
     [_leftTable deselectRowAtIndexPath:indexPath animated:YES];
     [_mainTable deselectRowAtIndexPath:indexPath animated:YES];
-    
-    
-    //    [self tableView:self.leftTableView shouldHighlightRowAtIndexPath:indexPath];
-//    [self.navigationController pushViewController:[[ApplyPurchaseTradeController alloc] init] animated:NO];
 }
 
 - (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath
@@ -261,20 +255,17 @@
 }
 
 
-- (void)trade_ui_symbol_change_notice:(int)nRet symbolcodes:(NSString *)symbolcodes
-{
-    MYLOGFUN;
-    MYLog(@"%@",symbolcodes);
-}
-
-
 -(void)startRequest {
+    
+    [self showProgress:@"Loading..."];
     
     NSString *accountName = [[NSTradeEngine sharedInstance] getLoginedAccountName];
     
     NSString *session =[[NSTradeEngine sharedInstance] getSession];
     
     NSString *strURL = [NSString stringWithFormat:ENTRUSTQUERY,accountName,session,_startBtn.currentTitle,_endBtn.currentTitle];
+    
+    MYLog(@"strURL = %@",strURL);
     
     NSURL *url = [NSURL URLWithString:strURL];
     NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
@@ -306,6 +297,10 @@
         [_applyEntrustArray addObject:entrust];
     }
     
+    [_leftTable reloadData];
+    [_mainTable reloadData];
+    
+    [self closeProgressSuccess:@"Success!"];
 }
 
 

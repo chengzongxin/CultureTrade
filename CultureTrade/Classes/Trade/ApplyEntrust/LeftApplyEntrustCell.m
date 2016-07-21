@@ -64,10 +64,17 @@
     [super setFrame:frame];
 }
 
-- (LeftApplyEntrustCell *)initWithSymbol:(SymbolModel *)symbol
+- (LeftApplyEntrustCell *)initWithEntrust:(ApplyPurchaseEntrust *)entrust
 {
-    self.productName.text = [NSString stringWithFormat:@"%@",symbol.productName];
-    self.productID.text = [NSString stringWithFormat:@"%@",symbol.productID];
+    self.productName.text = [NSString stringWithFormat:@"%@",entrust.productname];
+    self.productID.text = [NSString stringWithFormat:@"%@",entrust.symbolcode];
+    return self;
+}
+
+- (LeftApplyEntrustCell *)initWithSuccess:(ApplyPurchaseSuccess *)suceess
+{
+    self.productName.text = [NSString stringWithFormat:@"%@",suceess.productname];
+    self.productID.text = [NSString stringWithFormat:@"%@",suceess.symbolcode];
     return self;
 }
 

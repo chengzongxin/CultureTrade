@@ -67,8 +67,15 @@
     [super setFrame:frame];
 }
 
-- (ApplyEntrustCell *)initWithSymbol:(SymbolModel *)symbol
+// 申购委托
+- (ApplyEntrustCell *)initWithEntrust:(ApplyPurchaseEntrust *)entrust
 {
+    int askvol = [entrust.askvol intValue];
+    float signprice = [entrust.signprice floatValue];
+    int signstate = [entrust.signstate intValue];
+    int signvol = [entrust.signvol intValue];
+    float psgcommision = [entrust.psgcommision floatValue];
+    
     
     UILabel *publicVolume = self.contentView.subviews[0];
     UILabel *singlePrice = self.contentView.subviews[1];
@@ -77,17 +84,55 @@
     UILabel *signDate = self.contentView.subviews[4];
     UILabel *publicDate = self.contentView.subviews[5];
     UILabel *destoryDate = self.contentView.subviews[6];
+    UILabel *entrustDate = self.contentView.subviews[7];
+    UILabel *settlementDate = self.contentView.subviews[8];
     
-    publicVolume.text = symbol.publicVolume;
-    singlePrice.text = symbol.singlePrice;
-    minimumAsk.text = symbol.minimumAsk;
-    maxnumAsk.text = symbol.maxnumAsk;
-    signDate.text = symbol.signDate;
-    publicDate.text = symbol.publicDate;
-    destoryDate.text = symbol.destoryDate;
+    publicVolume.text = entrust.contractcode;
+    singlePrice.text = entrust.askvol;
+    minimumAsk.text = entrust.signprice;
+    maxnumAsk.text = [NSString stringWithFormat:@"%0.2f",askvol*signprice];
     
+    if (signstate==1) {
+        signDate.text = [NSString stringWithFormat:@"%0.2f",(askvol-signvol)*signprice];
+    }else{
+        signDate.text = @"0";
+    }
+    
+    publicDate.text = [NSString stringWithFormat:@"%0.2f",askvol*signvol*psgcommision/100];
+    destoryDate.text = [NSString stringWithFormat:@"%0.2f",(askvol-signvol)*signprice*psgcommision/100];
+    
+    entrustDate.text = entrust.signdatetime;
+    entrustDate.numberOfLines = 0;
+    settlementDate.text = entrust.signdatetime;
+    settlementDate.numberOfLines = 0;
     return self;
+}
+
+// 中签查询
+- (ApplyEntrustCell *)initWithSuccess:(ApplyPurchaseSuccess *)suceess
+{
+    UILabel *publicVolume = self.contentView.subviews[0];
+    UILabel *singlePrice = self.contentView.subviews[1];
+    UILabel *minimumAsk = self.contentView.subviews[2];
+    UILabel *maxnumAsk = self.contentView.subviews[3];
+    UILabel *signDate = self.contentView.subviews[4];
+    UILabel *publicDate = self.contentView.subviews[5];
+    UILabel *destoryDate = self.contentView.subviews[6];
     
+    publicVolume.text = suceess.contractcode;
+    singlePrice.text = suceess.signvol;
+    minimumAsk.text = suceess.signprice;
+    maxnumAsk.text = suceess.contractcode;
+    
+    int signvol = [suceess.signvol intValue];
+    float signprice = [suceess.signprice floatValue];
+   
+    signDate.text = [NSString stringWithFormat:@"%0.2f",signvol*signprice];
+    publicDate.text = suceess.sgcommision;
+    destoryDate.text = suceess.signdatetime;
+    destoryDate.numberOfLines = 0;
+    return self;
+
 }
 
 @end

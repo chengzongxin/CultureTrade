@@ -7,9 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-@class SymbolModel;
+#import "DataModel.h"
 @interface LeftApplyEntrustCell : UITableViewCell
 @property (nonatomic,retain) UILabel *productName;
 @property (nonatomic,retain) UILabel *productID;
-- (LeftApplyEntrustCell *)initWithSymbol:(SymbolModel *)symbol;
+- (LeftApplyEntrustCell *)initWithEntrust:(ApplyPurchaseEntrust *)symbol;
+- (LeftApplyEntrustCell *)initWithSuccess:(ApplyPurchaseSuccess *)suceess;
 @end
