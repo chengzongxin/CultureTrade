@@ -285,6 +285,7 @@
 // 取消选中,选择cell
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    MYLOGFUN;
     GLOBAL.sortUnit = _sortUnitArray[indexPath.row];
     for (StockInfoNS *stockInfo in GLOBAL.stockInfoArray) { // 获取缓存initmarket中对应的stockinfo对象
         if (stockInfo.m_uiCode == GLOBAL.sortUnit.m_CodeInfo.m_uiCode ) {
@@ -297,14 +298,18 @@
             GLOBAL.symbolModel = symbol;
         }
     }
-//    [self.leftTableView deselectRowAtIndexPath:indexPath animated:YES];
-//    [self.mainTableView deselectRowAtIndexPath:indexPath animated:YES];
-    [self tableView:self.leftTableView shouldHighlightRowAtIndexPath:indexPath];
+    // 同时取消选中
+    [self.leftTableView deselectRowAtIndexPath:indexPath animated:YES];
+    [self.mainTableView deselectRowAtIndexPath:indexPath animated:YES];
+    
     [self presentViewController:[[QuotaAnalysisController alloc] init] animated:NO completion:nil];
 }
 
+
 - (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath
-{
+{// 同时选中
+    [self.leftTableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionNone];
+    [self.mainTableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionNone];
     return YES;
 }
 

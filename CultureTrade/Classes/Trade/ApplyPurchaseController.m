@@ -135,36 +135,28 @@
 // 取消选中,选择cell
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    // 同时取消选中
+    [_leftTable deselectRowAtIndexPath:indexPath animated:YES];
+    [_mainTable deselectRowAtIndexPath:indexPath animated:YES];
+    
     GLOBAL.symbolModel = GLOBAL.symbolArray[indexPath.row];
-//    for (StockInfoNS *stockInfo in GLOBAL.stockInfoArray) { // 获取缓存initmarket中对应的stockinfo对象
-//        if (stockInfo.m_uiCode == GLOBAL.sortUnit.m_CodeInfo.m_uiCode ) {
-//            GLOBAL.stockInfo = stockInfo;
-//            GLOBAL.sortUnit.m_uiPreClose = stockInfo.m_uiPrevClose;
-//        }
-//    }
-//    for (SymbolModel *symbol in GLOBAL.symbolArray) {
-//        if ([symbol.productID intValue] == GLOBAL.sortUnit.m_CodeInfo.m_uiCode ) {
-//            GLOBAL.symbolModel = symbol;
-//        }
-//    }
-        [_leftTable deselectRowAtIndexPath:indexPath animated:YES];
-        [_mainTable deselectRowAtIndexPath:indexPath animated:YES];
     
-    
-//    [self tableView:self.leftTableView shouldHighlightRowAtIndexPath:indexPath];
     [self.navigationController pushViewController:[[ApplyPurchaseTradeController alloc] init] animated:NO];
 }
 
 - (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath
-{
+{// 同时选中
+    [_leftTable selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionNone];
+    [_mainTable selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionNone];
+    [self performSelector:@selector(deselectCell:) withObject:indexPath afterDelay:2];
     return YES;
 }
 
-
-- (void)trade_ui_symbol_change_notice:(int)nRet symbolcodes:(NSString *)symbolcodes
+// 选中不会取消
+- (void)deselectCell:(NSIndexPath *)indexPath
 {
-    MYLOGFUN;
-    MYLog(@"%@",symbolcodes);
+    [_leftTable deselectRowAtIndexPath:indexPath animated:YES];
+    [_mainTable deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 - (void)viewDidLayoutSubviews
