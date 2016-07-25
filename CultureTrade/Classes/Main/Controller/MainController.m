@@ -15,7 +15,9 @@
 #import "MeController.h"
 #define kAccountKey @"Account"
 #define kPasswordKey @"Password"
-#define kServerIP       @"ServerIP"
+#define kServerIP   @"ServerIP"
+#define kBalanceIP  @"BalanceIP"
+#define kBalancePort @"BalancePort"
 
 @interface MainController () <UINavigationControllerDelegate>
 
@@ -31,14 +33,38 @@
     [self addDockItem];
     
     [_dock addSpliteLine];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onlineConfigCallBack:) name:UMOnlineConfigDidFinishedNotification object:nil];
 #if BALANCE_ENABLE
-//    [self useBalaceWith:INNER_BALANCE_IP port:OUTER_BALANCE_PORT];
+    [self LoginWithCacheIP];
+    
+//    [self useOuterBalance];      // wd
+
+    [self useInnerBanlance];    // test
 #else
     [self initalization];
 #endif
 }
+
+- (void)LoginWithCacheIP
+{
+    NSString *server = [self getRememberBalanceIP];
+    int port = [self getRememberBalancePort];
+    if (server&&port){
+        MYLog(@"LoginWithCacheIP server = %@,port = %d",server,port);
+        [self useBalaceWith:server port:port];
+    }
+}
+
+
+- (void)useInnerBanlance
+{
+    [self useBalaceWith:INNER_BALANCE_IP port:INNER_BALANCE_PORT];
+}
+
+- (void)useOuterBalance
+{
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onlineConfigCallBack:) name:UMOnlineConfigDidFinishedNotification object:nil];
+}
+
 
 - (void)onlineConfigCallBack:(NSNotification *)notification {
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
@@ -46,13 +72,19 @@
     NSDictionary *paramDict = notification.userInfo;
     NSString *serverIP = [paramDict objectForKey:@"serverIP"];
     int serverPort = [[paramDict objectForKey:@"serverPort"] intValue];
-    [self useBalaceWith:serverIP port:serverPort];
+    
+    if ([serverIP isEqualToString:[self getRememberBalanceIP]]&&(serverPort == [self getRememberBalancePort])) return;  // same as cache
+    
+    // diff as cache
+    MYLog(@"diff as chche,outter server = [%@],port = [%d],cache server = [%@],port = [%d]",serverIP,serverPort,[self getRememberBalanceIP],[self getRememberBalancePort]);
+    [self useBalaceWith:serverIP port:serverPort];    // login balance
+    [self rememberBalanceIP:serverIP Port:serverPort]; // cache
 }
 
 
 - (void)useBalaceWith:(NSString *)ip port:(int)port
 {
-//    [[NSTradeEngine sharedInstance] add_balance:OUTER_BALANCE_IP port:OUTER_BALANCE_PORT];
+    [[NSTradeEngine sharedInstance] clear_balance];
     [[NSTradeEngine sharedInstance] add_balance:ip port:port];
     [[NSTradeEngine sharedInstance] start_balance];
 }
@@ -172,6 +204,27 @@
 - (NSString *)getRememberServerIP
 {
     return [[NSUserDefaults standardUserDefaults] objectForKey:kServerIP];
+}
+
+
+- (void)rememberBalanceIP:(NSString *)ip Port:(int)port
+{
+    [[NSUserDefaults standardUserDefaults] setObject:ip forKey:kBalanceIP];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
+    [[NSUserDefaults standardUserDefaults] setObject:@(port) forKey:kBalancePort];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (NSString *)getRememberBalanceIP
+{
+    return [[NSUserDefaults standardUserDefaults] objectForKey:kBalanceIP];
+}
+
+- (int)getRememberBalancePort
+{
+    NSNumber *number = [[NSUserDefaults standardUserDefaults] objectForKey:kBalancePort];
+    return [number intValue];
 }
 
 @end

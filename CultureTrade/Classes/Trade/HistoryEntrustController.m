@@ -13,7 +13,7 @@
 #import "DataModel.h"
 #import "JZSelectDateViewController.h"
 #import "GlobalModel.h"
-
+#define kBannerHeight 20
 @interface HistoryEntrustController () <NSTradeEngineDelegate>
 {
     UIBarButtonItem * btn;
@@ -25,8 +25,6 @@
 //@property (strong, nonatomic) REMenu *menu;
 
 @property(strong, nonatomic) NSArray * aryHisTickets;
-
--(IBAction)showFilter:(id)sender;
 
 @end
 
@@ -45,50 +43,28 @@
 {
     [super viewDidLoad];
     
-    self.navigationItem.rightBarButtonItem = [UIBarButtonItem itemWithIcon:@"search" highlightedIcon:nil target:self action:@selector(showFilter:)];
+    [self addDatePickView];
     
-    [self setExtraCellLineHidden: _tableView];
+    [self addBanner];
     
-    // Init a drawer with default size
-    drawer = [[JZNavigationBarDrawer alloc] initWithFrame:CGRectMake(0, 0, App_Frame_Width, 80)];
+    [self addTableView];
     
-    // Assign the table view as the affected scroll view of the drawer.
-    // This will make sure the scroll view is properly scrolled and updated
-    // when the drawer is shown.
-    drawer.scrollView = _tableView;
-    // Add some buttons to the drawer.
-    
-    UIButton* btToMonth = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 80, 60)];
-    [btToMonth setImage:[UIImage imageNamed:@"view_detail"] withTitle:@"当月" forState:UIControlStateNormal];
-    [btToMonth addTarget:self action:@selector(toMonth) forControlEvents:UIControlEventTouchUpInside];
-    
-    UIButton* btThree = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 80, 60)];
-    [btThree setImage:[UIImage imageNamed:@"view_detail"] withTitle:@"三月" forState:UIControlStateNormal];
-    [btThree addTarget:self action:@selector(threeMonth) forControlEvents:UIControlEventTouchUpInside];
-    
-    UIButton* btAll = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 80, 60)];
-    [btAll setImage:[UIImage imageNamed:@"view_detail"] withTitle:@"全部" forState:UIControlStateNormal];
-    [btAll addTarget:self action:@selector(all_report) forControlEvents:UIControlEventTouchUpInside];
-    
-    UIButton* btCustom = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 80, 60)];
-    [btCustom setImage:[UIImage imageNamed:@"view_detail"] withTitle:@"按时间段" forState:UIControlStateNormal];
-    [btCustom addTarget:self action:@selector(customDate) forControlEvents:UIControlEventTouchUpInside];
-    
-    //    UIBarButtonItem *button0 = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:0];
-    //	UIBarButtonItem *button1 = [[UIBarButtonItem alloc] initWithCustomView:btClose];
-    UIBarButtonItem *button2 = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:0];
-    UIBarButtonItem *button3 = [[UIBarButtonItem alloc] initWithCustomView:btToMonth];
-    UIBarButtonItem *button4 = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:0];
-    UIBarButtonItem *button5 = [[UIBarButtonItem alloc] initWithCustomView:btThree];
-    UIBarButtonItem *button6 = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:0];
-    UIBarButtonItem *button7 = [[UIBarButtonItem alloc] initWithCustomView:btAll];
-    UIBarButtonItem *button8 = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:0];
-    UIBarButtonItem *button9 = [[UIBarButtonItem alloc] initWithCustomView:btCustom];
-    UIBarButtonItem *button10 = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:0];
-    
-    drawer.items = @[button2, button3, button4, button5, button6, button7, button8, button9, button10];
-    
-    [self toMonth];
+    [self searchOneMonth];
+}
+
+- (void)addBanner
+{
+    [super addBanner];
+    _banner.frame = CGRectMake(0, CGRectGetMaxY(_dateLabel.frame) + 12 + 10, self.view.frame.size.width, kBannerHeight);
+}
+
+- (void)addTableView
+{
+    [super addTableView];
+    CGRect frame = _tableView.frame;
+    frame.origin.y = CGRectGetMaxY(_dateLabel.frame) + 12 + 10 + 10 + kBannerHeight;
+    frame.size.height = self.view.frame.size.height - frame.origin.y - 64;
+    _tableView.frame = frame;
 }
 
 - (void)addTitleView
@@ -96,106 +72,138 @@
     self.title = LocalizedStringByInt(2201);
 }
 
--(void) toMonth
+
+- (void)addDatePickView
+{
+    UIView *backView = [[UIView alloc] init];
+    [self.view addSubview:backView];
+    
+    UIImage *searchImg = [UIImage imageNamed:@"apply_search"];
+    CGFloat x = 20;
+    CGFloat y = 15;
+    CGFloat widthBtn = self.view.frame.size.width / 3.5;
+    CGFloat widthLab = 30;
+    CGFloat height = searchImg.size.height;
+    
+    _dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(x, y, widthLab, height)];
+    _dateLabel.text = @"日期:";
+    _dateLabel.textColor = [UIColor whiteColor];
+    [_dateLabel setFont:[UIFont systemFontOfSize:12]];
+    [self.view addSubview:_dateLabel];
+    
+    _startBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    _startBtn.frame = CGRectMake(CGRectGetMaxX(_dateLabel.frame)+10, y, widthBtn, height);
+    _startBtn.backgroundColor = [UIColor blackColor];
+    _startBtn.layer.cornerRadius = 10.0f;
+    [_startBtn addTarget:self action:@selector(clickStartBtn) forControlEvents:UIControlEventTouchUpInside];
+    [_startBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [self.view addSubview:_startBtn];
+    
+    _toLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(_startBtn.frame)+10, y, widthLab, height)];
+    _toLabel.text = @"到";
+    _toLabel.textColor = [UIColor whiteColor];
+    [_toLabel setFont:[UIFont systemFontOfSize:12]];
+    [self.view addSubview:_toLabel];
+    
+    _endBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    _endBtn.frame = CGRectMake(CGRectGetMaxX(_toLabel.frame), y, widthBtn, height);
+    _endBtn.backgroundColor = [UIColor blackColor];
+    _endBtn.layer.cornerRadius = 10.0f;
+    [_endBtn addTarget:self action:@selector(clickEndBtn) forControlEvents:UIControlEventTouchUpInside];
+    [_endBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [self.view addSubview:_endBtn];
+    
+    _searchBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    _searchBtn.frame = CGRectMake(CGRectGetMaxX(_endBtn.frame)+20, y, searchImg.size.width, searchImg.size.height);
+    [_searchBtn setImage:searchImg forState:UIControlStateNormal];
+    [_searchBtn setImage:[UIImage imageNamed:@"apply_search_selected"] forState:UIControlStateHighlighted];
+    [_searchBtn addTarget:self action:@selector(clickSearch) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:_searchBtn];
+    
+    // set back view
+    backView.frame = (CGRect){CGPointZero,{self.view.frame.size.width,CGRectGetMaxY(_dateLabel.frame)+10}};
+    backView.backgroundColor = COLOR_APPLYPURCHASE_TOPTOOL_BG;
+}
+
+- (void)clickStartBtn
+{
+    SZCalendarPicker *calendarPicker = [SZCalendarPicker showOnView:self.view];
+    calendarPicker.today = [NSDate date];
+    calendarPicker.date = calendarPicker.today;
+    calendarPicker.frame = CGRectMake(0, self.view.frame.size.height - 352, self.view.frame.size.width, 352);
+    calendarPicker.calendarBlock = ^(NSInteger day, NSInteger month, NSInteger year){
+        NSString *str = [NSString stringWithFormat:@"%li-%02li-%02li",(long)year,(long)month,(long)day];
+        [_startBtn setTitle:str forState:UIControlStateNormal];
+        
+        MYLog(@"_startBtn.currentTitle  = %@",_startBtn.currentTitle );
+    };
+}
+
+- (void)clickEndBtn
+{
+    SZCalendarPicker *calendarPicker = [SZCalendarPicker showOnView:self.view];
+    calendarPicker.today = [NSDate date];
+    calendarPicker.date = calendarPicker.today;
+    calendarPicker.frame = CGRectMake(0, self.view.frame.size.height - 352, self.view.frame.size.width, 352);
+    calendarPicker.calendarBlock = ^(NSInteger day, NSInteger month, NSInteger year){
+        NSString *str = [NSString stringWithFormat:@"%li-%02li-%02li",(long)year,(long)month,(long)day];
+        [_endBtn setTitle:str forState:UIControlStateNormal];
+        MYLog(@"endbtn = %@",str);
+    };
+}
+
+- (void)clickSearch
+{
+    if (!(_startBtn.currentTitle && _endBtn.currentTitle)) { // null
+        showAlert(@"请输入完整的日期");
+        return;
+    }
+    
+    NSDateFormatter *dateformat = [[NSDateFormatter alloc] init];
+    [dateformat setDateFormat:@"yyyy-MM-dd"];
+    
+    NSDate *startDate = [dateformat dateFromString:_startBtn.currentTitle];
+    NSDate *endDate = [dateformat dateFromString:_endBtn.currentTitle];
+    
+    NSComparisonResult resulut = [startDate compare:endDate];
+    if (resulut  == NSOrderedAscending) { // start < end
+        MYLog(@"start < end ");
+    }else if (resulut == NSOrderedSame){  // start == end
+        MYLog(@"start = end ");
+    }else if (resulut == NSOrderedDescending){  // start > end  ! illigle
+        showAlert(@"开始日期应小于结束日期");
+        return;
+    }
+    
+    [self request_his_order:_startBtn.currentTitle end:_endBtn.currentTitle];
+}
+
+-(void)searchOneMonth
 {
     [drawer hideAnimated:YES];
     NSDate* mydate = [NSDate date];
-    //NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
     NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
     
     NSDateComponents *adcomps = [[NSDateComponents alloc] init];
     [adcomps setYear:0];
     NSDate *newdate = [calendar dateByAddingComponents:adcomps toDate:mydate options:0];
     NSDateFormatter* formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"yyyy-MM-01 00:00"];
+    [formatter setDateFormat:@"yyyy-MM-01"];// 00:00"];
     NSString *start = [formatter stringFromDate:newdate];
+    [_startBtn setTitle:start forState:UIControlStateNormal];
+    
     
     NSDateComponents *adcomps2 = [[NSDateComponents alloc] init];
     NSDate *newdate2 = [calendar dateByAddingComponents:adcomps2 toDate:mydate options:0];
-    [formatter setDateFormat:@"yyyy-MM-dd HH:mm"];
+    [formatter setDateFormat:@"yyyy-MM-dd"];// HH:mm"];
     NSString *end = [formatter stringFromDate:newdate2];;
+    [_endBtn setTitle:end forState:UIControlStateNormal];
     [self request_his_order:start end:end];
-}
-
--(void) threeMonth
-{
-    [drawer hideAnimated:YES];
-    NSDate* mydate = [NSDate date];
-    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
-    
-    NSDateComponents *adcomps = [[NSDateComponents alloc] init];
-    [adcomps setYear:0];
-    [adcomps setMonth:-3];
-    [adcomps setDay:0];
-    NSDate *newdate = [calendar dateByAddingComponents:adcomps toDate:mydate options:0];
-    NSDateFormatter* formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"yyyy-MM-dd 00:00"];
-    NSString *start = [formatter stringFromDate:newdate];
-    
-    NSDateComponents *adcomps2 = [[NSDateComponents alloc] init];
-    NSDate *newdate2 = [calendar dateByAddingComponents:adcomps2 toDate:mydate options:0];
-    NSDateFormatter* formatter2 = [[NSDateFormatter alloc] init];
-    [formatter2 setDateFormat:@"yyyy-MM-dd HH:mm"];
-    NSString *end = [formatter2 stringFromDate:newdate2];
-    [self request_his_order:start end:end];
-}
--(void) customDate
-{
-    [drawer hideAnimated:YES];
-    JZSelectDateViewController* controller = [[JZSelectDateViewController alloc] init];
-    controller.requestType = isHistoryOrder;
-    controller.hidesBottomBarWhenPushed = YES;
-    [self.navigationController pushViewController:controller animated:YES] ;
-//    CGRect frame = _banner.frame;
-//    frame.origin.y += 300;
-//    _banner.frame = frame;
-//    
-//    UIDatePicker *startDate = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width,100)];
-//    startDate.datePickerMode = UIDatePickerModeDate;
-//    NSLocale *loc = [[NSLocale alloc] initWithLocaleIdentifier:@"zh_CN"];//chinese
-//    startDate.locale = loc;
-//    startDate.maximumDate = [NSDate date];
-//    [startDate addTarget:self action:@selector(selectStartDate:) forControlEvents:UIControlEventValueChanged];
-//    [self.view addSubview:startDate];
-//    
-//    UIDatePicker *endDate = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, 120, self.view.frame.size.width,100)];
-//    endDate.datePickerMode = UIDatePickerModeDate;
-//    endDate.locale = loc;
-//    endDate.maximumDate = [NSDate date];
-//    [endDate addTarget:self action:@selector(selectEndDate:) forControlEvents:UIControlEventValueChanged];
-//    [self.view addSubview:endDate];
-}
-
-- (void)selectStartDate:(UIDatePicker *)startPicker
-{
-    MYLog(@"%@",startPicker.date);
-}
-
-- (void)selectEndDate:(UIDatePicker *)endPicker
-{
-    MYLog(@"%@",endPicker.date);
-}
-
--(void) all_report
-{
-    [drawer hideAnimated:YES];
-    NSDate* mydate = [NSDate date];
-    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
-    
-    NSDateFormatter* formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"yyyy-MM-dd HH:mm"];
-    
-    NSDateComponents *adcomps2 = [[NSDateComponents alloc] init];
-    NSDate *newdate2 = [calendar dateByAddingComponents:adcomps2 toDate:mydate options:0];
-    NSString *end = [formatter stringFromDate:newdate2];;
-    
-    [self request_his_order:@"2010-01-01 00:00" end:end];
 }
 
 -(void) request_his_order:(NSString*)start end:(NSString*)end
 {
     [self showProgress:nil];
-//    nSeq = [[NSTradeEngine setup] trade_request_hisorder:start enddate:end];
     nSeq = [[NSTradeEngine setup] trade_request_historyorder_fromDate:start toDate:end];
 }
 
@@ -209,11 +217,6 @@
     [[NSTradeEngine setup] trade_request_historyorder_fromDate:sdate toDate:eDate];
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
 
 -(void)viewWillAppear:(BOOL)animated
 {
@@ -225,7 +228,7 @@
 
 -(void) viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear: animated];
-    [self scrollViewWillBeginDragging:nil];
+//    [self scrollViewWillBeginDragging:nil];
 }
 -(void)viewDidDisappear:(BOOL)animated
 {

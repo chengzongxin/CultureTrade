@@ -73,6 +73,8 @@ typedef struct trunOver {
     _banner = [[EntrustCancelBanner alloc] initWithFrame:CGRectMake(0, 20, self.view.frame.size.width, kBannerHeight)];
     UILabel *label = _banner.subviews[0];
     label.text = @"成交价";
+    UILabel *label1 = _banner.subviews[1];
+    label1.text = @"成交数量";
     [self.view addSubview:_banner];
 }
 

@@ -11,7 +11,7 @@
 #import "EntrustCancelBanner.h"
 #import "SuperViewController.h"
 #import "EntrustCancelCell.h"
-
+#import "SZCalendarPicker.h"
 @interface EntrustCancleOrderController : SuperViewController<UITableViewDataSource,UITableViewDelegate,NSTradeEngineDelegate>
 {
     EntrustCancelBanner *_banner;
@@ -21,4 +21,5 @@
 @property (nonatomic,retain) UITableView *tableView;
 - (void)addTitleView;
 - (void)addBanner;
+- (void)addTableView;
 @end

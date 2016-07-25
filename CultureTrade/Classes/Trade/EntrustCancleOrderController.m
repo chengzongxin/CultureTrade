@@ -96,7 +96,7 @@
     cell.stockID.text = orderModel.stockID;
     cell.stockName.text = orderModel.stockName;
     cell.entrustPrice.text = [NSString stringWithFormat:@"%0.2f",[orderModel.entrustPrice floatValue]];
-    cell.entrustDeal.text = orderModel.askNum;
+    cell.entrustDeal.text = [NSString stringWithFormat:@"%@/%@",orderModel.askNum,orderModel.dealVolume];
     cell.status.text = @"已下单";
     
     if ([orderModel.orderType isEqualToString:@"0B"]) {

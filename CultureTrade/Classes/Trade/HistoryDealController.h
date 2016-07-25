@@ -9,5 +9,11 @@
 #import "QueryController.h"
 
 @interface HistoryDealController : QueryController
-
+{
+    UILabel *_dateLabel;
+    UILabel *_toLabel;
+    UIButton *_startBtn;
+    UIButton *_endBtn;
+    UIButton *_searchBtn;
+}
 @end

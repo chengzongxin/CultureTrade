@@ -9,5 +9,12 @@
 #import "EntrustCancleOrderController.h"
 
 @interface HistoryEntrustController : EntrustCancleOrderController
+{
+    UILabel *_dateLabel;
+    UILabel *_toLabel;
+    UIButton *_startBtn;
+    UIButton *_endBtn;
+    UIButton *_searchBtn;
+}
 - (void)request_today_order;
 @end

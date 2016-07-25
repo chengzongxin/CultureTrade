@@ -18,4 +18,5 @@
 - (void)addBanner;
 - (void)request_today_turnover;
 - (void)addTitleView;
+- (void)addTableView;
 @end

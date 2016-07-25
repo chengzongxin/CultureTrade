@@ -20,6 +20,7 @@
 #define kAccountKey     @"Account"
 #define kPasswordKey    @"Password"
 #define kServerIP       @"ServerIP"
+#define kBanlanceIP     @"BalanceIP"
 
 @interface LoginController () 
 {
@@ -265,6 +266,11 @@
         _rememberAccount = NO;
         _rememberPassword = YES;
     }
+}
+
+- (NSString *)getRememberBalanceIP
+{
+    return [[NSUserDefaults standardUserDefaults] objectForKey:kBanlanceIP];
 }
 
 - (NSString *)getRememberServerIP
