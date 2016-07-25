@@ -98,7 +98,7 @@
         signDate.text = @"0";
     }
     
-    publicDate.text = [NSString stringWithFormat:@"%0.2f",askvol*signvol*psgcommision/100];
+    publicDate.text = [NSString stringWithFormat:@"%0.2f",askvol*signprice*psgcommision/100];
     destoryDate.text = [NSString stringWithFormat:@"%0.2f",(askvol-signvol)*signprice*psgcommision/100];
     
     entrustDate.text = entrust.signdatetime;
