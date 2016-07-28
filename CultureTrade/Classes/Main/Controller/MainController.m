@@ -36,9 +36,9 @@
 #if BALANCE_ENABLE
     [self LoginWithCacheIP];
     
-    [self useOuterBalance];      // wd
+//    [self useOuterBalance];      // wd
 
-//    [self useInnerBanlance];    // test
+    [self useInnerBanlance];    // test
 #else
     [self initalization];
 #endif

@@ -30,6 +30,7 @@
 #define KButtonRow  4
 #define kBUttonCol  3
 #define kCount      4
+#define kIphone4Scale 0.8
 
 @interface HomeController () <UITableViewDataSource,UITableViewDelegate,AKSegmentedControlDelegate,NSTradeEngineDelegate>
 {
@@ -82,7 +83,10 @@
 {
     UIImage *img = [UIImage imageNamed:@"advertisement"];
     UIScrollView *scroll = [[UIScrollView alloc] init];
-    scroll.frame = CGRectMake(0, 0, img.size.width, img.size.height);
+    scroll.frame = CGRectMake(0, 0, self.view.frame.size.width, img.size.height);
+    if (IS_IPHONE4) {
+        scroll.frame = CGRectMake(0, 0, self.view.frame.size.width, img.size.height*kIphone4Scale);
+    }
     scroll.showsHorizontalScrollIndicator = NO; // 隐藏水平滚动条
     CGSize size = scroll.frame.size;
     scroll.contentSize = CGSizeMake(size.width * kCount, 0); // 内容尺寸
@@ -100,7 +104,7 @@
     for (int i = 0; i<kCount; i++) {
         UIImageView *imageView = [[UIImageView alloc] init];
         // 1.显示图片
-        NSString *name = [NSString stringWithFormat:@"advertisement_%d.png", i + 1];
+        NSString *name = [NSString stringWithFormat:@"advertisement_%d", i + 1];
         imageView.image = [UIImage imageNamed:name];
         // 2.设置frame
         imageView.frame = CGRectMake(i * size.width, 0, size.width, size.height);
@@ -113,7 +117,8 @@
 - (void)addAdvertisement
 {
     UIImage *img = [UIImage imageNamed:@"advertisement"];
-    _imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, img.size.width, img.size.height)];
+    CGSize size = img.size;
+    _imageView = [[UIImageView alloc] initWithFrame:(CGRect){CGPointZero,size}];
     [_imageView setImage:img];
     [self.view addSubview:_imageView];
 }
@@ -121,6 +126,9 @@
 - (void)addButtonListView
 {
     _ButtonListView = [[UIView alloc] initWithFrame:CGRectMake(0, _scroll.frame.size.height, ScreenSize.width, kButtonListHeight*1.5)];
+    if (IS_IPHONE4) {
+        _ButtonListView = [[UIView alloc] initWithFrame:CGRectMake(0, _scroll.frame.size.height, ScreenSize.width, kButtonListHeight*1.5*kIphone4Scale)];
+    }
     [self.view addSubview:_ButtonListView];
     
     float width = _ButtonListView.frame.size.width / KButtonRow;
