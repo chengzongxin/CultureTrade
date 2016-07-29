@@ -34,14 +34,24 @@
     
     [_dock addSpliteLine];
 #if BALANCE_ENABLE
-    [self LoginWithCacheIP];
-    
-//    [self useOuterBalance];      // wd
+    [self useOuterBalance];      // wd
 
-    [self useInnerBanlance];    // test
+//    [self useInnerBanlance];    // test
 #else
     [self initalization];
 #endif
+}
+
+- (void)useInnerBanlance
+{
+    [self useBalaceWith:INNER_BALANCE_IP port:INNER_BALANCE_PORT];
+}
+
+- (void)useOuterBalance
+{
+    [self LoginWithCacheIP];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onlineConfigCallBack:) name:UMOnlineConfigDidFinishedNotification object:nil];
 }
 
 - (void)LoginWithCacheIP
@@ -53,18 +63,6 @@
         [self useBalaceWith:server port:port];
     }
 }
-
-
-- (void)useInnerBanlance
-{
-    [self useBalaceWith:INNER_BALANCE_IP port:INNER_BALANCE_PORT];
-}
-
-- (void)useOuterBalance
-{
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onlineConfigCallBack:) name:UMOnlineConfigDidFinishedNotification object:nil];
-}
-
 
 - (void)onlineConfigCallBack:(NSNotification *)notification {
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
