@@ -45,6 +45,41 @@ return _instance;
     MYLog(@"123123123123");
 }
 
+- (NSString *)getRememberAccount
+{
+    return [[NSUserDefaults standardUserDefaults] objectForKey:kAccountKey];
+}
+
+- (NSString *)getRememberPassword
+{
+    return [[NSUserDefaults standardUserDefaults] objectForKey:kPasswordKey];
+}
+
+- (NSString *)getRememberServerIP
+{
+    return [[NSUserDefaults standardUserDefaults] objectForKey:kServerIP];
+}
+
+
+- (void)rememberBalanceIP:(NSString *)ip Port:(int)port
+{
+    [[NSUserDefaults standardUserDefaults] setObject:ip forKey:kBalanceIP];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
+    [[NSUserDefaults standardUserDefaults] setObject:@(port) forKey:kBalancePort];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (NSString *)getRememberBalanceIP
+{
+    return [[NSUserDefaults standardUserDefaults] objectForKey:kBalanceIP];
+}
+
+- (int)getRememberBalancePort
+{
+    NSNumber *number = [[NSUserDefaults standardUserDefaults] objectForKey:kBalancePort];
+    return [number intValue];
+}
 
 @end
 

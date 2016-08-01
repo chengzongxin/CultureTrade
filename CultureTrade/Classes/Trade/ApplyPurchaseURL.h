@@ -9,10 +9,11 @@
 #ifndef ApplyPurchaseURL_h
 #define ApplyPurchaseURL_h
 
-#define ENTRUSTQUERY @"http://192.168.0.194:8081//Admin/index.php/applyapi/entrustquery/accountname/%@/sessionid/%@/startdate/%@/enddate/%@/mobile/1"
+//#define ENTRUSTQUERY @"http://192.168.0.193:8081//Admin/index.php/applyapi/entrustquery/accountname/%@/sessionid/%@/startdate/%@/enddate/%@/mobile/1"
+#define ENTRUSTQUERY @"http://%@:8081//Admin/index.php/applyapi/entrustquery/accountname/%@/sessionid/%@/startdate/%@/enddate/%@/mobile/1"
 
-#define ENTRUSTSUCCESS @"http://192.168.0.194:8081//Admin/index.php/applyapi/entrustlucky/accountname/%@/sessionid/%@/startdate/%@/enddate/%@/mobile/1"
-
+//#define ENTRUSTSUCCESS @"http://192.168.0.193:8081//Admin/index.php/applyapi/entrustlucky/accountname/%@/sessionid/%@/startdate/%@/enddate/%@/mobile/1"
+#define ENTRUSTSUCCESS @"http://%@:8081//Admin/index.php/applyapi/entrustlucky/accountname/%@/sessionid/%@/startdate/%@/enddate/%@/mobile/1"
 /*
 //在线托管
 /Admin/index.php/applyapi/deposit

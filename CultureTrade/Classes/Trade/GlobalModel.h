@@ -9,6 +9,11 @@
 #import <Foundation/Foundation.h>
 #import "SymbolModel.h"
 #import "DataModel.h"
+#define kAccountKey @"Account"
+#define kPasswordKey @"Password"
+#define kServerIP   @"ServerIP"
+#define kBalanceIP  @"BalanceIP"
+#define kBalancePort @"BalancePort"
 
 @interface GlobalModel : NSObject 
 singleton_interface(GlobalModel)
@@ -37,5 +42,22 @@ singleton_interface(GlobalModel)
 @property (nonatomic,retain) NSMutableArray *shareHoldArray;
 
 // 申购委托
+
+
+
+
+/**
+ *  remember accoubt,password,ip,port
+ *
+ *  @param ip   ip
+ *  @param port port
+ */
+- (void)rememberBalanceIP:(NSString *)ip Port:(int)port;
+
+- (NSString *)getRememberAccount;
+- (NSString *)getRememberPassword;
+- (NSString *)getRememberServerIP;
+- (NSString *)getRememberBalanceIP;
+- (int)getRememberBalancePort;
 
 @end

@@ -967,7 +967,7 @@ extern "C"
         cJSON *accountstatus;
 //        cJSON *needchangepwd;
         cJSON *accounttype;
-//        printBusLogEx("trade_login_rsp json:%s\n",json);
+        printBusLogEx("trade_login_rsp json:%s\n",json);
         root = cJSON_Parse(json);
         int nRet=-1;
         if (root) {

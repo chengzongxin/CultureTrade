@@ -7,7 +7,7 @@
 //
 
 #import "ApplyQueryController.h"
-
+#import "GlobalModel.h"
 @interface ApplyQueryController ()
 {
     NSMutableArray *_applySuccessArray;
@@ -77,7 +77,7 @@
     
     NSString *session =[[NSTradeEngine sharedInstance] getSession];
     
-    NSString *strURL = [NSString stringWithFormat:ENTRUSTSUCCESS,accountName,session,_startBtn.currentTitle,_endBtn.currentTitle];
+    NSString *strURL = [NSString stringWithFormat:ENTRUSTSUCCESS,[GLOBAL getRememberBalanceIP],accountName,session,_startBtn.currentTitle,_endBtn.currentTitle];
     
     NSURL *url = [NSURL URLWithString:strURL];
     NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];

@@ -34,9 +34,9 @@
     
     [_dock addSpliteLine];
 #if BALANCE_ENABLE
-    [self useOuterBalance];      // wd
+//    [self useOuterBalance];      // wd
 
-//    [self useInnerBanlance];    // test
+    [self useInnerBanlance];    // test
 #else
     [self initalization];
 #endif
@@ -45,6 +45,7 @@
 - (void)useInnerBanlance
 {
     [self useBalaceWith:INNER_BALANCE_IP port:INNER_BALANCE_PORT];
+    [self rememberBalanceIP:INNER_BALANCE_IP Port:INNER_BALANCE_PORT];
 }
 
 - (void)useOuterBalance

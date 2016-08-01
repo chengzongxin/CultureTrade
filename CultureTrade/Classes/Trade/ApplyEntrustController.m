@@ -264,7 +264,7 @@
     
     NSString *session =[[NSTradeEngine sharedInstance] getSession];
     
-    NSString *strURL = [NSString stringWithFormat:ENTRUSTQUERY,accountName,session,_startBtn.currentTitle,_endBtn.currentTitle];
+    NSString *strURL = [NSString stringWithFormat:ENTRUSTQUERY,[GLOBAL getRememberBalanceIP],accountName,session,_startBtn.currentTitle,_endBtn.currentTitle];
     
     MYLog(@"strURL = %@",strURL);
     
