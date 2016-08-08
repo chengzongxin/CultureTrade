@@ -18,6 +18,7 @@
 #import "TitleViewButton.h"
 #import "LeftCell.h"
 #import "SearchProductController.h"
+#import "PMElasticRefresh.h"
 #define kLeftTableWith 70
 #define kMainTableViewWithRatio 4
 
@@ -225,12 +226,19 @@
     _mainTableView.backgroundColor = COLOR_QUOTA_TABLE_BG;
     _mainTableView.separatorInset = UIEdgeInsetsMake(0, -2000, 0, -2000);
     _mainTableView.tag = 1;
-    
+//    [self.mainTableView pm_RefreshHeaderWithBlock:^{
+//        NSLog(@"refreshBlock");
+//    }];
     UIScrollView *scrollView=[[UIScrollView alloc]initWithFrame:CGRectMake(kLeftTableWith, 0, self.view.frame.size.width-kLeftTableWith, self.view.frame.size.height - kDockHeight - 64)];
     [scrollView addSubview:_mainTableView];
     scrollView.bounces=NO;
     scrollView.contentSize=CGSizeMake(self.view.frame.size.width*kMainTableViewWithRatio,0);
     [self.view addSubview:scrollView];
+}
+
+- (void)restoreAction {
+    
+    [self.mainTableView endRefresh];
 }
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView

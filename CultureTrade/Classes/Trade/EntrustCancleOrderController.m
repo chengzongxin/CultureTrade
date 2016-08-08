@@ -172,9 +172,9 @@
 {
     [self closeProgressSuccess:@"Success!"];
     
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"HH:mm"];
-    NSString *now = [formatter stringFromDate:[NSDate date]];
+//    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+//    [formatter setDateFormat:@"HH:mm"];
+//    NSString *now = [formatter stringFromDate:[NSDate date]];
     
 //    if ([now compare:@"15:30"] == NSOrderedDescending) return; //大于15:30
     
@@ -185,12 +185,12 @@
                                                            error:&error];
     NSMutableArray *array = [str2dict objectForKey:@"ORDER"];
     NSMutableArray *extraArray = [NSMutableArray arrayWithArray:array];
-    for (NSDictionary *orderDict in array) {
-        OrderModel *orderModel = [OrderModel oderWithDict:orderDict];
+//    for (NSDictionary *orderDict in array) {
+//        OrderModel *orderModel = [OrderModel oderWithDict:orderDict];
         
-        int exeState = [orderModel.exeState intValue];
-        if (exeState != 1) [extraArray removeObject:orderDict];
-    }
+//        int exeState = [orderModel.exeState intValue];
+//        if (exeState != 1) [extraArray removeObject:orderDict];
+//    }
     _orderArray = [NSMutableArray arrayWithArray:extraArray];
 //    _tableView.frame = CGRectMake(_tableView.frame.origin.x, _tableView.frame.origin.y, _tableView.frame.size.width, _tableView.frame.size.height*_orderArray.count);
     [_tableView reloadData];

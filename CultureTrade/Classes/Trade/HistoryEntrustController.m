@@ -293,7 +293,7 @@
     }
     cell.stockName.text = order.productName;
     cell.entrustPrice.text = [NSString stringWithFormat:@"%0.2f",[order.orderPrice floatValue]];
-    cell.entrustDeal.text = order.applyCount;
+    cell.entrustDeal.text = [NSString stringWithFormat:@"%@/%@",order.applyCount,order.turnOverVol];
     // '1 :已提交 \r\n2 成交 \r\n3 部分成交 \r\n4主动撤单  \r\n5交易所拒绝 \r\n6已冻结 \r\n7 其他 \r\n 8 已过期',
     switch ([order.orderState intValue]) {
         case 1:

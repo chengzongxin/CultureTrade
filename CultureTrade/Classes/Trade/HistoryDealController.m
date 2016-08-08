@@ -66,8 +66,10 @@
 - (void)addBanner
 {
     _banner = [[EntrustCancelBanner alloc] initWithFrame:CGRectMake(0, 20, self.view.frame.size.width, kBannerHeight)];
-    UILabel *label = _banner.subviews[0];
-    label.text = @"成交价";
+    UILabel *label1 = _banner.subviews[0];
+    label1.text = @"成交价";
+    UILabel *label2 = _banner.subviews[1];
+    label2.text = @"成交";
     [self.view addSubview:_banner];
     _banner.frame = CGRectMake(0, CGRectGetMaxY(_dateLabel.frame) + 12 + 10, self.view.frame.size.width, kBannerHeight);
 }
