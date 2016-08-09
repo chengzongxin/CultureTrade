@@ -205,10 +205,10 @@
     // loc = 0,len = 5 显示的从昨天开始最近5天收盘价,第0个元素是当天的，第0+1个元素是昨天的，从0+1个元素开始算
     float sum = 0; int j = 1;
     for (NSUInteger i = range.location; i < range.location + range.length; i ++) {
-        if (range.length > i) {  //很久之前第一天，往前没有数据
-            continue;
+        if (range.length > i) {  //很久之前第一天，往前没有数据,就不画那一天的K线
+            return 0;
         }
-        
+
         // loc - i = 46 - (46,5)
         
         NSString *strLine = strDataArray[range.location - j];    //取昨天往前5天的

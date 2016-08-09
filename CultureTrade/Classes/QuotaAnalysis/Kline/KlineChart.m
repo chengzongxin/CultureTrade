@@ -36,7 +36,10 @@
     [self drawInteralLine];
     
     if (self.pointArray.count) { // point数组为空时跳过
-        [self drawAverageLine];
+//        [self drawAverageLine];
+        [self drawAverageLineMA5];
+        [self drawAverageLineMA10];
+        [self drawAverageLineMA20];
         [self drawKline];
     }
 }
@@ -56,11 +59,11 @@
     
     CGFloat interalValue = self.frame.size.height / 6;
     
-    CGFloat length[2] = {5,5};
+    CGFloat length[2] = {10,10};
     CGContextSaveGState(context);
     for (int i = 1; i < 6; i++) {
         CGFloat y = interalValue * i;
-        CGContextSetLineDash(context, 0, length, 1);
+        CGContextSetLineDash(context, 0, length, 2); // 虚线
         CGPathMoveToPoint(path, NULL, 0, y);
         CGPathAddLineToPoint(path, NULL, self.frame.size.width, y);
     }
@@ -73,10 +76,97 @@
     
     CGContextDrawPath(context, kCGPathStroke);
     CGPathRelease(path);
+    CGContextRestoreGState(context);
 }
 
+- (void)drawAverageLineMA5
+{
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextSetShouldAntialias(context, NO);
+    CGMutablePathRef pathMA = CGPathCreateMutable();
+//    CGContextRestoreGState(context);
+    // MA5/MA10/MA20
+    // search first MA != 0
+    int skip = 0;
+    for (skip = 0 ; skip < self.pointArray.count; skip++) {
+        ChartPoint *firstPoint = self.pointArray[skip];
+        if (firstPoint.MA5point.y != 0) {
+            CGPathMoveToPoint(pathMA, NULL, firstPoint.MA5point.x, firstPoint.MA5point.y);
+            break;
+        }
+    }
+    for (int i = skip + 1; i < self.pointArray.count ; i++) {
+        ChartPoint *point = self.pointArray[i];
+        CGPathAddLineToPoint(pathMA, NULL, point.MA5point.x, point.MA5point.y);
+    }
+    CGContextSetLineWidth(context, 0.5);
+    CGContextSetShouldAntialias(context, YES);  // 是否抗锯齿
+    
+    CGContextSetRGBStrokeColor(context, 255/255.0f, 255/255.0f, 255/255.0f, 1);//white
+    CGContextAddPath(context, pathMA);
+    CGContextDrawPath(context, kCGPathStroke);
+    CGPathRelease(pathMA);
+}
 
+- (void)drawAverageLineMA10
+{
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextSetShouldAntialias(context, NO);
+    CGMutablePathRef pathMA = CGPathCreateMutable();
+//    CGContextRestoreGState(context);
+    // MA5/MA10/MA20
+    // search first MA != 0
+    int skip = 0;
+    for (skip = 0 ; skip < self.pointArray.count; skip++) {
+        ChartPoint *firstPoint = self.pointArray[skip];
+        if (firstPoint.MA10point.y != 0) {
+            CGPathMoveToPoint(pathMA, NULL, firstPoint.MA10point.x, firstPoint.MA10point.y);
+            break;
+        }
+    }
+    for (int i = skip + 1; i < self.pointArray.count ; i++) {
+        ChartPoint *point = self.pointArray[i];
+        CGPathAddLineToPoint(pathMA, NULL, point.MA10point.x, point.MA10point.y);
+    }
+    CGContextSetLineWidth(context, 0.5);
+    CGContextSetShouldAntialias(context, YES);  // 是否抗锯齿
+    
+    CGContextSetRGBStrokeColor(context, 255/255.0f, 0/255.0f, 0/255.0f, 1);//red
+    CGContextAddPath(context, pathMA);
+    CGContextDrawPath(context, kCGPathStroke);
+    CGPathRelease(pathMA);
+}
 
+- (void)drawAverageLineMA20
+{
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextSetShouldAntialias(context, NO);
+    CGMutablePathRef pathMA = CGPathCreateMutable();
+//    CGContextRestoreGState(context);
+    // MA5/MA10/MA20
+    // search first MA != 0
+    int skip;
+    for (skip = 0 ; skip < self.pointArray.count; skip++) {
+        ChartPoint *firstPoint = self.pointArray[skip];
+        if (firstPoint.MA20point.y != 0) {
+            CGPathMoveToPoint(pathMA, NULL, firstPoint.MA20point.x, firstPoint.MA20point.y);
+            break;
+        }
+    }
+    for (int i = skip + 1; i < self.pointArray.count; i++) {
+        ChartPoint *point = self.pointArray[i];
+        CGPathAddLineToPoint(pathMA, NULL, point.MA20point.x, point.MA20point.y);
+    }
+    CGContextSetLineWidth(context, 0.5);
+    CGContextSetShouldAntialias(context, YES);  // 是否抗锯齿
+    
+    CGContextSetRGBStrokeColor(context, 255/255.0f, 255/255.0f, 0/255.0f, 1);//yellow
+    CGContextAddPath(context, pathMA);
+    CGContextDrawPath(context, kCGPathStroke);
+    CGPathRelease(pathMA);
+}
+
+/*
 - (void)drawAverageLine
 {
     CGContextRef context = UIGraphicsGetCurrentContext();
@@ -116,7 +206,7 @@
     CGPathRelease(pathMA20);
     
 }
-
+*/
 
 - (void)addLineFrom:(CGPoint)srcPoint toPoint:(CGPoint)desPoint color:(CGFloat)R :(CGFloat)G :(CGFloat)B
 {
