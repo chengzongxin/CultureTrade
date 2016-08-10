@@ -15,4 +15,6 @@
 + (NSDate *)dateFromString:(NSString *)string;
 
 + (NSString *)stringFromDate:(NSDate *)date;
+
+- (BOOL)dateIsBetweenDate:(NSDate *)beginDate andDate:(NSDate *)endDate;
 @end

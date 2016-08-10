@@ -50,4 +50,17 @@
     return [dateFormatter stringFromDate:date];
 }
 
+- (BOOL)dateIsBetweenDate:(NSDate *)beginDate andDate:(NSDate *)endDate
+{
+    if ([self compare:beginDate] == NSOrderedAscending) {
+        return NO;
+    }
+    
+    if ([self compare:endDate] == NSOrderedDescending) {
+        return NO;
+    }
+    
+    return YES;
+}
+
 @end

@@ -12,6 +12,7 @@
 #import "OrderModel.h"
 #import "GlobalModel.h"
 #import "tagdef.h"
+#import "NSDate+helper.h"
 
 #define kBannerHeight 20
 #define kCellHeight 35
@@ -134,12 +135,41 @@
                                                  buttons:[NSArray arrayWithObjects:@"confirm", @"cancel", nil]
                                             afterDismiss:^(int buttonIndex) {
                                                 if (buttonIndex == 0) {
+                                                    if ([self isBeforeOpenMarket5Minite]) {
+                                                        [self performSelector:@selector(showForbitAlert) withObject:nil afterDelay:0.05f];
+                                                        return ;
+                                                    }
                                                     [self alertViewClickConfirmButtonAtIndex:order.orderID];
                                                     [self showProgress:@"Loading..."];
                                                 }
                                             }];
     
     [alertView show];
+}
+
+- (BOOL)isBeforeOpenMarket5Minite
+{
+    NSDate *now = [NSDate date];
+    
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+    NSTimeZone *timeZone = [NSTimeZone timeZoneWithName:@"UTC +0800"];
+    [dateFormatter setTimeZone:timeZone];
+    NSString *nowDate = [NSString stringFromDate:now];
+    
+    NSDateFormatter *fullDateFormatter = [[NSDateFormatter alloc] init];
+    [fullDateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    [fullDateFormatter setTimeZone:timeZone];
+    NSDate *beginDate = [fullDateFormatter dateFromString:[NSString stringWithFormat:@"%@ 9:25:00",nowDate]];
+    NSDate *endDate = [fullDateFormatter dateFromString:[NSString stringWithFormat:@"%@ 14:30:00",nowDate]];
+    
+    if([[NSDate date] dateIsBetweenDate:beginDate andDate:endDate]) return YES;
+    return NO;
+}
+
+- (void)showForbitAlert
+{
+    showAlert(@"开市前5分钟禁止撤单!");
 }
 
 - (void)alertViewClickConfirmButtonAtIndex:(NSString *)orderID
