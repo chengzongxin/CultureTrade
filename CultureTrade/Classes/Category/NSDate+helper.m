@@ -63,4 +63,14 @@
     return YES;
 }
 
++ (NSDate *)dateWithLocalDate
+{
+    NSDate *date = [NSDate date];
+    NSTimeZone *zone = [NSTimeZone systemTimeZone];
+    NSInteger interval = [zone secondsFromGMTForDate:date];
+    NSDate *localDate = [date dateByAddingTimeInterval:interval];
+    
+    return localDate;
+}
+
 @end

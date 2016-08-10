@@ -149,21 +149,17 @@
 
 - (BOOL)isBeforeOpenMarket5Minite
 {
-    NSDate *now = [NSDate date];
-    
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"yyyy-MM-dd"];
-    NSTimeZone *timeZone = [NSTimeZone timeZoneWithName:@"UTC +0800"];
-    [dateFormatter setTimeZone:timeZone];
-    NSString *nowDate = [NSString stringFromDate:now];
-    
-    NSDateFormatter *fullDateFormatter = [[NSDateFormatter alloc] init];
-    [fullDateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-    [fullDateFormatter setTimeZone:timeZone];
-    NSDate *beginDate = [fullDateFormatter dateFromString:[NSString stringWithFormat:@"%@ 9:25:00",nowDate]];
-    NSDate *endDate = [fullDateFormatter dateFromString:[NSString stringWithFormat:@"%@ 14:30:00",nowDate]];
-    
-    if([[NSDate date] dateIsBetweenDate:beginDate andDate:endDate]) return YES;
+    [dateFormatter setDateFormat:@"HH:mm:ss"];
+    NSString *str = [dateFormatter stringFromDate:[NSDate date]];
+    NSArray *filedArr = [str componentsSeparatedByCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@":"]];
+    int hour = [filedArr[0] intValue];
+    int minute = [filedArr[1] intValue];
+    if (hour == 9) {
+        if (minute >= 25 && minute <= 30) {
+            return YES;
+        }
+    }
     return NO;
 }
 

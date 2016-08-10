@@ -17,4 +17,6 @@
 + (NSString *)stringFromDate:(NSDate *)date;
 
 - (BOOL)dateIsBetweenDate:(NSDate *)beginDate andDate:(NSDate *)endDate;
+// 东八区时间->Date
++ (NSDate *)dateWithLocalDate;
 @end
