@@ -59,7 +59,7 @@
     
     CGFloat interalValue = self.frame.size.height / 6;
     
-    CGFloat length[2] = {10,10};
+    CGFloat length[2] = {2,2};
     CGContextSaveGState(context);
     for (int i = 1; i < 6; i++) {
         CGFloat y = interalValue * i;

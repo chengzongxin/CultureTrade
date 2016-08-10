@@ -247,7 +247,7 @@
     
     // 首次启动模拟点击日K
     for (UIButton *btn in _buttonListView.subviews) {
-        if (btn.tag == 4) {
+        if (btn.tag == 5) {
             [self selectedKLine:btn];
             break;
         }

@@ -47,10 +47,10 @@
     CGMutablePathRef path = CGPathCreateMutable();
     CGContextSaveGState(context);
     CGFloat interalValue = self.frame.size.height / 6;
-    CGFloat length[2] = {5,5};
+    CGFloat length[2] = {2,2};
     for (int i = 1; i < 6; i++) {
         CGFloat y = interalValue * i;
-        CGContextSetLineDash(context, 0, length, 1);
+        CGContextSetLineDash(context, 0, length, 2);
         CGPathMoveToPoint(path, NULL, 0, y);
         CGPathAddLineToPoint(path, NULL, self.frame.size.width, y);
     }
