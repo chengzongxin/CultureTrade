@@ -211,6 +211,13 @@
                                                            error:&error];
     NSMutableArray *array = [str2dict objectForKey:@"ORDER"];
     NSMutableArray *extraArray = [NSMutableArray arrayWithArray:array];
+    
+    if ([str2dict allValues].count == 1) {
+        if ([[[str2dict allValues] objectAtIndex:0] intValue] == -100001) {
+            showAlert(LocalizedStringByInt(-100001));
+            return;
+        }
+    }
 //    for (NSDictionary *orderDict in array) {
 //        OrderModel *orderModel = [OrderModel oderWithDict:orderDict];
         

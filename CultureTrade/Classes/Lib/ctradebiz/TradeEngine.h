@@ -163,10 +163,10 @@ typedef struct trade_ui_events
     void(*quote_ui_login_rsp)(int nRet);
     
     // K线数据回调
-    void(*quote_ui_hisKDataFirst_rsp)(unsigned char *data,int count);
+    void(*quote_ui_hisKDataFirst_rsp)(int type,unsigned char *data,int count);
     
     // 当日K线回调
-    void(*quote_ui_hisKDataCurDate_rsp)(unsigned char *data,int count);
+    void(*quote_ui_hisKDataCurDate_rsp)(int type,unsigned char *data,int count);
     
     // 实时数据回调
     void(*quote_ui_stkDealData_rsp)(unsigned char *data);

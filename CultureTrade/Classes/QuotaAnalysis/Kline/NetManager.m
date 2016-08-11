@@ -98,13 +98,14 @@
     if ([NSTradeEngine sharedInstance].delegate != self) {
         [NSTradeEngine sharedInstance].delegate = self;
     }
-    
     [[NSTradeEngine sharedInstance] quote_kline_reqNS:type productID:productID];
+    _stockCurDateString = [NSString string];
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
 }
 // 回调返回stock对象数组
-- (void)quote_ui_hisKDataFirst_rsp:(NSString *)data count:(int)count
+- (void)quote_ui_hisKDataFirst_rsp:(int)type data:(NSString *)data count:(int)count
 {
+    if ([self.type intValue] != type) return;  // 不是当前需要的K线
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     data = [NSString stringWithFormat:@"%@%@",data,_stockCurDateString];
     [data writeToFile:LocalKLineFile(self.productID, self.type) atomically:YES encoding:NSUTF8StringEncoding error:nil];
@@ -119,11 +120,15 @@
 }
 
 
-- (void)quote_ui_hisKDataCurDate_rsp:(NSString *)data count:(int)count
+- (void)quote_ui_hisKDataCurDate_rsp:(int)type data:(NSString *)data count:(int)count
 {
+    if ([self.type intValue] != type) return;  // 不是当前需要的K线
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     if ([data isEqual:@""]) {
         MYLog(@"quote_ui_hisKDataCurDate_rsp null data");
+        return;
+    }
+    if ([_stockCurDateString containsString:data]) { // curData 数据先到
         return;
     }
     _stockCurDateString = data;
@@ -136,20 +141,24 @@
 // strDataArray -> strData -> filedArr
 - (NSMutableArray *)loadStockWithArray:(NSMutableArray *)strDataArray
 {
-    for (int i = 0; i < strDataArray.count; i++)
-    {
-        NSString *strLine = [strDataArray objectAtIndex:i];
-        //判断是否有空置
-        NSArray *filedArr = [strLine componentsSeparatedByCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@","]];
-        if (filedArr.count < 4)
-        {
-            MYLOGFUN;
-            MYLog(@"===============last NULL===============%@,",strLine);
-//            [strDataArray replaceObjectAtIndex:i withObject:@"0,0,0,0,0,0,0"];
-            [strDataArray removeObjectAtIndex:i];
-//            [strDataArray removeLastObject];
-        }
+    if ([[strDataArray lastObject] isEqualToString:@""]) {
+        MYLog(@"===============last NULL===============");
+        [strDataArray removeLastObject];
     }
+//    for (int i = 0; i < strDataArray.count; i++)
+//    {
+//        NSString *strLine = [strDataArray objectAtIndex:i];
+        //判断是否有空置
+//        NSArray *filedArr = [strLine componentsSeparatedByCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@","]];
+//        if (filedArr.count < 4)
+//        {
+//            MYLOGFUN;
+//            MYLog(@"===============last NULL===============%@,",strLine);
+//            [strDataArray replaceObjectAtIndex:i withObject:@"0,0,0,0,0,0,0"];
+//            [strDataArray removeObjectAtIndex:i];
+//            [strDataArray removeLastObject];
+//        }
+//    }
     
     
     NSMutableArray *stockArray = [NSMutableArray array];

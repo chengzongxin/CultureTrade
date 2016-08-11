@@ -8302,12 +8302,12 @@ extern "C"
     
     void queto_hisKDataFirst_rsp(int nCmd ,unsigned char* data,int nLen)
     {
-        tradeuievents.quote_ui_hisKDataFirst_rsp(data,nLen);
+        tradeuievents.quote_ui_hisKDataFirst_rsp(nCmd,data,nLen);
     }
     
     void quote_hisKDataCurDate_rsp(int nCmd ,unsigned char* data,int nLen)
     {
-        tradeuievents.quote_ui_hisKDataCurDate_rsp(data,nLen);
+        tradeuievents.quote_ui_hisKDataCurDate_rsp(nCmd,data,nLen);
     }
     void quote_stkDealDate_rsp(unsigned char* data)
     {

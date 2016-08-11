@@ -464,26 +464,26 @@ void quote_ui_login_rspUI(int nRet)
     }
 }
 // 历史K线回调
-void quote_ui_hisKDataFirst_rspUI(unsigned char *data,int count)
+void quote_ui_hisKDataFirst_rspUI(int type,unsigned char *data,int count)
 {
     NSString *nsData = [NSString toNSString:(char *)data];
     
     if( [NSTradeEngine setup].delegate != nil
-       && [[NSTradeEngine setup].delegate respondsToSelector:@selector(quote_ui_hisKDataFirst_rsp:count:)])
+       && [[NSTradeEngine setup].delegate respondsToSelector:@selector(quote_ui_hisKDataFirst_rsp:data:count:)])
     {
-        [[NSTradeEngine setup].delegate quote_ui_hisKDataFirst_rsp:nsData count:count];
+        [[NSTradeEngine setup].delegate quote_ui_hisKDataFirst_rsp:type data:nsData count:count];
     }
 }
 
 #pragma mark -
 #pragma mark 当日K线
-void quote_ui_hisKDataCurDate_rspUI(unsigned char *data,int count)
+void quote_ui_hisKDataCurDate_rspUI(int type,unsigned char *data,int count)
 {
     NSString *nsData = [NSString toNSString:(char *)data];
     if( [NSTradeEngine setup].delegate != nil
-       && [[NSTradeEngine setup].delegate respondsToSelector:@selector(quote_ui_hisKDataCurDate_rsp:count:)])
+       && [[NSTradeEngine setup].delegate respondsToSelector:@selector(quote_ui_hisKDataCurDate_rsp:data:count:)])
     {
-        [[NSTradeEngine setup].delegate quote_ui_hisKDataCurDate_rsp:nsData count:count];
+        [[NSTradeEngine setup].delegate quote_ui_hisKDataCurDate_rsp:type data:nsData count:count];
     }
 }
 

@@ -143,9 +143,9 @@ extern NSString * const REFRESH_NOTIFY;
 - (void)quote_ui_login_rsp:(int)nRet;
 
 // K线回调
-- (void)quote_ui_hisKDataFirst_rsp:(NSString *)data count:(int)count;
+- (void)quote_ui_hisKDataFirst_rsp:(int)type data:(NSString *)data count:(int)count;
 
-- (void)quote_ui_hisKDataCurDate_rsp:(NSString *)data count:(int)count;
+- (void)quote_ui_hisKDataCurDate_rsp:(int)type data:(NSString *)data count:(int)count;
 
 - (void)quote_ui_stkDealData_rsp:(NSString *)data;
 

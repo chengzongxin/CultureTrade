@@ -2507,7 +2507,7 @@ int CNetSocket::ProcessQuoteData(void *lParam)
                     return 1;
                 }
                 SHisKData* pHisK = (SHisKData*)(lpQuotePs->pData+sizeof(PacketHead)+sizeof(SDownData));
-                if (pHisK->m_usSize > KREQKDATACOUNT) {
+                if (pHisK->m_usSize > KREQKDATACOUNT*5) {
                     printBusLogEx("SHisKData count : %d",pHisK->m_usSize);
                     printBusLogEx("SHisKData count Error!!!!!");
                     return 0;

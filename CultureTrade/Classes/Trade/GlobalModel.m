@@ -33,18 +33,6 @@ return _instance;
     return _instance;
 }
 
-- (void)quote_ui_hisKDataCurDate_rsp:(NSString *)data count:(int)count
-{
-    MYLog(@"%@,%d",data,count);
-    MYLog(@"123123123123");
-}
-
-- (void)quote_ui_hisKDataFirst_rsp:(NSString *)data count:(int)count
-{
-    MYLog(@"%@,%d",data,count);
-    MYLog(@"123123123123");
-}
-
 - (NSString *)getRememberAccount
 {
     return [[NSUserDefaults standardUserDefaults] objectForKey:kAccountKey];
