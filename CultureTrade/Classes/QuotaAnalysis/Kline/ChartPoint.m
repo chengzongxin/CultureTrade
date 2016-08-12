@@ -36,15 +36,15 @@
     
     NSMutableArray *pointArray = [NSMutableArray arrayWithCapacity:maxCount];
     float maxPriceValue = 0.0,minPriceValue = MAXFLOAT,maxVolume = 10.0,minVolume = MAXFLOAT;
-    maxPriceValue = GLOBAL.stockInfo.m_uiPrevClose*1.1;
-    minPriceValue = GLOBAL.stockInfo.m_uiPrevClose*0.9;
+//    maxPriceValue = GLOBAL.stockInfo.m_uiPrevClose*1.1;
+//    minPriceValue = GLOBAL.stockInfo.m_uiPrevClose*0.9;
     int stockCount = (int)MIN(stockArray.count, maxCount);
     for (int i = 0; i < stockCount; i++) {
         // 获得最大值和最小值
         Stock *stock = stockArray[i];
         
-        
-        maxPriceValue = MAX(MAX(MAX(MAX(stock.highestPrice, stock.MA5), stock.MA10), stock.MA20), maxPriceValue);
+//        maxPriceValue = MAX(MAX(MAX(MAX(stock.highestPrice, stock.MA5), stock.MA10), stock.MA20), maxPriceValue);
+        maxPriceValue = MAX(stock.highestPrice, maxPriceValue);
         if (stock.lowestPrice) {
             minPriceValue = MIN(minPriceValue, stock.lowestPrice);
         }
@@ -65,8 +65,8 @@
         CGFloat x = self.kLineWidth/2 + (self.kLineWidth + self.intervalSpace)*i;
         ChartPoint *chartPoint = [[ChartPoint alloc] init];
         
-        float scaleMaxPriceValue = maxPriceValue + GLOBAL.stockInfo.m_uiPrevClose*0.1; // 多划分一点区域，以免碰到底部
-        float scaleMinPriceValue = minPriceValue - GLOBAL.stockInfo.m_uiPrevClose*0.1; // 多划分一点区域，以免碰到底部
+        float scaleMaxPriceValue = maxPriceValue*1.02; // 多划分一点区域，以免碰到底部
+        float scaleMinPriceValue = minPriceValue*0.98; // 多划分一点区域，以免碰到底部
         
         chartPoint.stock = stock;
         chartPoint.stock.maxPrice = scaleMaxPriceValue;  // 影响左边坐标

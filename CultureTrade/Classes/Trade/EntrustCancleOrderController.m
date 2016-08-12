@@ -156,7 +156,7 @@
     int hour = [filedArr[0] intValue];
     int minute = [filedArr[1] intValue];
     if (hour == 9) {
-        if (minute >= 25 && minute <= 30) {
+        if (minute >= 20 && minute <= 24) {
             return YES;
         }
     }
