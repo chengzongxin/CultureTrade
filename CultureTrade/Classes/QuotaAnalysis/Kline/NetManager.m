@@ -99,7 +99,7 @@
         [NSTradeEngine sharedInstance].delegate = self;
     }
     [[NSTradeEngine sharedInstance] quote_kline_reqNS:type productID:productID];
-    _stockCurDateString = [NSString string];
+    _stockCurDateString = @"";
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
 }
 // 回调返回stock对象数组
@@ -132,9 +132,6 @@
         return;
     }
     _stockCurDateString = data;
-//    NSMutableArray *strDataArray = [NSMutableArray arrayWithArray:[data componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]]];
-//    _stockCurDateArray = [self loadStockWithArray:strDataArray];
-//    _finishBlock(_stockArray);
 }
 
 

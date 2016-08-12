@@ -16,6 +16,9 @@
 #import "GlobalModel.h"
 #import "Archiving.h"
 #define Scale_factory 0.8
+#define kLeftTagNumber 6    // kLineChart DashLineNum
+#define kLeftTagFont   9
+#define kMATagFont     10
 
 @interface LineView ()
 {
@@ -78,12 +81,8 @@
     _showStockArray = [NSMutableArray array];
     _willShowStockArray = [NSMutableArray array];
     _currentDate = [NSDate date];
-//    _offSetDelArr = [NSMutableArray array];
-//    _pointArray = [NSMutableArray array];
-//    _showPointArray = [NSMutableArray array];
-//    _willShowPointArray = [NSMutableArray array];
     _chartPoint = [[ChartPoint alloc] init];
-    self.font = [UIFont systemFontOfSize:8];
+    self.font = [UIFont systemFontOfSize:kLeftTagFont];
     _leftLabelArr = [NSMutableArray array];
     //    self.lineWidth = 1.0f;
     finishUpdateBlock = ^(id self){
@@ -151,7 +150,7 @@
 {
     if (_mainboxView==nil)
     {
-        _mainboxView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width ,self.frame.size.height * 0.6)];
+        _mainboxView = [[UIView alloc] initWithFrame:CGRectMake(0, 5, self.frame.size.width ,self.frame.size.height * 0.6)];
         _mainboxView.backgroundColor = [UIColor colorWithHexString:@"#222222" withAlpha:1];
         _mainboxView.layer.borderColor = [UIColor colorWithHexString:@"#444444" withAlpha:1].CGColor;
         _mainboxView.layer.borderWidth = 0.5;
@@ -176,7 +175,7 @@
     // 画个成交量的框框
     if (_bottomBoxView==nil)
     {
-        _bottomBoxView = [[UIView alloc] initWithFrame:CGRectMake(0,_mainboxView.frame.size.height+10,self.frame.size.width, self.frame.size.height * 0.3)];
+        _bottomBoxView = [[UIView alloc] initWithFrame:CGRectMake(0,_mainboxView.frame.size.height+15,self.frame.size.width, self.frame.size.height * 0.3 - 20)];
         _bottomBoxView.backgroundColor = [UIColor colorWithHexString:@"#222222" withAlpha:1];
         _bottomBoxView.layer.borderColor = [UIColor colorWithHexString:@"#444444" withAlpha:1].CGColor;
         _bottomBoxView.layer.borderWidth = 0.5;
@@ -186,11 +185,17 @@
 
     
     // 左边标签
-    CGFloat padRealValue = _mainboxView.frame.size.height / 6;
-        _leftLabelArr = [NSMutableArray arrayWithCapacity:7];
-    for (int i = 0; i < 7; i++) {
-        CGFloat y = _mainboxView.frame.size.height-padRealValue * i;
-        UILabel *leftTag = [[UILabel alloc] initWithFrame:CGRectMake(-10, y-10, 38, 30)];
+    int leftTagNum = kLeftTagNumber;
+    CGFloat padRealValue = _mainboxView.frame.size.height / (leftTagNum - 1);
+        _leftLabelArr = [NSMutableArray arrayWithCapacity:leftTagNum];
+    CGFloat tagWidth = 40;
+    CGFloat tagHeight = self.font.lineHeight;
+    for (int i = 0; i < leftTagNum; i++) {
+        CGFloat y = _mainboxView.frame.size.height - padRealValue * i;
+        UILabel *leftTag = [[UILabel alloc] initWithFrame:CGRectMake(-10, y+5, tagWidth, tagHeight)];
+//        if (i == 0) {
+//            leftTag.frame = CGRectMake(-10, y+5-tagHeight, tagWidth, tagHeight);
+//        }
         leftTag.text = [[NSString alloc] initWithFormat:@"%.2f",00.00];
         leftTag.textColor = [UIColor colorWithHexString:@"#cccccc" withAlpha:1];
         leftTag.font = self.font;
@@ -200,15 +205,20 @@
         [_leftLabelArr addObject:leftTag];
     }
     
+//    UILabel *topTag = [_leftLabelArr lastObject];
+//    topTag.frame = CGRectMake(-10, 5-tagHeight, tagWidth, tagHeight);
     
     // 添加平均线值显示
     CGRect mainFrame = _mainboxView.frame;
     
+    CGFloat MAWidth = 60;
+    CGFloat MAHeight = 20;
+    
     // MA5 均线价格显示控件
     if (_MA5==nil) {
-        _MA5 = [[UILabel alloc] initWithFrame:CGRectMake(mainFrame.origin.x, -12, 45, 15)];
+        _MA5 = [[UILabel alloc] initWithFrame:CGRectMake(mainFrame.origin.x + 5, -12, MAWidth, MAHeight)];
         _MA5.backgroundColor = [UIColor clearColor];
-        _MA5.font = self.font;
+        _MA5.font = [UIFont systemFontOfSize:kMATagFont];
         _MA5.lineBreakMode = NSLineBreakByWordWrapping;
         _MA5.text = @"MA5:--";
         _MA5.textColor = [UIColor whiteColor];
@@ -219,9 +229,9 @@
     
     // MA10 均线价格显示控件
     if (_MA10==nil) {
-        _MA10 = [[UILabel alloc] initWithFrame:CGRectMake(_MA5.frame.origin.x +_MA5.frame.size.width +10, -12, 45, 15)];
+        _MA10 = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(_MA5.frame) +10, -12, MAWidth, MAHeight)];
         _MA10.backgroundColor = [UIColor clearColor];
-        _MA10.font = self.font;
+        _MA10.font = [UIFont systemFontOfSize:kMATagFont];
         _MA10.lineBreakMode = NSLineBreakByWordWrapping;
         _MA10.text = @"MA10:--";
         _MA10.textColor = [UIColor colorWithHexString:@"#FF9900" withAlpha:1];
@@ -232,9 +242,9 @@
     
     // MA20 均线价格显示控件
     if (_MA20==nil) {
-        _MA20 = [[UILabel alloc] initWithFrame:CGRectMake(_MA10.frame.origin.x +_MA10.frame.size.width +10, -12, 45, 15)];
+        _MA20 = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(_MA10.frame) +10, -12, MAWidth, MAHeight)];
         _MA20.backgroundColor = [UIColor clearColor];
-        _MA20.font = self.font;
+        _MA20.font = [UIFont systemFontOfSize:kMATagFont];
         _MA20.lineBreakMode = NSLineBreakByWordWrapping;
         _MA20.text = @"MA20:--";
         _MA20.textColor = [UIColor colorWithHexString:@"#FF00FF" withAlpha:1];
@@ -272,7 +282,7 @@
     
     // 显示成交量最大值
     if (_volMaxValueLab==nil) {
-        _volMaxValueLab = [[UILabel alloc] initWithFrame:CGRectMake(5,_mainboxView.frame.size.height + self.font.lineHeight,30, self.font.lineHeight)];
+        _volMaxValueLab = [[UILabel alloc] initWithFrame:CGRectMake(5,_bottomBoxView.frame.origin.y + 5,30, self.font.lineHeight)];
         _volMaxValueLab.font = self.font;
         _volMaxValueLab.text = @"--";
         _volMaxValueLab.textColor = [UIColor colorWithHexString:@"CCCCCC" withAlpha:1];
@@ -292,9 +302,8 @@
     _moveTwoView.hidden = YES;
     [self addSubview:_moveTwoView];
     
-    _tipView = [[TipView alloc] initWithFrame:CGRectMake(self.frame.size.width - 65, 0, 60, 90)];
-    _tipView.layer.borderWidth = 0.5f;
-    _tipView.layer.borderColor = [UIColor whiteColor].CGColor;
+    _tipView = [[TipView alloc] initWithFrame:CGRectMake(self.frame.size.width - 70, _mainboxView.frame.origin.y, 70, 95)];
+    
     _tipView.hidden = YES;
     [self addSubview:_tipView];
     
@@ -478,6 +487,17 @@
         twoFrame.origin.x = currentPoint.x;
         _moveTwoView.frame = twoFrame;
 
+        // 根据手指长按的位置更改tipView位置不被手指遮盖
+        if (currentPoint.x > _tipView.frame.origin.x) {
+            CGRect frame = _tipView.frame;
+            frame.origin.x = 0;
+            _tipView.frame = frame;
+        }
+        
+        if (currentPoint.x < _tipView.frame.size.width){
+            _tipView.frame = CGRectMake(self.frame.size.width - 70, _mainboxView.frame.origin.y, 70, 95);
+        }
+        
         if (theNum < _pointArray.count) { // 数组没那么长
         // 显示左上角数值视图
         ChartPoint *currentChartPoint = _pointArray[theNum];
@@ -503,9 +523,21 @@
 
 - (void)showTipViewWithChartPoint:(Stock *)s
 {
-//    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-//    [dateFormat setDateFormat:@"MM-dd"];
-    _tipView.date.text = [NSString stringWithFormat:@"时间:%@",s.date];
+    if (_selectedKLineType <= (char)60) { // 分线
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"MddHHmm"];
+        NSDate *date = [dateFormatter dateFromString:s.date];
+        [dateFormatter setDateFormat:@"MM/dd HH:mm"];
+        _tipView.date.text = [NSString stringWithFormat:@"时间:%@",[dateFormatter stringFromDate:date]];
+    }else{
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"yyyyMMdd"];
+        NSDate *date = [dateFormatter dateFromString:s.date];
+        [dateFormatter setDateFormat:@"yyyy/MM/dd"];
+        _tipView.date.text = [NSString stringWithFormat:@"时间:%@",[dateFormatter stringFromDate:date]];
+    }
+    [_tipView.date sizeToFit];
+    
     _tipView.openPrice.text = [NSString stringWithFormat:@"开盘:%.2f",s.openPrice];
     _tipView.highestPrice.text = [NSString stringWithFormat:@"最高:%.2f",s.highestPrice];
     _tipView.lowestPrice.text = [NSString stringWithFormat:@"最低:%.2f",s.lowestPrice];
@@ -547,8 +579,8 @@
 - (void)zoomKlineChartWith:(int)i
 {
     _chartPoint.kLineWidth += i;
-    if (_chartPoint.kLineWidth > 20){
-        _chartPoint.kLineWidth = 20;
+    if (_chartPoint.kLineWidth > 30){
+        _chartPoint.kLineWidth = 30;
         return;
     }
     
@@ -582,10 +614,33 @@
     ChartPoint *lastChartPoint = _pointArray.lastObject;
     
     //开始日期和结束日期
-//    _startDateLab.text = [NSString stringFromDate:firstChartPoint.stock.date];
-//    _endDateLab.text = [NSString stringFromDate:lastChartPoint.stock.date];
-    _startDateLab.text = firstChartPoint.stock.date;
-    _endDateLab.text = lastChartPoint.stock.date;
+    NSString *startStr = firstChartPoint.stock.date;
+    NSString *endStr = lastChartPoint.stock.date;
+    
+    if (_selectedKLineType <= (char)60) { // 分线
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"MddHHmm"];
+        NSDate *startDate = [dateFormatter dateFromString:startStr];
+        NSDate *endDate = [dateFormatter dateFromString:endStr];
+        
+        [dateFormatter setDateFormat:@"MM/dd HH:mm"];
+        
+        _startDateLab.text = [dateFormatter stringFromDate:startDate];
+        _endDateLab.text = [dateFormatter stringFromDate:endDate];
+    }else{
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"yyyyMMdd"];
+        NSDate *startDate = [dateFormatter dateFromString:startStr];
+        NSDate *endDate = [dateFormatter dateFromString:endStr];
+        
+        [dateFormatter setDateFormat:@"yyyy/MM/dd"];
+        
+        _startDateLab.text = [dateFormatter stringFromDate:startDate];
+        _endDateLab.text = [dateFormatter stringFromDate:endDate];
+    }
+    [_startDateLab sizeToFit];
+    [_endDateLab sizeToFit];
+    
     // 左边tag
     
     float maxPrice = firstChartPoint.stock.maxPrice;
@@ -594,7 +649,7 @@
     for (int i = 0; i< _leftLabelArr.count; i ++) {
         UILabel *leftTag = _leftLabelArr[i];
         
-        CGFloat intervalValue = (maxPrice - minPrice) / 6;
+        CGFloat intervalValue = (maxPrice - minPrice) / (kLeftTagNumber - 1);
         leftTag.text = [[NSString alloc] initWithFormat:@"%.2f",intervalValue*i+minPrice];
     }
     

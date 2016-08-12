@@ -11,7 +11,7 @@
 #import "UIColor+helper.h"
 #import "Stock.h"
 #import "ChartPoint.h"
-
+#define kLeftTagNumber 6  // == LineView leftTagNum
 @implementation KlineChart
 
 - (instancetype)initWithFrame:(CGRect)frame
@@ -56,12 +56,12 @@
     CGContextRef context = UIGraphicsGetCurrentContext();
     CGContextSetShouldAntialias(context, NO);
     CGMutablePathRef path = CGPathCreateMutable();
-    
-    CGFloat interalValue = self.frame.size.height / 6;
+    int dashLineNumber = kLeftTagNumber - 1;
+    CGFloat interalValue = self.frame.size.height / dashLineNumber;
     
     CGFloat length[2] = {2,2};
     CGContextSaveGState(context);
-    for (int i = 1; i < 6; i++) {
+    for (int i = 1; i < dashLineNumber; i++) {
         CGFloat y = interalValue * i;
         CGContextSetLineDash(context, 0, length, 2); // 虚线
         CGPathMoveToPoint(path, NULL, 0, y);
@@ -252,8 +252,10 @@
             CGRect rect = CGRectMake(x, y, width, height);
             
             CGContextAddRect(context, rect);
-            CGContextSetFillColorWithColor(context, [UIColor redColor].CGColor);
-            CGContextFillRect(context, rect);
+//            CGContextSetFillColorWithColor(context, [UIColor redColor].CGColor);
+            [[UIColor redColor] set];
+//            CGContextFillRect(context, rect);
+            UIRectFrame(rect);
             
         }else{
             

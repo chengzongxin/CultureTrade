@@ -13,7 +13,9 @@
 - (instancetype)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
-    self.backgroundColor = [UIColor clearColor];
+    self.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.8];
+    self.layer.borderWidth = 0.5f;
+    self.layer.borderColor = [UIColor whiteColor].CGColor;
     [self initialization];
     return self;
 }
@@ -55,7 +57,7 @@
 
 - (void)setCell:(UILabel *)lable
 {
-    lable.font = [UIFont systemFontOfSize:8];
+    lable.font = [UIFont systemFontOfSize:9];
     lable.textColor = [UIColor whiteColor];
     lable.lineBreakMode = NSLineBreakByWordWrapping;
     lable.textAlignment = NSTextAlignmentLeft;
