@@ -105,8 +105,13 @@
             _willShowStockArray = [NSMutableArray array];
         }else{//定位显示坐标数组，和待显示坐标数组
             int firstPointInShow = (int)(_stockArray.count - maxCount);
-            _showStockArray = [NSMutableArray arrayWithArray:[_stockArray subarrayWithRange:NSMakeRange(firstPointInShow, maxCount-1)]];
-            _willShowStockArray = [NSMutableArray arrayWithArray:[_stockArray subarrayWithRange:NSMakeRange(0, firstPointInShow - 1)]];
+            if (firstPointInShow <= 0) { // 坐标数小于show数目
+                _showStockArray = _stockArray;
+                _willShowStockArray = [NSMutableArray array];
+            }else{
+                _showStockArray = [NSMutableArray arrayWithArray:[_stockArray subarrayWithRange:NSMakeRange(firstPointInShow, maxCount-1)]];
+                _willShowStockArray = [NSMutableArray arrayWithArray:[_stockArray subarrayWithRange:NSMakeRange(0, firstPointInShow - 1)]];
+            }
         }
         _pointArray = [NSMutableArray arrayWithArray:[_chartPoint pointArrayTranslateByStockArray:_showStockArray innerMainFrame:_mainboxView.frame bottomFrame:_bottomBoxView.frame]]; // 换算坐标
         finishUpdateBlock(self);  //回调updateInterface
@@ -125,9 +130,9 @@
     [_netMgr loadHisKData:type productID:productID finish:^(NSMutableArray *stockArray) {
         _stockArray = stockArray; // cache 100 stock data
         
+        _chartPoint.kLineWidth = _mainboxView.frame.size.width / _stockArray.count - _chartPoint.intervalSpace; // 让K线铺满图
         [self loadCacheData];
-//        [_stockArray writeToFile:LocalKLineFile(productID, typeStr) atomically:YES];
-//        [NSKeyedArchiver archiveRootObject:stockArray toFile:LocalKLineFile(productID, typeStr)];
+//        }
     } error:^(NSError *error) {
         MYLog(@"load stock data error = ");
         _netMgr.isSuccessLoad = NO;
