@@ -124,7 +124,7 @@
 {
     if ([self.type intValue] != type) return;  // 不是当前需要的K线
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-    if ([data isEqual:@""]) {
+    if ([data isEqual:@""] || data == nil) {
         MYLog(@"quote_ui_hisKDataCurDate_rsp null data");
         return;
     }
