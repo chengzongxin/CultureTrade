@@ -76,7 +76,7 @@
     _traceUnitArr = [NSMutableArray array];
     _realPointArr = [NSMutableArray array];
     _timeChartPoint = [[TimeChartPoint alloc] init];
-    self.font = [UIFont systemFontOfSize:8];
+    self.font = [UIFont systemFontOfSize:9];
     _leftLabelArr = [NSMutableArray array];
     //    self.lineWidth = 1.0f;
     finishUpdateBlock = ^(id self){
