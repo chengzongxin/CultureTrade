@@ -39,6 +39,14 @@
     [self addButtonListView];
     
     self.navigationItem.leftBarButtonItem = [UIBarButtonItem itemWithIcon:@"back" highlightedIcon:nil target:self action:@selector(click)];
+    
+    // 首次启动模拟点击日K
+    for (UIButton *btn in _buttonListView.subviews) {
+        if (btn.tag == 5) {
+            [self selectedKLine:btn];
+            break;
+        }
+    }
 }
 
 - (void)addTitleView
@@ -244,14 +252,6 @@
     [self.view insertSubview:self.QuotaAnalysisController.guideView aboveSubview:self.view];
     [self.view insertSubview:self.QuotaAnalysisController.buttonListView aboveSubview:self.view];
     self.QuotaAnalysisController.delegate = self;
-    
-    // 首次启动模拟点击日K
-    for (UIButton *btn in _buttonListView.subviews) {
-        if (btn.tag == 5) {
-            [self selectedKLine:btn];
-            break;
-        }
-    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated

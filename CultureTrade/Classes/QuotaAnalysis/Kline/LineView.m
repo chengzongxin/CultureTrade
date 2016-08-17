@@ -15,10 +15,13 @@
 #import "TipView.h"
 #import "GlobalModel.h"
 #import "Archiving.h"
+#import "ScaleButton.h"
 #define Scale_factory 0.8
 #define kLeftTagNumber 6    // kLineChart DashLineNum
 #define kLeftTagFont   9
 #define kMATagFont     10
+#define kTopMargin     5
+#define kLeftMatgin    40
 
 @interface LineView ()
 {
@@ -58,8 +61,10 @@
     NSDate *_currentDate;
     BOOL isGetNewKLine;
     
-    UIButton *_btnBigScall;
-    UIButton *_btnSmallScall;
+    ScaleButton *_btnLeftMove;
+    ScaleButton *_btnRightMove;
+    ScaleButton *_btnBigScall;
+    ScaleButton *_btnSmallScall;
 }
 
 @end
@@ -155,7 +160,7 @@
 {
     if (_mainboxView==nil)
     {
-        _mainboxView = [[UIView alloc] initWithFrame:CGRectMake(0, 5, self.frame.size.width ,self.frame.size.height * 0.6)];
+        _mainboxView = [[UIView alloc] initWithFrame:CGRectMake(kLeftMatgin, kTopMargin, self.frame.size.width - kLeftMatgin ,self.frame.size.height * 0.6)];
         _mainboxView.backgroundColor = [UIColor colorWithHexString:@"#222222" withAlpha:1];
         _mainboxView.layer.borderColor = [UIColor colorWithHexString:@"#444444" withAlpha:1].CGColor;
         _mainboxView.layer.borderWidth = 0.5;
@@ -180,12 +185,12 @@
     // 画个成交量的框框
     if (_bottomBoxView==nil)
     {
-        _bottomBoxView = [[UIView alloc] initWithFrame:CGRectMake(0,_mainboxView.frame.size.height+15,self.frame.size.width, self.frame.size.height * 0.3 - 20)];
+        _bottomBoxView = [[UIView alloc] initWithFrame:CGRectMake(kLeftMatgin,CGRectGetMaxY(_mainboxView.frame)+20+kTopMargin,self.frame.size.width - kLeftMatgin, self.frame.size.height * 0.3 - 20)];
         _bottomBoxView.backgroundColor = [UIColor colorWithHexString:@"#222222" withAlpha:1];
         _bottomBoxView.layer.borderColor = [UIColor colorWithHexString:@"#444444" withAlpha:1].CGColor;
         _bottomBoxView.layer.borderWidth = 0.5;
         _bottomBoxView.userInteractionEnabled = YES;
-        [_mainboxView addSubview:_bottomBoxView];
+        [self addSubview:_bottomBoxView];
     }
 
     
@@ -193,11 +198,11 @@
     int leftTagNum = kLeftTagNumber;
     CGFloat padRealValue = _mainboxView.frame.size.height / (leftTagNum - 1);
         _leftLabelArr = [NSMutableArray arrayWithCapacity:leftTagNum];
-    CGFloat tagWidth = 40;
+    CGFloat tagWidth = kLeftMatgin;
     CGFloat tagHeight = self.font.lineHeight;
     for (int i = 0; i < leftTagNum; i++) {
         CGFloat y = _mainboxView.frame.size.height - padRealValue * i;
-        UILabel *leftTag = [[UILabel alloc] initWithFrame:CGRectMake(-10, y+5, tagWidth, tagHeight)];
+        UILabel *leftTag = [[UILabel alloc] initWithFrame:CGRectMake(-10, y+kTopMargin, tagWidth, tagHeight)];
 //        if (i == 0) {
 //            leftTag.frame = CGRectMake(-10, y+5-tagHeight, tagWidth, tagHeight);
 //        }
@@ -268,13 +273,13 @@
         _startDateLab.text = @"--";
         _startDateLab.textColor = [UIColor colorWithHexString:@"CCCCCC" withAlpha:1];
         _startDateLab.backgroundColor = [UIColor clearColor];
-        [_mainboxView addSubview:_startDateLab];
+        [self addSubview:_startDateLab];
     }
 
     // 显示结束日期控件
     if (_endDateLab==nil)
     {
-        _endDateLab = [[UILabel alloc] initWithFrame:CGRectMake(_mainboxView.frame.size.width-50
+        _endDateLab = [[UILabel alloc] initWithFrame:CGRectMake(self.frame.size.width-50
                                                                , _startDateLab.frame.origin.y
                                                                , 50, 15)];
         _endDateLab.font = self.font;
@@ -282,7 +287,7 @@
         _endDateLab.textColor = [UIColor colorWithHexString:@"CCCCCC" withAlpha:1];
         _endDateLab.backgroundColor = [UIColor clearColor];
         _endDateLab.textAlignment = NSTextAlignmentRight;
-        [_mainboxView addSubview:_endDateLab];
+        [self addSubview:_endDateLab];
     }
     
     // 显示成交量最大值
@@ -297,20 +302,19 @@
     }
     
     // 长按时的十字线条
-    _moveOneView = [[UIView alloc] initWithFrame:CGRectMake(5, 0, self.frame.size.width, 0.5)];
+    _moveOneView = [[UIView alloc] initWithFrame:CGRectMake(kLeftMatgin, kTopMargin, self.frame.size.width, 0.5)];
     _moveOneView.backgroundColor = [UIColor whiteColor];
     _moveOneView.hidden = YES;
     [self addSubview:_moveOneView];
     
-    _moveTwoView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0.5, CGRectGetMaxY(_bottomBoxView.frame))];
+    _moveTwoView = [[UIView alloc] initWithFrame:CGRectMake(kLeftMatgin, kTopMargin, 0.5, CGRectGetMaxY(_bottomBoxView.frame) - kTopMargin)];
     _moveTwoView.backgroundColor = [UIColor whiteColor];
     _moveTwoView.hidden = YES;
     [self addSubview:_moveTwoView];
     
-    _tipView = [[TipView alloc] initWithFrame:CGRectMake(self.frame.size.width - 70, _mainboxView.frame.origin.y, 70, 95)];
-    
+    _tipView = [[TipView alloc] initWithFrame:CGRectMake(_mainboxView.frame.size.width - 75, 0, 75, 95)];
     _tipView.hidden = YES;
-    [self addSubview:_tipView];
+    [_mainboxView addSubview:_tipView];
     
     _lineChart = [[KlineChart alloc] initWithFrame:(CGRect){CGPointZero,_mainboxView.frame.size}];
     [_mainboxView addSubview:_lineChart];
@@ -318,30 +322,37 @@
     _volumeChart = [[VolumeChart alloc] initWithFrame:(CGRect){CGPointZero,_bottomBoxView.frame.size}];
     [_bottomBoxView addSubview:_volumeChart];
     
-    CGSize mainFrameSize = _mainboxView.frame.size;
-    _btnBigScall = [UIButton buttonWithType:UIButtonTypeCustom];
-    _btnBigScall.frame = CGRectMake(mainFrameSize.width - 70, mainFrameSize.height - 30, 20, 20);
+    // scale button
+    float leftMargin = (_mainboxView.frame.size.width - 20)/ 4;
+    float interValue = _mainboxView.frame.size.width / 4;
+    CGFloat y = CGRectGetMaxY(_mainboxView.frame) + 2;
+    _btnLeftMove = [[ScaleButton alloc] init];
+    _btnLeftMove.frame = CGRectMake(leftMargin, y, 20, 20);
+    [_btnLeftMove setTitle:@"<-" forState:UIControlStateNormal];
+    _btnLeftMove.tag = 3;
+    [_btnLeftMove addTarget:self action:@selector(leftSlideStockCount:) forControlEvents:UIControlEventTouchDown];
+    [self addSubview:_btnLeftMove];
+    
+    _btnRightMove = [[ScaleButton alloc] init];
+    _btnRightMove.frame = CGRectMake(leftMargin + interValue , y, 20, 20);
+    [_btnRightMove setTitle:@"->" forState:UIControlStateNormal];
+    _btnRightMove.tag = 3;
+    [_btnRightMove addTarget:self action:@selector(rightSlideStockCount:) forControlEvents:UIControlEventTouchDown];
+    [self addSubview:_btnRightMove];
+    
+    _btnBigScall = [[ScaleButton alloc] init];
+    _btnBigScall.frame = CGRectMake(leftMargin + interValue * 2, y, 20, 20);
     [_btnBigScall setTitle:@"+" forState:UIControlStateNormal];
-    _btnBigScall.titleLabel.font = [UIFont systemFontOfSize: 10.0];
-    _btnBigScall.layer.cornerRadius = 10.0f;
-    _btnBigScall.layer.borderColor = [UIColor whiteColor].CGColor;
-    _btnBigScall.layer.borderWidth = 1.0f;
-    _btnBigScall.layer.masksToBounds = YES;
-    _btnBigScall.backgroundColor = [UIColor clearColor];
     [_btnBigScall addTarget:self action:@selector(bigScale) forControlEvents:UIControlEventTouchDown];
     [self addSubview:_btnBigScall];
     
-    _btnSmallScall = [UIButton buttonWithType:UIButtonTypeCustom];
-    _btnSmallScall.frame = CGRectMake(mainFrameSize.width - 35, mainFrameSize.height - 30, 20, 20);
+    _btnSmallScall = [[ScaleButton alloc] init];
+    _btnSmallScall.frame = CGRectMake(leftMargin + interValue * 3, y, 20, 20);
     [_btnSmallScall setTitle:@"-" forState:UIControlStateNormal];
-    _btnSmallScall.titleLabel.font = [UIFont systemFontOfSize: 10.0];
-    _btnSmallScall.layer.cornerRadius = 10.0f;
-    _btnSmallScall.layer.borderColor = [UIColor whiteColor].CGColor;
-    _btnSmallScall.layer.borderWidth = 1.0f;
-    _btnSmallScall.layer.masksToBounds = YES;
-    _btnSmallScall.backgroundColor = [UIColor clearColor];
     [_btnSmallScall addTarget:self action:@selector(smallScale) forControlEvents:UIControlEventTouchDown];
     [self addSubview:_btnSmallScall];
+    
+    
 }
 
 
@@ -367,6 +378,7 @@
 #pragma mark 左右拖动重绘K线
 - (void)panBoxAction:(UIPanGestureRecognizer *)recognizer
 {
+    // start slide view
     if (recognizer.state == UIGestureRecognizerStateBegan) {
         _currentPoint = [recognizer translationInView:_mainboxView];
     }
@@ -381,60 +393,86 @@
     if (newPoint.x > 1) { //
         int offset = (newPoint.x - _currentPoint.x) / (_chartPoint.kLineWidth + _chartPoint.intervalSpace); // 偏移了几个单位的klinewith 就是等于几个数组
         if (offset < 0) return;   // 用户拽到一般回拖的情况
-        int count = [_chartPoint numberOfStockInFrame:_mainboxView.frame];
-        int leftStockCount = MIN((int)_willShowStockArray.count,count);//排除小于0
-        int time = MIN(offset, leftStockCount);
-        // 移动到最左边时不再执行删除数组操作
-        for (int i = 0; i<time; i++) {
-//            [_offSetDelArr addObject:[_stockArray firstObject]];
-//            [_stockArray removeObjectAtIndex:0];
-            [_showStockArray insertObject:[_willShowStockArray lastObject] atIndex:0];
-            [_willShowStockArray removeLastObject];
-        }
-        if (_willShowStockArray.count <=20) {//加载数据 willshowstockarray <= 20
-            
-            NSDate *nowDate = [NSDate date];
-            if ([nowDate timeIntervalSinceDate:_currentDate] < 5) {   // 拖动多次回调bug，定时器解决
-                MYLog(@"%f",[nowDate timeIntervalSinceDate:_currentDate]);
-                _currentDate = nowDate;
-                return;
-            }
-            
-            _currentDate = nowDate;
-            if (_netMgr.isLoading == YES) return;//正在加载时不拖动K线图，不重新加载
-            _netMgr.isLoading = YES;
-            [_netMgr loadHisKData:_selectedKLineType productID:GLOBALSYMBOL.productID finish:^(NSMutableArray *stockArray) {
-                _willShowStockArray = stockArray;
-                _netMgr.isLoading = NO;
-            } error:^(NSError *error) {
-                MYLog(@"%@",error);
-            }];
-        }
+        [self leftSlideStockCount:[NSNumber numberWithInt:offset]];
     }else if (newPoint.x < -1){    // x-- finger left move,view left move
                 // 最新的点是按照正负增大
         int offset = (_currentPoint.x - newPoint.x) / (_chartPoint.kLineWidth + _chartPoint.intervalSpace);
         if (offset < 0) return;   // 用户拽到一般回拖的情况
-        unsigned long time = MIN(offset, _showStockArray.count);
-        
-        // 移动到最右边时不再执行添加数组操作
-        if (_showStockArray.count <= [_chartPoint numberOfStockInFrame:_mainboxView.frame]) return;
-        
-        for (int i = 0 ; i < time; i ++) {
-//            [_stockArray insertObject:[_offSetDelArr lastObject] atIndex:0];
-//            [_offSetDelArr removeLastObject];
-            [_willShowStockArray addObject:[_showStockArray firstObject]];
-            [_showStockArray removeObjectAtIndex:0];
-        }
+        [self rightSlideStockCount:[NSNumber numberWithInt:offset]];
     }
-    
     _currentPoint.x = newPoint.x;
-    _pointArray = [NSMutableArray arrayWithArray:[_chartPoint pointArrayTranslateByStockArray:_showStockArray innerMainFrame:_mainboxView.frame bottomFrame:_bottomBoxView.frame]];
-    finishUpdateBlock(self);
     
+    // end sliede view
     if (recognizer.state == UIGestureRecognizerStateEnded) {
         newPoint = [recognizer translationInView:_mainboxView];
     }
 }
+// leftSlide
+- (void)leftSlideStockCount:(id)sender
+{
+    int offset = 0;
+    if ([sender isKindOfClass:[UIButton class]]) {
+        offset = (int)[(UIButton *)sender tag];
+    }else{
+        offset = [(NSNumber *)sender intValue];
+    }
+    // slide to the most left edge don't slide
+    int maxCount = [_chartPoint numberOfStockInFrame:_mainboxView.frame];
+    int leftStockCount = MIN((int)_willShowStockArray.count,maxCount);//排除小于0
+    int time = MIN(offset, leftStockCount);
+    for (int i = 0; i<time; i++) {
+        [_showStockArray insertObject:[_willShowStockArray lastObject] atIndex:0];
+        [_willShowStockArray removeLastObject];
+    }
+    
+    _pointArray = [NSMutableArray arrayWithArray:[_chartPoint pointArrayTranslateByStockArray:_showStockArray innerMainFrame:_mainboxView.frame bottomFrame:_bottomBoxView.frame]];
+    finishUpdateBlock(self);
+    
+    if (_willShowStockArray.count <=10) {//加载数据 willshowstockarray <= 20
+        
+        NSDate *nowDate = [NSDate date];
+        if ([nowDate timeIntervalSinceDate:_currentDate] < 0.1) {   // 拖动多次回调bug，定时器解决
+            MYLog(@"%f",[nowDate timeIntervalSinceDate:_currentDate]);
+            _currentDate = nowDate;
+            return;
+        }
+        
+        _currentDate = nowDate;
+        if (_netMgr.isLoading == YES) return;//正在加载时不拖动K线图，不重新加载
+        _netMgr.isLoading = YES;
+        [_netMgr loadHisKData:_selectedKLineType productID:GLOBALSYMBOL.productID finish:^(NSMutableArray *stockArray) {
+            _willShowStockArray = stockArray;
+            _netMgr.isLoading = NO;
+        } error:^(NSError *error) {
+            MYLog(@"%@",error);
+        }];
+    }
+}
+
+// rightSlide
+- (void)rightSlideStockCount:(id)sender
+{
+    int offset = 0;
+    if ([sender isKindOfClass:[UIButton class]]) {
+        offset = (int)[(UIButton *)sender tag];
+    }else{
+        offset = [(NSNumber *)sender intValue];
+    }
+    unsigned long time = MIN(offset, _showStockArray.count);
+    
+    // 移动到最右边时不再执行添加数组操作
+    if (_showStockArray.count <= [_chartPoint numberOfStockInFrame:_mainboxView.frame]) return;
+    
+    for (int i = 0 ; i < time; i ++) {
+        [_willShowStockArray addObject:[_showStockArray firstObject]];
+        [_showStockArray removeObjectAtIndex:0];
+    }
+    
+    _pointArray = [NSMutableArray arrayWithArray:[_chartPoint pointArrayTranslateByStockArray:_showStockArray innerMainFrame:_mainboxView.frame bottomFrame:_bottomBoxView.frame]];
+    finishUpdateBlock(self);
+}
+
+#pragma mark -
 #pragma mark 长按就开始生成十字线
 -(void)gestureRecognizerHandle:(UILongPressGestureRecognizer*)longResture
 {
@@ -452,7 +490,7 @@
         _moveOneView.frame = oneFrame;
         
         CGRect twoFrame = _moveTwoView.frame;
-        twoFrame.origin.x = currentPoint.x;
+        twoFrame.origin.x = currentPoint.x + kLeftMatgin;
         _moveTwoView.frame = twoFrame;
         
         _moveOneView.hidden = NO;
@@ -466,7 +504,7 @@
         
         // 滑出边界
         CGRect mainFrame = _mainboxView.frame;
-        CGFloat minX = mainFrame.origin.x;
+        CGFloat minX = mainFrame.origin.x - kLeftMatgin;
         CGFloat maxX = mainFrame.size.width + minX;
         CGFloat minY = mainFrame.origin.y;
         CGFloat maxY = mainFrame.size.height + minY;
@@ -489,19 +527,27 @@
         _moveOneView.frame = oneFrame;
         
         CGRect twoFrame = _moveTwoView.frame;
-        twoFrame.origin.x = currentPoint.x;
+        twoFrame.origin.x = currentPoint.x + kLeftMatgin;
         _moveTwoView.frame = twoFrame;
+        // 铺在最上层
+//        [_moveOneView removeFromSuperview];
+//        [_mainboxView addSubview:_moveOneView];
+//        [_moveTwoView removeFromSuperview];
+//        [_mainboxView addSubview:_moveTwoView];
+        
 
         // 根据手指长按的位置更改tipView位置不被手指遮盖
+        if (currentPoint.x < _tipView.frame.size.width){
+            _tipView.frame = CGRectMake(_mainboxView.frame.size.width - 75, 0, 75, 95);
+        }
         if (currentPoint.x > _tipView.frame.origin.x) {
             CGRect frame = _tipView.frame;
             frame.origin.x = 0;
             _tipView.frame = frame;
         }
-        
-        if (currentPoint.x < _tipView.frame.size.width){
-            _tipView.frame = CGRectMake(self.frame.size.width - 70, _mainboxView.frame.origin.y, 70, 95);
-        }
+        // 铺在最上层
+        [_tipView removeFromSuperview];
+        [_mainboxView addSubview:_tipView];
         
         if (theNum < _pointArray.count) { // 数组没那么长
         // 显示左上角数值视图

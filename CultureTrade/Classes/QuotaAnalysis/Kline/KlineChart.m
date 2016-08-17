@@ -208,23 +208,7 @@
 }
 */
 
-- (void)addLineFrom:(CGPoint)srcPoint toPoint:(CGPoint)desPoint color:(CGFloat)R :(CGFloat)G :(CGFloat)B
-{
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    CGContextSetShouldAntialias(context, NO);
-    CGMutablePathRef path = CGPathCreateMutable();
-    CGContextSetRGBStrokeColor(context, R/255.0f, G/255.0f, B/255.0f, 1);
-    CGPathMoveToPoint(path, NULL, srcPoint.x, srcPoint.y);
-    CGPathAddLineToPoint(path, NULL, desPoint.x, desPoint.y);
-    
-    CGContextSetLineWidth(context, 1);
-    CGContextSetShouldAntialias(context, YES);  // 是否抗锯齿
-    
-    CGContextAddPath(context, path);
-    CGContextDrawPath(context, kCGPathStroke);
-    CGPathRelease(path);
-    
-}
+
 
 - (void)drawKline
 {
@@ -236,10 +220,11 @@
         ChartPoint *chartPoint = self.pointArray[i];
         
         if (chartPoint.openPricepoint.y >= chartPoint.closePricepoint.y) { // 红色
-            [self addLineFrom:chartPoint.highestPricepoint toPoint:chartPoint.lowestPricepoint color:255 :0 :0];
-            
+            [self addLineFrom:chartPoint.highestPricepoint toPoint:chartPoint.closePricepoint color:255 :0 :0];
+            [self addLineFrom:chartPoint.openPricepoint toPoint:chartPoint.lowestPricepoint color:255 :0 :0];
         }else{                                                              // 绿色
-            [self addLineFrom:chartPoint.highestPricepoint toPoint:chartPoint.lowestPricepoint color:0 :255 :0];
+            [self addLineFrom:chartPoint.highestPricepoint toPoint:chartPoint.openPricepoint color:0 :255 :0];
+            [self addLineFrom:chartPoint.closePricepoint toPoint:chartPoint.lowestPricepoint color:0 :255 :0];
         }
         
         if (chartPoint.openPricepoint.y >= chartPoint.closePricepoint.y) { // 红色
@@ -278,6 +263,22 @@
         }
 }
 
-
+- (void)addLineFrom:(CGPoint)srcPoint toPoint:(CGPoint)desPoint color:(CGFloat)R :(CGFloat)G :(CGFloat)B
+{
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextSetShouldAntialias(context, NO);
+    CGMutablePathRef path = CGPathCreateMutable();
+    CGContextSetRGBStrokeColor(context, R/255.0f, G/255.0f, B/255.0f, 1);
+    CGPathMoveToPoint(path, NULL, srcPoint.x, srcPoint.y);
+    CGPathAddLineToPoint(path, NULL, desPoint.x, desPoint.y);
+    
+    CGContextSetLineWidth(context, 1);
+    CGContextSetShouldAntialias(context, YES);  // 是否抗锯齿
+    
+    CGContextAddPath(context, path);
+    CGContextDrawPath(context, kCGPathStroke);
+    CGPathRelease(path);
+    
+}
 
 @end

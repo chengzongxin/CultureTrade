@@ -466,14 +466,13 @@
         _moveTwoView.frame = twoFrame;
         
         // 根据手指长按的位置更改tipView位置不被手指遮盖
+        if (currentPoint.x < _tipView.frame.size.width){
+            _tipView.frame = CGRectMake(self.frame.size.width - 65, 0, 60, 75);
+        }
         if (currentPoint.x > _tipView.frame.origin.x) {
             CGRect frame = _tipView.frame;
             frame.origin.x = 0;
             _tipView.frame = frame;
-        }
-        
-        if (currentPoint.x < _tipView.frame.size.width){
-            _tipView.frame = CGRectMake(self.frame.size.width - 65, 0, 60, 75);
         }
         
         if (theNum < _realPointArr.count) { // 数组没那么长

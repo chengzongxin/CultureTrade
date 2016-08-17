@@ -260,8 +260,14 @@
     NSDictionary *str2dict = [NSJSONSerialization JSONObjectWithData:[orders dataUsingEncoding:NSUTF8StringEncoding]
                                                              options:NSJSONReadingMutableContainers
                                                                error:&error];
-    NSArray *jsonArray = [str2dict objectForKey:@"ORDER"];
+    if ([str2dict allValues].count == 1) {
+        if ([[[str2dict allValues] objectAtIndex:0] intValue] == -100001) {
+            showAlert(LocalizedStringByInt(-100001));
+            return;
+        }
+    }
     
+    NSArray *jsonArray = [str2dict objectForKey:@"ORDER"];
     for (NSDictionary *dict in jsonArray) {
         Order *order = [Order orderWithDictionary:dict];
         [_hisOrderArray addObject:order];

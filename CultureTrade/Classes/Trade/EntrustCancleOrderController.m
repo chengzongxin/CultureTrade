@@ -98,7 +98,36 @@
     cell.stockName.text = orderModel.stockName;
     cell.entrustPrice.text = [NSString stringWithFormat:@"%0.2f",[orderModel.entrustPrice floatValue]];
     cell.entrustDeal.text = [NSString stringWithFormat:@"%@/%@",orderModel.askNum,orderModel.dealVolume];
-    cell.status.text = @"已下单";
+    // '1 :已提交 \r\n2 成交 \r\n3 部分成交 \r\n4主动撤单  \r\n5交易所拒绝 \r\n6已冻结 \r\n7 其他 \r\n 8 已过期',
+    switch ([orderModel.exeState intValue]) {
+        case 1:
+            cell.status.text = @"已提交";
+            break;
+        case 2:
+            cell.status.text = @"成交";
+            break;
+        case 3:
+            cell.status.text = @"部分成交";
+            break;
+        case 4:
+            cell.status.text = @"主动撤单";
+            break;
+        case 5:
+            cell.status.text = @"交易所拒绝";
+            break;
+        case 6:
+            cell.status.text = @"已冻结";
+            break;
+        case 7:
+            cell.status.text = @"其他";
+            break;
+        case 8:
+            cell.status.text = @"已过期";
+            break;
+            
+        default:
+            break;
+    }
     
     if ([orderModel.orderType isEqualToString:@"0B"]) {
         cell.buySell.text = @"买";
@@ -165,7 +194,7 @@
 
 - (void)showForbitAlert
 {
-    showAlert(@"开市前5分钟禁止撤单!");
+    showAlert(@"撮合交易时间内禁止撤单!");
 }
 
 - (void)alertViewClickConfirmButtonAtIndex:(NSString *)orderID

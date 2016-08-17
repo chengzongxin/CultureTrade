@@ -43,16 +43,9 @@
         // 获得最大值和最小值
         Stock *stock = stockArray[i];
         
-//        maxPriceValue = MAX(MAX(MAX(MAX(stock.highestPrice, stock.MA5), stock.MA10), stock.MA20), maxPriceValue);
-        maxPriceValue = MAX(stock.highestPrice, maxPriceValue);
-        if (stock.lowestPrice) {
-            minPriceValue = MIN(minPriceValue, stock.lowestPrice);
-        }
-//        if (stock.MA5 * stock.MA10 * stock.MA20 * stock.lowestPrice * stock.minPrice) {
-//            minPriceValue = MIN(MIN(MIN(MIN(MIN(stock.lowestPrice, stock.MA5), stock.MA10), stock.MA20), minPriceValue),stock.minPrice);
-//        }else{
-//            minPriceValue = stock.lowestPrice;
-//        }
+        maxPriceValue = MAX(maxPriceValue,stock.highestPrice);
+        minPriceValue = MIN(minPriceValue,stock.lowestPrice);
+        
         maxVolume = MAX(stock.volume, maxVolume);
         minVolume = 0.0;
     }
@@ -73,7 +66,7 @@
         chartPoint.stock.minPrice = scaleMinPriceValue;
         chartPoint.stock.maxVolume = maxVolume;
         chartPoint.stock.minVolume = minVolume;
-        
+        // 穿过来的是0时，绘制error
         chartPoint.highestPricepoint = CGPointMake(x,(1-(stock.highestPrice - scaleMinPriceValue)/(scaleMaxPriceValue - scaleMinPriceValue))*mainHeight);
         chartPoint.lowestPricepoint = CGPointMake(x,(1-(stock.lowestPrice - scaleMinPriceValue)/(scaleMaxPriceValue - scaleMinPriceValue))*mainHeight);
         chartPoint.openPricepoint = CGPointMake(x,(1-(stock.openPrice - scaleMinPriceValue)/(scaleMaxPriceValue - scaleMinPriceValue))*mainHeight);

@@ -142,21 +142,6 @@
         MYLog(@"===============last NULL===============");
         [strDataArray removeLastObject];
     }
-//    for (int i = 0; i < strDataArray.count; i++)
-//    {
-//        NSString *strLine = [strDataArray objectAtIndex:i];
-        //判断是否有空置
-//        NSArray *filedArr = [strLine componentsSeparatedByCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@","]];
-//        if (filedArr.count < 4)
-//        {
-//            MYLOGFUN;
-//            MYLog(@"===============last NULL===============%@,",strLine);
-//            [strDataArray replaceObjectAtIndex:i withObject:@"0,0,0,0,0,0,0"];
-//            [strDataArray removeObjectAtIndex:i];
-//            [strDataArray removeLastObject];
-//        }
-//    }
-    
     
     NSMutableArray *stockArray = [NSMutableArray array];
     
@@ -165,18 +150,6 @@
         NSString *strLine = [strDataArray objectAtIndex:i];
         //每一个数组字符串再拆分成N个数组，对应一个stock对象
         NSArray *filedArr = [strLine componentsSeparatedByCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@","]];
-        
-        
-        
-        // Date
-//        NSString *dateString = filedArr[0];
-//        if (dateString.length == 7) {
-//            dateString = [NSString stringWithFormat:@"20160%@",dateString];
-//        }
-//        NSDateFormatter *format = [[NSDateFormatter alloc] init];
-//        [format setDateFormat:@"yyyyMMddHHmm"];
-//        NSTimeZone *timeZone = [NSTimeZone timeZoneWithName:@"UTC +0800"];
-//        [format setTimeZone:timeZone];
         
         Stock *stock = [[Stock alloc] init];
 //        stock.date = [format dateFromString:dateString];

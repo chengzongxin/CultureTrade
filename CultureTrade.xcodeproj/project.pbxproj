@@ -188,6 +188,7 @@
 		1DBD5F2E1C9A3A8300FE3CB1 /* ModifyPasswordController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DBD5F2D1C9A3A8300FE3CB1 /* ModifyPasswordController.m */; };
 		1DBDFD3F1C9037D0009F3A43 /* HistoryEntrustController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DBDFD3E1C9037D0009F3A43 /* HistoryEntrustController.m */; };
 		1DBDFD451C90395B009F3A43 /* HistoryDealController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DBDFD441C90395B009F3A43 /* HistoryDealController.m */; };
+		1DCBD23B1D644B5F00A42686 /* ScaleButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DCBD23A1D644B5F00A42686 /* ScaleButton.m */; };
 		1DD17F891D4071D300E14CB2 /* NSDate+helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DD17F881D4071D300E14CB2 /* NSDate+helper.m */; };
 		1DD43ADB1CD0B68B00A13EF3 /* FeedbackController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DD43ADA1CD0B68B00A13EF3 /* FeedbackController.m */; };
 		1DD43ADE1CD0B6A700A13EF3 /* AboutController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DD43ADD1CD0B6A700A13EF3 /* AboutController.m */; };
@@ -680,6 +681,8 @@
 		1DBDFD3E1C9037D0009F3A43 /* HistoryEntrustController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HistoryEntrustController.m; sourceTree = "<group>"; };
 		1DBDFD431C90395B009F3A43 /* HistoryDealController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HistoryDealController.h; sourceTree = "<group>"; };
 		1DBDFD441C90395B009F3A43 /* HistoryDealController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HistoryDealController.m; sourceTree = "<group>"; };
+		1DCBD2391D644B5F00A42686 /* ScaleButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScaleButton.h; sourceTree = "<group>"; };
+		1DCBD23A1D644B5F00A42686 /* ScaleButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScaleButton.m; sourceTree = "<group>"; };
 		1DD17F871D4071D300E14CB2 /* NSDate+helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+helper.h"; sourceTree = "<group>"; };
 		1DD17F881D4071D300E14CB2 /* NSDate+helper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+helper.m"; sourceTree = "<group>"; };
 		1DD43AD91CD0B68B00A13EF3 /* FeedbackController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedbackController.h; sourceTree = "<group>"; };
@@ -1337,6 +1340,8 @@
 				1DA3C7701C3B65720099BB13 /* KlineChart.m */,
 				1DA3C7711C3B65720099BB13 /* LineView.h */,
 				1DA3C7721C3B65720099BB13 /* LineView.m */,
+				1DCBD2391D644B5F00A42686 /* ScaleButton.h */,
+				1DCBD23A1D644B5F00A42686 /* ScaleButton.m */,
 				1D48B8181C6054CD00BC4DA2 /* Archiving.h */,
 				1D48B8191C6054CD00BC4DA2 /* Archiving.m */,
 				1DA3C7731C3B65720099BB13 /* NetManager.h */,
@@ -2031,6 +2036,7 @@
 				1D1B5AA21C5860AB006EDB43 /* SuperViewController.m in Sources */,
 				1D09209B1D378BA900FDBF88 /* ApplyPurchaseTradeController.m in Sources */,
 				1DF377CC1C7BFEC600081CDB /* vmsNetReachability.m in Sources */,
+				1DCBD23B1D644B5F00A42686 /* ScaleButton.m in Sources */,
 				1DBD5F2E1C9A3A8300FE3CB1 /* ModifyPasswordController.m in Sources */,
 				1DAB89691D3E4DC6001DDB19 /* SZCalendarCell.m in Sources */,
 				1D5028501D533B8000A535E6 /* PMLineLayer.m in Sources */,
