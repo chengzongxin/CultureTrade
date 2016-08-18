@@ -128,13 +128,13 @@
 
 
 
-- (void)loadHisKData:(KLineType)type productID:(NSString *)productID
+- (void)loadHisKData:(KLineType)type first:(BOOL)isFirst productID:(NSString *)productID
 {
 //    NSString *typeStr = [NSString stringWithFormat:@"%u",type];
 //    [self cacheLocalKLine:productID type:typeStr];
     
     _selectedKLineType = type;
-    [_netMgr loadHisKData:type productID:productID finish:^(NSMutableArray *stockArray) {
+    [_netMgr loadHisKData:type first:isFirst productID:productID finish:^(NSMutableArray *stockArray) {
         _stockArray = stockArray; // cache 100 stock data
         
         _chartPoint.kLineWidth = _mainboxView.frame.size.width / _stockArray.count - _chartPoint.intervalSpace; // 让K线铺满图
@@ -442,7 +442,7 @@
         _currentDate = nowDate;
         if (_netMgr.isLoading == YES) return;//正在加载时不拖动K线图，不重新加载
         _netMgr.isLoading = YES;
-        [_netMgr loadHisKData:_selectedKLineType productID:GLOBALSYMBOL.productID finish:^(NSMutableArray *stockArray) {
+        [_netMgr loadHisKData:_selectedKLineType first:NO productID:GLOBALSYMBOL.productID finish:^(NSMutableArray *stockArray) {
             _willShowStockArray = stockArray;
             _netMgr.isLoading = NO;
         } error:^(NSError *error) {

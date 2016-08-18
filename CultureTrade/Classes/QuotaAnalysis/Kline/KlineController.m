@@ -168,28 +168,28 @@
     NSString *productID = [NSString stringWithFormat:@"%d",GLOBAL.sortUnit.m_CodeInfo.m_uiCode];
     switch (index) {
         case 0:
-            [_lineView loadHisKData:MINUTE1_HISK productID:productID];
+            [_lineView loadHisKData:MINUTE1_HISK first:YES productID:productID];
             break;
         case 1:
-            [_lineView loadHisKData:MINUTES5_HISK productID:productID];
+            [_lineView loadHisKData:MINUTES5_HISK first:YES productID:productID];
             break;
         case 2:
-            [_lineView loadHisKData:MINUTES15_HISK productID:productID];
+            [_lineView loadHisKData:MINUTES15_HISK first:YES productID:productID];
             break;
         case 3:
-            [_lineView loadHisKData:MINUTES30_HISK productID:productID];
+            [_lineView loadHisKData:MINUTES30_HISK first:YES productID:productID];
             break;
         case 4:
-            [_lineView loadHisKData:MINUTES60_HISK productID:productID];
+            [_lineView loadHisKData:MINUTES60_HISK first:YES productID:productID];
             break;
         case 5:
-            [_lineView loadHisKData:DAY_HISK productID:productID];
+            [_lineView loadHisKData:DAY_HISK first:YES productID:productID];
             break;
         case 6:
-            [_lineView loadHisKData:WEEK_HISK productID:productID];
+            [_lineView loadHisKData:WEEK_HISK first:YES productID:productID];
             break;
         case 7:
-            [_lineView loadHisKData:MONTH_HISK productID:productID];
+            [_lineView loadHisKData:MONTH_HISK first:YES productID:productID];
             break;
         default:
             break;

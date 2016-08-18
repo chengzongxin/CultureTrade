@@ -88,7 +88,7 @@
     _finishBlock(_stockArray);   // finish is null 当迅速转换到K线界面时
 }
 
-- (void)loadHisKData:(KLineType)type productID:(NSString *)productID finish:(finishBlock)finishBlock error:(errorBlock)errorBlock;
+- (void)loadHisKData:(KLineType)type first:(BOOL)isFitst productID:(NSString *)productID finish:(finishBlock)finishBlock error:(errorBlock)errorBlock
 {
     self.type = [NSString stringWithFormat:@"%u",type];
     self.productID = productID;

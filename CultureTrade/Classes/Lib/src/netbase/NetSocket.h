@@ -26,7 +26,7 @@ using namespace std;
 #define MAX_PACKAGE_LEN 64*1024
 #define ORIGINALPWD "zhangandzeng"
 #define quote_queue_size  30
-#define KREQKDATACOUNT  100  //请求K线个数
+#define KREQKDATACOUNT  150  //请求K线个数
 typedef struct tagReConnectProperty
 
 {
