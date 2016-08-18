@@ -79,31 +79,15 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CultureTrade/Classes/Lib/src/netbase/NetSocket.cpp"
-            timestampString = "492688733.88753"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2534"
-            endingLineNumber = "2534"
-            landmarkName = "CNetSocket::ProcessQuoteData(void *lParam)"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "Yes"
             filePath = "CultureTrade/Classes/QuotaAnalysis/Kline/LineView.m"
-            timestampString = "493123649.154779"
+            timestampString = "493202270.54358"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "423"
-            endingLineNumber = "423"
+            startingLineNumber = "425"
+            endingLineNumber = "425"
             landmarkName = "-leftSlideStockCount:"
             landmarkType = "5">
             <Actions>
@@ -130,11 +114,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "Yes"
             filePath = "CultureTrade/Classes/QuotaAnalysis/Kline/LineView.m"
-            timestampString = "493123864.588703"
+            timestampString = "493202270.54358"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "422"
-            endingLineNumber = "422"
+            startingLineNumber = "424"
+            endingLineNumber = "424"
             landmarkName = "-leftSlideStockCount:"
             landmarkType = "5">
             <Actions>
@@ -161,11 +145,11 @@
                   moduleName = "CultureTrade"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/szft1/Desktop/Projects/CultureTrade/CultureTrade/Classes/QuotaAnalysis/Kline/LineView.m"
-                  timestampString = "493124234.200238"
+                  timestampString = "493202612.868607"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "422"
-                  endingLineNumber = "422"
+                  startingLineNumber = "424"
+                  endingLineNumber = "424"
                   offsetFromSymbolStart = "570">
                </Location>
                <Location
@@ -176,14 +160,88 @@
                   moduleName = "CultureTrade"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/szft1/Desktop/Projects/CultureTrade/CultureTrade/Classes/QuotaAnalysis/Kline/LineView.m"
-                  timestampString = "493124234.200498"
+                  timestampString = "493202612.868842"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "422"
-                  endingLineNumber = "422"
+                  startingLineNumber = "424"
+                  endingLineNumber = "424"
                   offsetFromSymbolStart = "629">
                </Location>
             </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "Yes"
+            filePath = "CultureTrade/Classes/Lib/src/netbase/NetSocket.cpp"
+            timestampString = "493200038.419853"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "668"
+            endingLineNumber = "668"
+            landmarkName = "CNetSocket::Send(int nCmd, int nSeq, PBYTE pData, int nLen)"
+            landmarkType = "5">
+            <Actions>
+               <BreakpointActionProxy
+                  ActionExtensionID = "Xcode.BreakpointAction.Log">
+                  <ActionContent
+                     message = "================Send Kline REQ============="
+                     conveyanceType = "0">
+                  </ActionContent>
+               </BreakpointActionProxy>
+               <BreakpointActionProxy
+                  ActionExtensionID = "Xcode.BreakpointAction.DebuggerCommand">
+                  <ActionContent
+                     consoleCommand = "po nCmd">
+                  </ActionContent>
+               </BreakpointActionProxy>
+               <BreakpointActionProxy
+                  ActionExtensionID = "Xcode.BreakpointAction.DebuggerCommand">
+                  <ActionContent
+                     consoleCommand = "po [NSDate date]">
+                  </ActionContent>
+               </BreakpointActionProxy>
+            </Actions>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "Yes"
+            filePath = "CultureTrade/Classes/Lib/src/netbase/NetSocket.cpp"
+            timestampString = "493200224.796248"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "2391"
+            endingLineNumber = "2391"
+            landmarkName = "CNetSocket::ProcessQuoteData(void *lParam)"
+            landmarkType = "5">
+            <Actions>
+               <BreakpointActionProxy
+                  ActionExtensionID = "Xcode.BreakpointAction.Log">
+                  <ActionContent
+                     message = "======================Recv Kline RES======================"
+                     conveyanceType = "0">
+                  </ActionContent>
+               </BreakpointActionProxy>
+               <BreakpointActionProxy
+                  ActionExtensionID = "Xcode.BreakpointAction.DebuggerCommand">
+                  <ActionContent
+                     consoleCommand = "po pDown-&gt;m_usType">
+                  </ActionContent>
+               </BreakpointActionProxy>
+               <BreakpointActionProxy
+                  ActionExtensionID = "Xcode.BreakpointAction.DebuggerCommand">
+                  <ActionContent
+                     consoleCommand = "po [NSDate date]">
+                  </ActionContent>
+               </BreakpointActionProxy>
+            </Actions>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

@@ -26,6 +26,7 @@
 #import "ApplyPurchaseController.h"
 #import "ApplyEntrustController.h"
 #import "ApplyQueryController.h"
+#import "TodayOrderController.h"
 #define kButtonListHeight 196
 #define KButtonRow  4
 #define kBUttonCol  3
@@ -241,11 +242,19 @@
     NSInteger index = sender.tag;
     switch (index) {
         case 1:
-            [self.navigationController pushViewController:[[BuyController alloc] init] animated:YES];
+        {
+            BuyController *buy = [[BuyController alloc] init];
+            [buy ClickClear];
+            [self.navigationController pushViewController:buy animated:YES];
             break;
+        }
         case 2:
-            [self.navigationController pushViewController:[[SellController alloc] init] animated:YES];
+        {
+            SellController *sell = [[SellController alloc] init];
+            [sell ClickClear];
+            [self.navigationController pushViewController:sell animated:YES];
             break;
+        }
         case 3:
             [self.navigationController pushViewController:[[EntrustCancleOrderController alloc] init] animated:YES];
             break;
@@ -253,7 +262,7 @@
             [self.navigationController pushViewController:[[FoundHoldController alloc] init] animated:YES];
             break;
         case 5:
-            [self.navigationController pushViewController:[[EntrustCancleOrderController alloc] init] animated:YES];
+            [self.navigationController pushViewController:[[TodayOrderController alloc] init] animated:YES];
             break;
         case 6:
             [self.navigationController pushViewController:[[QueryController alloc] init] animated:YES];

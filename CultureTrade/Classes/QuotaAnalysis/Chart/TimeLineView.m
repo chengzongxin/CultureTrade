@@ -158,7 +158,11 @@
 - (void)quote_ui_stkDealData_rsp:(NSString *)data
 {
     MYLog(@"--------UI stkDealData--------- %@",data);
-//    [MBProgressHUD hideHUDForView:self animated:YES];
+    if (![data hasPrefix:GLOBAL.sortUnit.productID]) { // 两个商品来回切换导致平铺错误
+        MYLog(@"--------UI stkDealData  data---------%@",data);
+        MYLog(@"--------UI stkDealData  productID---------%@",GLOBAL.sortUnit.productID);
+        return;
+    }
     mThread = [[NSThread alloc] initWithTarget:self selector:@selector(processDataOnBackground:) object:data];
     [mThread start];
     

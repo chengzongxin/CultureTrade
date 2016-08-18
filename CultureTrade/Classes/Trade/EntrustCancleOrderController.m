@@ -7,12 +7,7 @@
 //
 
 #import "EntrustCancleOrderController.h"
-#import "UIBarButtonItem+helper.h"
-#import "BasicAlertView.h"
-#import "OrderModel.h"
-#import "GlobalModel.h"
-#import "tagdef.h"
-#import "NSDate+helper.h"
+
 
 #define kBannerHeight 20
 #define kCellHeight 35
@@ -44,7 +39,7 @@
 //    titleView.backgroundColor = [UIColor colorWithPatternImage:titleImage];
 //    self.navigationItem.titleView = titleView;
     
-    self.title = @"今日委托";
+    self.title = @"委托撤单";
 }
 - (void)back
 {
@@ -247,14 +242,13 @@
             return;
         }
     }
-//    for (NSDictionary *orderDict in array) {
-//        OrderModel *orderModel = [OrderModel oderWithDict:orderDict];
+    for (NSDictionary *orderDict in array) {
+        OrderModel *orderModel = [OrderModel oderWithDict:orderDict];
         
-//        int exeState = [orderModel.exeState intValue];
-//        if (exeState != 1) [extraArray removeObject:orderDict];
-//    }
+        int exeState = [orderModel.exeState intValue];
+        if (exeState != 1 && exeState != 3) [extraArray removeObject:orderDict];
+    }
     _orderArray = [NSMutableArray arrayWithArray:extraArray];
-//    _tableView.frame = CGRectMake(_tableView.frame.origin.x, _tableView.frame.origin.y, _tableView.frame.size.width, _tableView.frame.size.height*_orderArray.count);
     [_tableView reloadData];
     
 }

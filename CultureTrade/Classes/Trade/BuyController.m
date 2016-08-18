@@ -268,17 +268,17 @@
 {
     int code = GLOBAL.sortUnit.m_CodeInfo.m_uiCode;
     NSString *name = GLOBAL.sortUnit.productName;
-    float preClose = [[NSTradeEngine sharedInstance] getPreClosePrice:GLOBAL.sortUnit.m_CodeInfo.m_uiCode];
+//    float preClose = [[NSTradeEngine sharedInstance] getPreClosePrice:GLOBAL.sortUnit.m_CodeInfo.m_uiCode];
     
     _productID.text = [NSString stringWithFormat:@"%d",GLOBAL.sortUnit.m_CodeInfo.m_uiCode];
     _productName.text = [NSString stringWithFormat:@"%@",GLOBAL.sortUnit.productName];
-    _buyInPrice.text = [NSString stringWithFormat:@"%0.2f",preClose];
+    _buyInPrice.text = [NSString stringWithFormat:@"%0.2f",GLOBAL.sortUnit.m_uiNewPrice];
     float canbuy = GLOBAL.moneyHold.canOut/[_buyInPrice.text floatValue];
     _maxCanBuy.text = [NSString stringWithFormat:@"%d",(int)canbuy];
     
     if (code == 0) _productID.text = @"";
     if (name  == nil || name == 0) _productName.text = @"";
-    if (preClose == 0) _buyInPrice.text = @"";
+    if (GLOBAL.sortUnit.m_uiNewPrice == 0) _buyInPrice.text = @"";
 }
 
 #pragma mark -

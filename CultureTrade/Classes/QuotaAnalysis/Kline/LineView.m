@@ -118,8 +118,10 @@
                 _willShowStockArray = [NSMutableArray arrayWithArray:[_stockArray subarrayWithRange:NSMakeRange(0, firstPointInShow - 1)]];
             }
         }
+        TICK;
         _pointArray = [NSMutableArray arrayWithArray:[_chartPoint pointArrayTranslateByStockArray:_showStockArray innerMainFrame:_mainboxView.frame bottomFrame:_bottomBoxView.frame]]; // 换算坐标
         finishUpdateBlock(self);  //回调updateInterface
+        TOCK;
     }else{            // 网络重新加载,初始加载日K
     }
 }
@@ -279,7 +281,7 @@
     // 显示结束日期控件
     if (_endDateLab==nil)
     {
-        _endDateLab = [[UILabel alloc] initWithFrame:CGRectMake(self.frame.size.width-50
+        _endDateLab = [[UILabel alloc] initWithFrame:CGRectMake(self.frame.size.width-55
                                                                , _startDateLab.frame.origin.y
                                                                , 50, 15)];
         _endDateLab.font = self.font;

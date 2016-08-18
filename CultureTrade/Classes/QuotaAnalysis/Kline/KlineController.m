@@ -17,7 +17,7 @@
 #import "UIBarButtonItem+helper.h"
 #import "LoginController.h"
 #import "SearchProductController.h"
-#define kKlineTypeCount 7
+#define kKlineTypeCount 8
 @interface KlineController () <QuotaAnalysisControllerDelegate>
 {
     LineView *_lineView;

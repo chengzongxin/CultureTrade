@@ -48,4 +48,5 @@
 - (void)startTimer;
 - (void)stopTimer;
 - (void)requestPreTrade;
+- (void)ClickClear;
 @end

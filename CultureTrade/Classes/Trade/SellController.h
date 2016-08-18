@@ -10,5 +10,4 @@
 #import "BuyController.h"
 
 @interface SellController : BuyController<NSTradeEngineDelegate>
-
 @end

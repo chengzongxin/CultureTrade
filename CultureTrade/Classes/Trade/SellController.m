@@ -140,7 +140,6 @@
         [NSTradeEngine sharedInstance].delegate = self;
     }
     
-    [self updateUserinterface]; // 记住上次选择的操作结果
     [[NSTradeEngine sharedInstance] trade_request_shareholdNS];
 }
 
@@ -227,5 +226,12 @@
 //    NSDictionary *jsonDic = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
 //    _maxCanBuy.text = jsonDic[@"9803"];
 }
+
+
+//- (void)ClickClear
+//{
+//    [super ClickClear];
+//}
+
 
 @end
