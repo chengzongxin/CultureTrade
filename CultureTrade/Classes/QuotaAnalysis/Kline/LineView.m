@@ -51,7 +51,7 @@
     NSMutableArray *_pointArray;   // 显示出来的坐标
     NSMutableArray *_showArray; // 正在显示的坐标数组
     
-    KLineType _selectedKLineType;
+    int _selectedKLineType;
     
     KlineChart *_lineChart; // K线图
     VolumeChart *_volumeChart;  //成交量图
@@ -128,13 +128,10 @@
 
 
 
-- (void)loadHisKData:(KLineType)type first:(BOOL)isFirst productID:(NSString *)productID
+- (void)loadHisKData:(int)type productID:(NSString *)productID
 {
-//    NSString *typeStr = [NSString stringWithFormat:@"%u",type];
-//    [self cacheLocalKLine:productID type:typeStr];
-    
-    _selectedKLineType = type;
-    [_netMgr loadHisKData:type first:isFirst productID:productID finish:^(NSMutableArray *stockArray) {
+    _selectedKLineType = (type - HISKDATA > 0)?(type - HISKDATA):(type - HISKDATAFIRST);
+    [_netMgr loadHisKData:type productID:productID finish:^(NSMutableArray *stockArray) {
         _stockArray = stockArray; // cache 100 stock data
         
         _chartPoint.kLineWidth = _mainboxView.frame.size.width / _stockArray.count - _chartPoint.intervalSpace; // 让K线铺满图
@@ -442,7 +439,7 @@
         _currentDate = nowDate;
         if (_netMgr.isLoading == YES) return;//正在加载时不拖动K线图，不重新加载
         _netMgr.isLoading = YES;
-        [_netMgr loadHisKData:_selectedKLineType first:NO productID:GLOBALSYMBOL.productID finish:^(NSMutableArray *stockArray) {
+        [_netMgr loadHisKData:HISKDATA+_selectedKLineType productID:GLOBAL.sortUnit.productID finish:^(NSMutableArray *stockArray) {
             _willShowStockArray = stockArray;
             _netMgr.isLoading = NO;
         } error:^(NSError *error) {

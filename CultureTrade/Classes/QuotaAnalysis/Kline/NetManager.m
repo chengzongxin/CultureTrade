@@ -25,7 +25,7 @@
     [NSTradeEngine sharedInstance].delegate = self;
     _stockArray = [NSMutableArray array];
     _stockCurDateString = [NSString string];
-    self.isLoading = YES;
+    self.isLoading = NO;
     self.req_url = @"http://ichart.yahoo.com/table.csv"; //@"http://ichart.yahoo.com/table.csv?s=399001.SZ&g=d";
     self.req_stockCode = @"601888.SS"; // 股票代码 规则是：沪股代码末尾加.ss，深股代码末尾加.sz。如浦发银行的代号是：600000.SS
     self.req_type = @"d"; // 日K线类型
@@ -76,8 +76,7 @@
 {
     
     [self isFirstUpdate:productID type:type];
-    
-    NSString *data = [NSString stringWithContentsOfFile:LocalKLineFile(self.productID, self.type) encoding:NSUTF8StringEncoding error:nil];
+    NSString *data = [NSString stringWithContentsOfFile:LocalKLineFile(self.productID,type) encoding:NSUTF8StringEncoding error:nil];
     
     NSMutableArray *strDataArray = [NSMutableArray arrayWithArray:[data componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]]];
     if (strDataArray.count < 10) return;
@@ -88,9 +87,9 @@
     _finishBlock(_stockArray);   // finish is null 当迅速转换到K线界面时
 }
 
-- (void)loadHisKData:(KLineType)type first:(BOOL)isFitst productID:(NSString *)productID finish:(finishBlock)finishBlock error:(errorBlock)errorBlock
+- (void)loadHisKData:(int)type productID:(NSString *)productID finish:(finishBlock)finishBlock error:(errorBlock)errorBlock
 {
-    self.type = [NSString stringWithFormat:@"%u",type];
+    self.type = (type - HISKDATA > 0)?(type - HISKDATA):(type - HISKDATAFIRST);
     self.productID = productID;
     _finishBlock = finishBlock;
     [self cacheLocalKLine:productID type:[NSString stringWithFormat:@"%u",type]];// 加载本地
@@ -105,10 +104,12 @@
 // 回调返回stock对象数组
 - (void)quote_ui_hisKDataFirst_rsp:(int)type data:(NSString *)data count:(int)count
 {
-    if ([self.type intValue] != type) return;  // 不是当前需要的K线
+    int iType = (type - HISKDATA > 0)?(type - HISKDATA):(type - HISKDATAFIRST);
+//    if (self.type!= iType) return;  // 不是当前需要的K线
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     data = [NSString stringWithFormat:@"%@%@",data,_stockCurDateString];
-    [data writeToFile:LocalKLineFile(self.productID, self.type) atomically:YES encoding:NSUTF8StringEncoding error:nil];
+    NSString *typeStr = [NSString stringWithFormat:@"%d",self.type];
+    [data writeToFile:LocalKLineFile(self.productID, typeStr) atomically:YES encoding:NSUTF8StringEncoding error:nil];
     
     NSMutableArray *strDataArray = [NSMutableArray arrayWithArray:[data componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]]];
     _stockArray = [self loadStockWithArray:strDataArray];
@@ -122,7 +123,8 @@
 
 - (void)quote_ui_hisKDataCurDate_rsp:(int)type data:(NSString *)data count:(int)count
 {
-    if ([self.type intValue] != type) return;  // 不是当前需要的K线
+    int iType = (type - HISKDATA > 0)?(type - HISKDATA):(type - HISKDATAFIRST);
+//    if (self.type != iType) return;  // 不是当前需要的K线
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     if ([data isEqual:@""] || data == nil) {
         MYLog(@"quote_ui_hisKDataCurDate_rsp null data");

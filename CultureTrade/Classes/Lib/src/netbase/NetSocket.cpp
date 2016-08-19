@@ -618,15 +618,24 @@ bool CNetSocket::Send(int nCmd, int nSeq, PBYTE pData, int nLen)
                 delete []pData;
             }
                 break;
-            case MINUTE1_HISK:          //表明为一分钟线
-            case MINUTES5_HISK:         //5分钟K线
-            case MINUTES10_HISK:        //10分钟K线
-            case MINUTES15_HISK:        //15分钟K线
-            case MINUTES30_HISK:        //30分钟K线
-            case MINUTES60_HISK:        //60分钟K线
-            case DAY_HISK:              //日K线
-            case WEEK_HISK:             //周K线
-            case MONTH_HISK:            //月K线
+            case HISKDATAFIRST + MINUTE1_HISK:
+            case HISKDATAFIRST + MINUTES5_HISK:
+            case HISKDATAFIRST + MINUTES10_HISK:
+            case HISKDATAFIRST + MINUTES15_HISK:
+            case HISKDATAFIRST + MINUTES30_HISK:
+            case HISKDATAFIRST + MINUTES60_HISK:
+            case HISKDATAFIRST + DAY_HISK:
+            case HISKDATAFIRST + WEEK_HISK:
+            case HISKDATAFIRST + MONTH_HISK:
+            case HISKDATA + MINUTE1_HISK:
+            case HISKDATA + MINUTES5_HISK:
+            case HISKDATA + MINUTES10_HISK:
+            case HISKDATA + MINUTES15_HISK:
+            case HISKDATA + MINUTES30_HISK:
+            case HISKDATA + MINUTES60_HISK:
+            case HISKDATA + DAY_HISK:
+            case HISKDATA + WEEK_HISK:
+            case HISKDATA + MONTH_HISK:
             {
                 int nBufferSize;
                 nBufferSize = sizeof(SRequestData)+sizeof(SCodeInfo)*3;
@@ -638,19 +647,9 @@ bool CNetSocket::Send(int nCmd, int nSeq, PBYTE pData, int nLen)
                 
                 SRequestData* pReq  = (SRequestData*)pBuffer;
                 
-                if(m_nLastReqCode == code*100 + nCmd)   {                    //已经获取了一些数据
-                    if (m_nRecvKUnit < KREQKDATACOUNT - 1)//已经没有数据可以获取了，最后100条获取完毕了
-                    {
-                        m_pfFireBlockMessage(m_nSid, nCmd, nSeq, NULL, 0);
-                        return false; }
-                    pReq->m_usType = HISKDATA + nCmd;        //后续请求
-                }
-                else{//m_nCircleInfo表示K线类型
-                    pReq->m_usType = HISKDATAFIRST + nCmd;  //第一次请求
-                    m_nRecvKUnit = 0;
-                }
+                pReq->m_usType = nCmd;
                 pReq->m_usMarketType = markType;    //市场类型
-                pReq->m_usIndex = nCmd;     //在服务器返回数据的时候会把这个请求索引再传回来，以达到请求和答复一 一对应
+                pReq->m_usIndex = nSeq;     //在服务器返回数据的时候会把这个请求索引再传回来，以达到请求和答复一 一对应
                 pReq->m_usSize = 3;
                 
                 //第一个SCodeInfo
@@ -2431,7 +2430,7 @@ int CNetSocket::ProcessQuoteData(void *lParam)
                     m_nLastReqCode = pHisK->CodeInfo.m_uiCode*100 + downData.m_usType - HISKDATA;
                     pThis->m_pfFireBlockMessage(pThis->m_nSid, downData.m_usType - HISKDATA, downData.m_usIndex, (PBYTE)allHisKData, lpQuotePs->nSize - sizeof(PacketHead)-sizeof(SDownData)-sizeof(SHisKData));
                     m_nRecvKUnit += pHisK->m_usSize;
-                    if (pHisK->m_usSize < 100) m_nRecvKUnit = 0; // 没有后续
+                    if (pHisK->m_usSize < KREQKDATACOUNT) m_nRecvKUnit = 0; // 没有后续
                 }else{//新的请求
                     m_nLastReqCode = pHisK->CodeInfo.m_uiCode*100 + downData.m_usType - HISKDATAFIRST;
                     pThis->m_pfFireBlockMessage(pThis->m_nSid, downData.m_usType - HISKDATAFIRST, downData.m_usIndex, (PBYTE)allHisKData, lpQuotePs->nSize - sizeof(PacketHead)-sizeof(SDownData)-sizeof(SHisKData));
