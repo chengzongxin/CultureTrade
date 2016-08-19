@@ -556,9 +556,9 @@
 //    float minPrice = GLOBAL.nowData.m_uiMinPrice;
     float maxPrice = _timeChartPoint.maxPrice;
     float minPrice = _timeChartPoint.minPrice;
-    float interValue = maxPrice - minPrice;
-    maxPrice += interValue*0.1;
-    minPrice -= interValue*0.1;
+//    float interValue = maxPrice - minPrice;
+//    maxPrice += interValue*0.1;
+//    minPrice -= interValue*0.1;
 //    float maxVolume = firstChartPoint.stock.maxVolume;
     for (int i = 0; i< _leftLabelArr.count; i ++) {
         UILabel *leftTag = _leftLabelArr[i];
