@@ -10,6 +10,7 @@
 #import "MMProgressHUD.h"
 #import "CombiInputText.h"
 #import "UIBarButtonItem+helper.h"
+#import "UIView+Toast.h"
 
 @interface SuperViewController () <UITextFieldDelegate>
 {
@@ -24,6 +25,8 @@
     
 //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector (doneButtonshow:) name: UIKeyboardDidShowNotification object:nil];
     self.view.backgroundColor = COLOR_VC_BG;
+    
+    [NSNetHelper setup].delegate = self;
     
     [self addTitleView];
 }
@@ -174,5 +177,24 @@
     }
 }
 
+- (void)on_net_status_rsp:(int)type nFlag:(int)nFlag
+{
+    // 底层Connet断开也会回调，上层Reachablity框架也会回调，做下区分
+    MYLOGFUN;
+    MYLog(@"type=%d,nFlag=%d",type,nFlag);
+    if (type == 9) {
+        if (nFlag == 2) {
+            [self.view makeToast:@"3G Enable!"];
+        }else{
+            [self.view makeToast:@"3G Disable!"];
+        }
+    }else if(type == 10){
+        if (nFlag == 2) {
+            [self.view makeToast:@"WiFi Enable!"];
+        }else{
+            [self.view makeToast:@"WiFi Disable!"];
+        }
+    }
+}
 
 @end

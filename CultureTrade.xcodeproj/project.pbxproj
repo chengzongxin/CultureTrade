@@ -185,6 +185,7 @@
 		1DAF87C81CA38087008B82C4 /* FoundHoldController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DAF87C71CA38087008B82C4 /* FoundHoldController.m */; };
 		1DAF87CB1CA3C0CA008B82C4 /* SpliteLineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DAF87CA1CA3C0CA008B82C4 /* SpliteLineView.m */; };
 		1DB18A791CACCA9100467018 /* TitleViewButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DB18A781CACCA9100467018 /* TitleViewButton.m */; };
+		1DBD5D891D6709A00030ABA8 /* UIView+Toast.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DBD5D881D6709A00030ABA8 /* UIView+Toast.m */; };
 		1DBD5F2E1C9A3A8300FE3CB1 /* ModifyPasswordController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DBD5F2D1C9A3A8300FE3CB1 /* ModifyPasswordController.m */; };
 		1DBDFD3F1C9037D0009F3A43 /* HistoryEntrustController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DBDFD3E1C9037D0009F3A43 /* HistoryEntrustController.m */; };
 		1DBDFD451C90395B009F3A43 /* HistoryDealController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DBDFD441C90395B009F3A43 /* HistoryDealController.m */; };
@@ -673,6 +674,8 @@
 		1DAF87CA1CA3C0CA008B82C4 /* SpliteLineView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpliteLineView.m; sourceTree = "<group>"; };
 		1DB18A771CACCA9100467018 /* TitleViewButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TitleViewButton.h; sourceTree = "<group>"; };
 		1DB18A781CACCA9100467018 /* TitleViewButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TitleViewButton.m; sourceTree = "<group>"; };
+		1DBD5D871D6709A00030ABA8 /* UIView+Toast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Toast.h"; sourceTree = "<group>"; };
+		1DBD5D881D6709A00030ABA8 /* UIView+Toast.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Toast.m"; sourceTree = "<group>"; };
 		1DBD5F2C1C9A3A8300FE3CB1 /* ModifyPasswordController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModifyPasswordController.h; sourceTree = "<group>"; };
 		1DBD5F2D1C9A3A8300FE3CB1 /* ModifyPasswordController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModifyPasswordController.m; sourceTree = "<group>"; };
 		1DBDFD361C8EBA98009F3A43 /* MobClick.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MobClick.h; sourceTree = "<group>"; };
@@ -1050,6 +1053,7 @@
 				1DF371291CA119A3002E7818 /* ASProgressPopUpView */,
 				1D1BA23D1CE0808800728832 /* YWFramework */,
 				1D5028431D533B6F00A535E6 /* PullToRefresh */,
+				1DBD5D861D6709A00030ABA8 /* Toast */,
 			);
 			path = Lib;
 			sourceTree = "<group>";
@@ -1758,6 +1762,15 @@
 			path = openssl;
 			sourceTree = "<group>";
 		};
+		1DBD5D861D6709A00030ABA8 /* Toast */ = {
+			isa = PBXGroup;
+			children = (
+				1DBD5D871D6709A00030ABA8 /* UIView+Toast.h */,
+				1DBD5D881D6709A00030ABA8 /* UIView+Toast.m */,
+			);
+			path = Toast;
+			sourceTree = "<group>";
+		};
 		1DBDFD341C8EBA98009F3A43 /* UMAnalytics_Sdk_3.6.7 */ = {
 			isa = PBXGroup;
 			children = (
@@ -2001,6 +2014,7 @@
 				1D59E1811BFC2660007493FC /* Dock.m in Sources */,
 				1D59E17B1BFC2660007493FC /* LoginController.m in Sources */,
 				1D31A47F1C3DF29500FC12F8 /* TimeVolumeChart.m in Sources */,
+				1DBD5D891D6709A00030ABA8 /* UIView+Toast.m in Sources */,
 				1D59E1941BFC2660007493FC /* SelectController.m in Sources */,
 				1D0F11A81C91552600BBFA5D /* MMProgressHUDOverlayView.m in Sources */,
 				1D7211F91C0EC294008FC6F3 /* nt_tea.c in Sources */,

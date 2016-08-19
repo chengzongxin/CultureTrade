@@ -104,16 +104,32 @@ static NSString *urlString = @"http://www.baidu.com/";
     if ( [internetReach isEqual:[vmsNetReachability getRatyWifi ]] ) {
         if ([vmsNetReachability isWifiEnable]) {
             NSLog(@" get   wifi   enable   ");
+            if ([NSNetHelper setup].delegate != nil
+                && [[NSNetHelper setup].delegate respondsToSelector: @selector(on_net_status_rsp:nFlag:)]) {
+                [[NSNetHelper setup].delegate on_net_status_rsp:10 nFlag:2];
+            }
         } else {
             NSLog(@" get   wifi   disbale   ");
+            if ([NSNetHelper setup].delegate != nil
+                && [[NSNetHelper setup].delegate respondsToSelector: @selector(on_net_status_rsp:nFlag:)]) {
+                [[NSNetHelper setup].delegate on_net_status_rsp:10 nFlag:1];
+            }
         }
     }
     else if( [internetReach isEqual:[vmsNetReachability getRaty3G ]] )
     {
         if ([vmsNetReachability is3GEnable]) {
             NSLog(@" get   3g   enable   ");
+            if ([NSNetHelper setup].delegate != nil
+                && [[NSNetHelper setup].delegate respondsToSelector: @selector(on_net_status_rsp:nFlag:)]) {
+                [[NSNetHelper setup].delegate on_net_status_rsp:9 nFlag:2];
+            }
         } else {
             NSLog(@" get   3g   disbale   ");
+            if ([NSNetHelper setup].delegate != nil
+                && [[NSNetHelper setup].delegate respondsToSelector: @selector(on_net_status_rsp:nFlag:)]) {
+                [[NSNetHelper setup].delegate on_net_status_rsp:9 nFlag:1];
+            }
         }
     }
     else

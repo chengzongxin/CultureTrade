@@ -8,9 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "BaseSwitch.h"
-#import "BaseViewController.h"
+#import "SuperViewController.h"
 
-@interface HomeController : BaseViewController
+@interface HomeController : SuperViewController
 @property (nonatomic,retain) UIView *ButtonListView;
 @property (nonatomic,retain) UITableView *tableView;
 //@property (nonatomic,retain) BaseSwitch *segmentControl;

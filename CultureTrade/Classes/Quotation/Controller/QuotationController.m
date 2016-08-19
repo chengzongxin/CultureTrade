@@ -367,16 +367,6 @@
     [self closeProgressSuccess:@"Success!"];
 }
 
--(void) on_net_status_rsp:(int)type nFlag:(int)nFlag{
-    NSLog(@"连接状态= type=%d, nFlag=%d", type, nFlag); // type 1 = trade, 2 = quote
-    dispatch_async(dispatch_get_main_queue(), ^{
-        if (nFlag!=2) {
-            [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-        }else{
-            [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-        }
-    });
-}
 
 
 @end

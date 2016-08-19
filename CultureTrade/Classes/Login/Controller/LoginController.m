@@ -460,11 +460,6 @@
 }
 
 
-- (void)on_net_status_rsp:(int)type nFlag:(int)nFlag
-{
-    MYLOGFUN;
-    MYLog(@"%d,%d",type,nFlag);
-}
 
 - (void)quote_ui_login_rsp:(int)nRet
 {
