@@ -1389,9 +1389,9 @@ int nhp_trade_moneyhold_req(const char * json)
 }
 
 // K线数据请求+个股分析
-int nhp_quote_kline_req(int type, char *code){
+int nhp_quote_kline_req(char *code,int type,int index){
     int mSeq = nhp_get_nseq();
-    Send(nQuoteSID, type, mSeq, (LPBYTE)code, 0);
+    Send(nQuoteSID, type, mSeq, (LPBYTE)code, index);
     return mSeq;
 }
 

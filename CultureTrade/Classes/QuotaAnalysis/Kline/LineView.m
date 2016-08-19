@@ -22,6 +22,7 @@
 #define kMATagFont     10
 #define kTopMargin     5
 #define kLeftMatgin    40
+#define kMinStocksReq  30
 
 @interface LineView ()
 {
@@ -128,10 +129,10 @@
 
 
 
-- (void)loadHisKData:(int)type productID:(NSString *)productID
+- (void)loadHisKData:(NSString *)productID type:(int)type requestIndex:(int)index
 {
     _selectedKLineType = (type - HISKDATA > 0)?(type - HISKDATA):(type - HISKDATAFIRST);
-    [_netMgr loadHisKData:type productID:productID finish:^(NSMutableArray *stockArray) {
+    [_netMgr loadHisKData:productID type:type requestIndex:index finish:^(NSMutableArray *stockArray) {
         _stockArray = stockArray; // cache 100 stock data
         
         _chartPoint.kLineWidth = _mainboxView.frame.size.width / _stockArray.count - _chartPoint.intervalSpace; // 让K线铺满图
@@ -427,7 +428,7 @@
     _pointArray = [NSMutableArray arrayWithArray:[_chartPoint pointArrayTranslateByStockArray:_showStockArray innerMainFrame:_mainboxView.frame bottomFrame:_bottomBoxView.frame]];
     finishUpdateBlock(self);
     
-    if (_willShowStockArray.count <=10) {//加载数据 willshowstockarray <= 20
+    if (_willShowStockArray.count <=kMinStocksReq) {//加载数据 willshowstockarray <= 20
         
         NSDate *nowDate = [NSDate date];
         if ([nowDate timeIntervalSinceDate:_currentDate] < 0.1) {   // 拖动多次回调bug，定时器解决
@@ -439,7 +440,7 @@
         _currentDate = nowDate;
         if (_netMgr.isLoading == YES) return;//正在加载时不拖动K线图，不重新加载
         _netMgr.isLoading = YES;
-        [_netMgr loadHisKData:HISKDATA+_selectedKLineType productID:GLOBAL.sortUnit.productID finish:^(NSMutableArray *stockArray) {
+        [_netMgr loadHisKData:GLOBAL.sortUnit.productID type:HISKDATA+_selectedKLineType requestIndex:(int)(_showStockArray.count+_willShowStockArray.count)  finish:^(NSMutableArray *stockArray) {
             _willShowStockArray = stockArray;
             _netMgr.isLoading = NO;
         } error:^(NSError *error) {

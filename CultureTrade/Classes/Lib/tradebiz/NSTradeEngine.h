@@ -842,7 +842,7 @@ extern NSString * const REFRESH_NOTIFY;
 
 - (int)trade_request_moneyholdNS;
 
-- (int)quote_kline_reqNS:(int)klineType productID:(NSString *)productID;
+- (int)quote_kline_reqNS:(NSString *)productID type:(int)klineType requestIndex:(int)index;
 
 - (int)quote_stktrace_reqNS:(NSString *)productID;
 // 刷新盘口

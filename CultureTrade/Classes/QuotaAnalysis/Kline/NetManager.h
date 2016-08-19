@@ -28,6 +28,6 @@ typedef void(^errorBlock)(NSError *error);
 @property (nonatomic,assign) BOOL isSuccessLoad;
 @property (nonatomic,assign) BOOL isLoading;
 // 回调返回stock对象数组
-- (void)loadHisKData:(int)type productID:(NSString *)productID finish:(finishBlock)finishBlock error:(errorBlock)errorBlock; //加载文交所
+- (void)loadHisKData:(NSString *)productID type:(int)type requestIndex:(int)index finish:(finishBlock)finishBlock error:(errorBlock)errorBlock; //加载文交所
 - (void)loadStockData:(finishBlock)finishBlock error:(errorBlock)errorBlock; // 加载搜狐雅虎财经K线
 @end

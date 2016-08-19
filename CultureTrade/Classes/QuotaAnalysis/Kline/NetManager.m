@@ -87,7 +87,7 @@
     _finishBlock(_stockArray);   // finish is null 当迅速转换到K线界面时
 }
 
-- (void)loadHisKData:(int)type productID:(NSString *)productID finish:(finishBlock)finishBlock error:(errorBlock)errorBlock
+- (void)loadHisKData:(NSString *)productID type:(int)type requestIndex:(int)index finish:(finishBlock)finishBlock error:(errorBlock)errorBlock
 {
     self.type = (type - HISKDATA > 0)?(type - HISKDATA):(type - HISKDATAFIRST);
     self.productID = productID;
@@ -97,14 +97,14 @@
     if ([NSTradeEngine sharedInstance].delegate != self) {
         [NSTradeEngine sharedInstance].delegate = self;
     }
-    [[NSTradeEngine sharedInstance] quote_kline_reqNS:type productID:productID];
+    [[NSTradeEngine sharedInstance] quote_kline_reqNS:productID type:type requestIndex:index];
     _stockCurDateString = @"";
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
 }
 // 回调返回stock对象数组
 - (void)quote_ui_hisKDataFirst_rsp:(int)type data:(NSString *)data count:(int)count
 {
-    int iType = (type - HISKDATA > 0)?(type - HISKDATA):(type - HISKDATAFIRST);
+//    int iType = (type - HISKDATA > 0)?(type - HISKDATA):(type - HISKDATAFIRST);
 //    if (self.type!= iType) return;  // 不是当前需要的K线
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     data = [NSString stringWithFormat:@"%@%@",data,_stockCurDateString];

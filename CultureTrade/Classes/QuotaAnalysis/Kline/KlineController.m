@@ -168,28 +168,28 @@
     NSString *productID = [NSString stringWithFormat:@"%d",GLOBAL.sortUnit.m_CodeInfo.m_uiCode];
     switch (index) {
         case 0:
-            [_lineView loadHisKData:HISKDATAFIRST+MINUTE1_HISK productID:productID];
+            [_lineView loadHisKData:productID type:HISKDATAFIRST+MINUTE1_HISK requestIndex:0];
             break;
         case 1:
-            [_lineView loadHisKData:HISKDATAFIRST+MINUTES5_HISK productID:productID];
+            [_lineView loadHisKData:productID type:HISKDATAFIRST+MINUTES5_HISK requestIndex:0];
             break;
         case 2:
-            [_lineView loadHisKData:HISKDATAFIRST+MINUTES15_HISK productID:productID];
+            [_lineView loadHisKData:productID type:HISKDATAFIRST+MINUTES15_HISK requestIndex:0];
             break;
         case 3:
-            [_lineView loadHisKData:HISKDATAFIRST+MINUTES30_HISK productID:productID];
+            [_lineView loadHisKData:productID type:HISKDATAFIRST+MINUTES30_HISK requestIndex:0];
             break;
         case 4:
-            [_lineView loadHisKData:HISKDATAFIRST+MINUTES60_HISK productID:productID];
+            [_lineView loadHisKData:productID type:HISKDATAFIRST+MINUTES60_HISK requestIndex:0];
             break;
         case 5:
-            [_lineView loadHisKData:HISKDATAFIRST+DAY_HISK productID:productID];
+            [_lineView loadHisKData:productID type:HISKDATAFIRST+DAY_HISK requestIndex:0];
             break;
         case 6:
-            [_lineView loadHisKData:HISKDATAFIRST+WEEK_HISK productID:productID];
+            [_lineView loadHisKData:productID type:HISKDATAFIRST+WEEK_HISK requestIndex:0];
             break;
         case 7:
-            [_lineView loadHisKData:HISKDATAFIRST+MONTH_HISK productID:productID];
+            [_lineView loadHisKData:productID type:HISKDATAFIRST+MONTH_HISK requestIndex:0];
             break;
         default:
             break;

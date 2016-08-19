@@ -19,7 +19,7 @@ typedef void (^updateBlock)(id);
 
 - (void)bigScale;
 - (void)smallScale;
-- (void)loadHisKData:(int)type productID:(NSString *)productID;
+- (void)loadHisKData:(NSString *)productID type:(int)type requestIndex:(int)index;
 
 //- (void)viewWillApper;
 //- (void)viewWillDisapper;

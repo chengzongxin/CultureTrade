@@ -658,7 +658,7 @@ bool CNetSocket::Send(int nCmd, int nSeq, PBYTE pData, int nLen)
                 pCodeInfo->m_usMarketType = markType;        //藏品市场类型
                 //第二个SCodeInfo
                 pCodeInfo++;
-                pCodeInfo->m_uiCode = m_nRecvKUnit;       //现有历史数据数量
+                pCodeInfo->m_uiCode = nLen;       //现有历史数据数量
                 //第三个SCodeInfo
                 pCodeInfo++;
                 pCodeInfo->m_uiCode = KREQKDATACOUNT;     //想要得到的历史数据数量
@@ -2429,12 +2429,12 @@ int CNetSocket::ProcessQuoteData(void *lParam)
                 if (m_nLastReqCode == downData.m_usType - HISKDATA +pHisK->CodeInfo.m_uiCode*100) {//后续请求
                     m_nLastReqCode = pHisK->CodeInfo.m_uiCode*100 + downData.m_usType - HISKDATA;
                     pThis->m_pfFireBlockMessage(pThis->m_nSid, downData.m_usType - HISKDATA, downData.m_usIndex, (PBYTE)allHisKData, lpQuotePs->nSize - sizeof(PacketHead)-sizeof(SDownData)-sizeof(SHisKData));
-                    m_nRecvKUnit += pHisK->m_usSize;
-                    if (pHisK->m_usSize < KREQKDATACOUNT) m_nRecvKUnit = 0; // 没有后续
+//                    m_nRecvKUnit += pHisK->m_usSize;
+//                    if (pHisK->m_usSize < KREQKDATACOUNT) m_nRecvKUnit = 0; // 没有后续
                 }else{//新的请求
                     m_nLastReqCode = pHisK->CodeInfo.m_uiCode*100 + downData.m_usType - HISKDATAFIRST;
                     pThis->m_pfFireBlockMessage(pThis->m_nSid, downData.m_usType - HISKDATAFIRST, downData.m_usIndex, (PBYTE)allHisKData, lpQuotePs->nSize - sizeof(PacketHead)-sizeof(SDownData)-sizeof(SHisKData));
-                    m_nRecvKUnit += pHisK->m_usSize;
+//                    m_nRecvKUnit += pHisK->m_usSize;
                 }
                 delete [] allHisKData;
             }
@@ -2529,7 +2529,7 @@ int CNetSocket::ProcessQuoteData(void *lParam)
                 }
                 
                 //新的请求
-                m_nRecvKUnit += pHisK->m_usSize;
+//                m_nRecvKUnit += pHisK->m_usSize;
                 pThis->m_pfFireBlockMessage(pThis->m_nSid, HISKDATACURDATE, pDown->m_usIndex, (PBYTE)allHisKData, lpQuotePs->nSize - sizeof(PacketHead)-sizeof(SDownData)-sizeof(SHisKData));
                 delete [] allHisKData;
                 

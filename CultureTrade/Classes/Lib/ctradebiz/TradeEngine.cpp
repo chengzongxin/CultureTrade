@@ -8461,9 +8461,9 @@ extern "C"
         return 0;
     }
     
-    int quote_kline_req(int klineType,char *productID)
+    int quote_kline_req(char *productID,int klineType,int index)
     {
-        return nhp_quote_kline_req(klineType, productID);
+        return nhp_quote_kline_req(productID,klineType,index);
     }
     //个股分析
     int quote_stktrace_req(char *code)

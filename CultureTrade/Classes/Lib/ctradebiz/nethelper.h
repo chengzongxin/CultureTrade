@@ -553,7 +553,7 @@ typedef struct nhp_trade_events
     int nhp_trade_moneyhold_req(const char * json);
     
     // k线请求
-    int nhp_quote_kline_req(int type, char *code);
+    int nhp_quote_kline_req(char *code,int type,int index);
     
     // 个股分析
     int nhp_quote_stktrace_req(char *code);

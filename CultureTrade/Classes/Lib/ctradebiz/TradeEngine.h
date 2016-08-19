@@ -894,7 +894,7 @@ typedef struct trade_ui_events
     // 资金持仓
     int trade_request_moneyhold();
     
-    int quote_kline_req(int klineType,char *productID);
+    int quote_kline_req(char *productID,int klineType,int index);
     
     int quote_stktrace_req(char *code);
     

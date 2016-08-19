@@ -2802,10 +2802,10 @@ return [NSString stringWithFormat:@"%.3f", getApplySettlementprirce(pp)];
     return trade_request_moneyhold();
 }
 
-- (int)quote_kline_reqNS:(int)klineType productID:(NSString *)productID
+- (int)quote_kline_reqNS:(NSString *)productID type:(int)klineType requestIndex:(int)index
 {
     char * cproductID = toCString(productID);
-    return quote_kline_req(klineType, cproductID);
+    return quote_kline_req(cproductID,klineType,index);
 }
 
 - (int)quote_stktrace_reqNS:(NSString *)productID
