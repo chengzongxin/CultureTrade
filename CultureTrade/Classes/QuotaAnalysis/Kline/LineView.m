@@ -136,6 +136,9 @@
         _stockArray = stockArray; // cache 100 stock data
         
         _chartPoint.kLineWidth = _mainboxView.frame.size.width / _stockArray.count - _chartPoint.intervalSpace; // 让K线铺满图
+        if (_chartPoint.kLineWidth > 30) {  // limit 30
+            _chartPoint.kLineWidth = 30;
+        }
         [self loadCacheData];
 //        }
     } error:^(NSError *error) {
