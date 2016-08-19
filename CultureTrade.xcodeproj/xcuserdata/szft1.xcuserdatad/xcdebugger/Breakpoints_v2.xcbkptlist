@@ -31,15 +31,6 @@
                   usesParentBreakpointCondition = "Yes"
                   offsetFromSymbolStart = "0">
                </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[NSObject(NSObject) doesNotRecognizeSelector:]"
-                  moduleName = "CoreFoundation"
-                  usesParentBreakpointCondition = "Yes"
-                  offsetFromSymbolStart = "0">
-               </Location>
             </Locations>
          </BreakpointContent>
       </BreakpointProxy>
@@ -64,39 +55,15 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "Yes"
-            filePath = "CultureTrade/Other/AppDelegate.m"
-            timestampString = "490098001.024591"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "63"
-            endingLineNumber = "63"
-            landmarkName = "-application:didFinishLaunchingWithOptions:"
-            landmarkType = "5">
-            <Actions>
-               <BreakpointActionProxy
-                  ActionExtensionID = "Xcode.BreakpointAction.DebuggerCommand">
-                  <ActionContent
-                     consoleCommand = "reveal_load_sim">
-                  </ActionContent>
-               </BreakpointActionProxy>
-            </Actions>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "Yes"
             filePath = "CultureTrade/Classes/QuotaAnalysis/Kline/LineView.m"
-            timestampString = "493280468.844"
+            timestampString = "493287939.961362"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "426"
-            endingLineNumber = "426"
+            startingLineNumber = "433"
+            endingLineNumber = "433"
             landmarkName = "-leftSlideStockCount:"
             landmarkType = "5">
             <Actions>
@@ -119,15 +86,15 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "Yes"
             filePath = "CultureTrade/Classes/QuotaAnalysis/Kline/LineView.m"
-            timestampString = "493280468.844"
+            timestampString = "493287939.961362"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "425"
-            endingLineNumber = "425"
+            startingLineNumber = "432"
+            endingLineNumber = "432"
             landmarkName = "-leftSlideStockCount:"
             landmarkType = "5">
             <Actions>
@@ -147,34 +114,34 @@
             </Actions>
             <Locations>
                <Location
-                  shouldBeEnabled = "Yes"
+                  shouldBeEnabled = "No"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "-[LineView leftSlideStockCount:]"
                   moduleName = "CultureTrade"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/szft1/Desktop/Projects/CultureTrade/CultureTrade/Classes/QuotaAnalysis/Kline/LineView.m"
-                  timestampString = "493281033.692689"
+                  timestampString = "493287098.711516"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "425"
-                  endingLineNumber = "425"
-                  offsetFromSymbolStart = "570">
+                  startingLineNumber = "434"
+                  endingLineNumber = "434"
+                  offsetFromSymbolStart = "595">
                </Location>
                <Location
-                  shouldBeEnabled = "Yes"
+                  shouldBeEnabled = "No"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "-[LineView leftSlideStockCount:]"
                   moduleName = "CultureTrade"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/szft1/Desktop/Projects/CultureTrade/CultureTrade/Classes/QuotaAnalysis/Kline/LineView.m"
-                  timestampString = "493281033.692844"
+                  timestampString = "493287098.711875"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "425"
-                  endingLineNumber = "425"
-                  offsetFromSymbolStart = "629">
+                  startingLineNumber = "434"
+                  endingLineNumber = "434"
+                  offsetFromSymbolStart = "654">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -221,45 +188,60 @@
          <BreakpointContent
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
-            continueAfterRunningActions = "No"
+            continueAfterRunningActions = "Yes"
             filePath = "CultureTrade/Classes/QuotaAnalysis/Kline/LineView.m"
-            timestampString = "493280468.844"
+            timestampString = "493287939.961362"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "446"
-            endingLineNumber = "446"
-            landmarkName = "-leftSlideStockCount:"
+            startingLineNumber = "743"
+            endingLineNumber = "743"
+            landmarkName = "-processEvent"
             landmarkType = "5">
+            <Actions>
+               <BreakpointActionProxy
+                  ActionExtensionID = "Xcode.BreakpointAction.Log">
+                  <ActionContent
+                     message = "============start Timer==========="
+                     conveyanceType = "0">
+                  </ActionContent>
+               </BreakpointActionProxy>
+               <BreakpointActionProxy
+                  ActionExtensionID = "Xcode.BreakpointAction.DebuggerCommand">
+                  <ActionContent
+                     consoleCommand = "po [NSDate date]">
+                  </ActionContent>
+               </BreakpointActionProxy>
+            </Actions>
             <Locations>
                <Location
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "-[LineView leftSlideStockCount:]"
+                  symbolName = "-[LineView processEvent]"
                   moduleName = "CultureTrade"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/szft1/Desktop/Projects/CultureTrade/CultureTrade/Classes/QuotaAnalysis/Kline/LineView.m"
-                  timestampString = "493281033.694991"
+                  timestampString = "493287941.052021"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "446"
-                  endingLineNumber = "446"
-                  offsetFromSymbolStart = "1971">
+                  startingLineNumber = "743"
+                  endingLineNumber = "743"
+                  offsetFromSymbolStart = "19">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "__32-[LineView leftSlideStockCount:]_block_invoke"
+                  symbolName = "__24-[LineView processEvent]_block_invoke"
                   moduleName = "CultureTrade"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/szft1/Desktop/Projects/CultureTrade/CultureTrade/Classes/QuotaAnalysis/Kline/LineView.m"
-                  timestampString = "493281033.695135"
+                  timestampString = "493287941.0523"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "447"
-                  endingLineNumber = "447"
-                  offsetFromSymbolStart = "44">
+                  startingLineNumber = "743"
+                  endingLineNumber = "743"
+                  offsetFromSymbolStart = "39">
                </Location>
             </Locations>
          </BreakpointContent>

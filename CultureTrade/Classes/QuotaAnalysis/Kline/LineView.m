@@ -66,6 +66,9 @@
     ScaleButton *_btnRightMove;
     ScaleButton *_btnBigScall;
     ScaleButton *_btnSmallScall;
+    
+    NSTimer *_mTimer;
+    NSString *_currentProductID;
 }
 
 @end
@@ -119,10 +122,8 @@
                 _willShowStockArray = [NSMutableArray arrayWithArray:[_stockArray subarrayWithRange:NSMakeRange(0, firstPointInShow - 1)]];
             }
         }
-        TICK;
         _pointArray = [NSMutableArray arrayWithArray:[_chartPoint pointArrayTranslateByStockArray:_showStockArray innerMainFrame:_mainboxView.frame bottomFrame:_bottomBoxView.frame]]; // 换算坐标
         finishUpdateBlock(self);  //回调updateInterface
-        TOCK;
     }else{            // 网络重新加载,初始加载日K
     }
 }
@@ -132,6 +133,7 @@
 - (void)loadHisKData:(NSString *)productID type:(int)type requestIndex:(int)index
 {
     _selectedKLineType = (type - HISKDATA > 0)?(type - HISKDATA):(type - HISKDATAFIRST);
+    _currentProductID = productID;
     [_netMgr loadHisKData:productID type:type requestIndex:index finish:^(NSMutableArray *stockArray) {
         _stockArray = stockArray; // cache 100 stock data
         
@@ -145,6 +147,10 @@
         MYLog(@"load stock data error = ");
         _netMgr.isSuccessLoad = NO;
     }];
+    
+    if (index == 0) {  // click top bar start
+        [self startTimer];  // start Timer
+    }
 }
 
 //finishUpdateBlock回调updateInterface
@@ -413,6 +419,7 @@
 // leftSlide
 - (void)leftSlideStockCount:(id)sender
 {
+    [self stopTimer];
     int offset = 0;
     if ([sender isKindOfClass:[UIButton class]]) {
         offset = (int)[(UIButton *)sender tag];
@@ -455,6 +462,7 @@
 // rightSlide
 - (void)rightSlideStockCount:(id)sender
 {
+    [self stopTimer];
     int offset = 0;
     if ([sender isKindOfClass:[UIButton class]]) {
         offset = (int)[(UIButton *)sender tag];
@@ -710,5 +718,42 @@
     _volMaxValueLab.text = [NSString changePrice:maxVolume];
     
 }
+
+- (void)startTimer
+{
+    int timeInterval = _selectedKLineType*60;
+    if (_mTimer == nil) { // _selectedKLineType秒刷一次
+        _mTimer = [[NSTimer alloc] initWithFireDate:[NSDate date] interval:timeInterval target:self selector:@selector(processEvent) userInfo:nil repeats:YES];
+        [[NSRunLoop currentRunLoop] addTimer:_mTimer forMode:NSDefaultRunLoopMode];
+    }else{
+        [self stopTimer];
+        _mTimer = [[NSTimer alloc] initWithFireDate:[NSDate date] interval:timeInterval target:self selector:@selector(processEvent) userInfo:nil repeats:YES];
+        [[NSRunLoop currentRunLoop] addTimer:_mTimer forMode:NSDefaultRunLoopMode];
+    }
+}
+
+- (void)stopTimer
+{
+    [_mTimer invalidate];
+    _mTimer = nil;
+}
+
+- (void)processEvent
+{
+    [_netMgr loadHisKData:_currentProductID type:HISKDATAFIRST+_selectedKLineType requestIndex:0 finish:^(NSMutableArray *stockArray) {
+        _stockArray = stockArray; // cache 100 stock data
+        
+        _chartPoint.kLineWidth = _mainboxView.frame.size.width / _stockArray.count - _chartPoint.intervalSpace; // 让K线铺满图
+        if (_chartPoint.kLineWidth > 30) {  // limit 30
+            _chartPoint.kLineWidth = 30;
+        }
+        [self loadCacheData];
+        //        }
+    } error:^(NSError *error) {
+        MYLog(@"load stock data error = ");
+        _netMgr.isSuccessLoad = NO;
+    }];
+}
+
 
 @end
