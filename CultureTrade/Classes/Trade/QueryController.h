@@ -6,7 +6,7 @@
 //  Copyright (c) 2015年 cheng.zongxin. All rights reserved.
 //
 
-#import "BaseViewController.h"
+
 #import "EntrustCancelBanner.h"
 #import "SuperViewController.h"
 @interface QueryController : SuperViewController <UITableViewDataSource,UITableViewDelegate,NSTradeEngineDelegate>

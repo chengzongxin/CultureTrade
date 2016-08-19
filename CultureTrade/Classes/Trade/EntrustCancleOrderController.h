@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "BaseViewController.h"
 #import "EntrustCancelBanner.h"
 #import "SuperViewController.h"
 #import "EntrustCancelCell.h"

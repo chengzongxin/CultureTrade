@@ -8,7 +8,6 @@
 
 #import <UIKit/UIKit.h>
 #import "SuperViewController.h"
-#import "BaseViewController.h"
 #import "CombiInputText.h"
 #import "UITouchScrollView.h"
 #import "TableViewWithBlock.h"

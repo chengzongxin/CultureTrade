@@ -55,7 +55,6 @@
 		1D59E16E1BFC2660007493FC /* BaseCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D59E10B1BFC2660007493FC /* BaseCell.m */; };
 		1D59E16F1BFC2660007493FC /* BaseNavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D59E10D1BFC2660007493FC /* BaseNavigationBar.m */; };
 		1D59E1701BFC2660007493FC /* BaseNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D59E10F1BFC2660007493FC /* BaseNavigationController.m */; };
-		1D59E1711BFC2660007493FC /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D59E1111BFC2660007493FC /* BaseViewController.m */; };
 		1D59E1721BFC2660007493FC /* colorModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D59E1131BFC2660007493FC /* colorModel.m */; };
 		1D59E1731BFC2660007493FC /* Common.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D59E1151BFC2660007493FC /* Common.m */; };
 		1D59E1741BFC2660007493FC /* NSString+helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D59E1171BFC2660007493FC /* NSString+helper.m */; };
@@ -330,8 +329,6 @@
 		1D59E10D1BFC2660007493FC /* BaseNavigationBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseNavigationBar.m; sourceTree = "<group>"; };
 		1D59E10E1BFC2660007493FC /* BaseNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseNavigationController.h; sourceTree = "<group>"; };
 		1D59E10F1BFC2660007493FC /* BaseNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseNavigationController.m; sourceTree = "<group>"; };
-		1D59E1101BFC2660007493FC /* BaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseViewController.h; sourceTree = "<group>"; };
-		1D59E1111BFC2660007493FC /* BaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseViewController.m; sourceTree = "<group>"; };
 		1D59E1121BFC2660007493FC /* colorModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = colorModel.h; sourceTree = "<group>"; };
 		1D59E1131BFC2660007493FC /* colorModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = colorModel.m; sourceTree = "<group>"; };
 		1D59E1141BFC2660007493FC /* Common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Common.h; sourceTree = "<group>"; };
@@ -974,8 +971,6 @@
 				1D59E10D1BFC2660007493FC /* BaseNavigationBar.m */,
 				1D59E10E1BFC2660007493FC /* BaseNavigationController.h */,
 				1D59E10F1BFC2660007493FC /* BaseNavigationController.m */,
-				1D59E1101BFC2660007493FC /* BaseViewController.h */,
-				1D59E1111BFC2660007493FC /* BaseViewController.m */,
 				1D59E1121BFC2660007493FC /* colorModel.h */,
 				1D59E1131BFC2660007493FC /* colorModel.m */,
 				1D59E1141BFC2660007493FC /* Common.h */,
@@ -1963,7 +1958,6 @@
 				1D4FE6691C4C774F0049D2B5 /* SelectPrefer.m in Sources */,
 				1DA3C7791C3B65720099BB13 /* ChartPoint.m in Sources */,
 				1DF377C91C7BFEC600081CDB /* UIDeviceHardware.m in Sources */,
-				1D59E1711BFC2660007493FC /* BaseViewController.m in Sources */,
 				1D7211E81C0EC294008FC6F3 /* global.c in Sources */,
 				1D5E1C3B1C0699100041303A /* PriceListController.m in Sources */,
 				1D7211F71C0EC294008FC6F3 /* nt_md5.c in Sources */,

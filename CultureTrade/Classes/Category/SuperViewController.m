@@ -184,15 +184,15 @@
     MYLog(@"type=%d,nFlag=%d",type,nFlag);
     if (type == 9) {
         if (nFlag == 2) {
-            [self.view makeToast:@"3G Enable!"];
+            [self.view makeToast:@"3G网络正在使用!"];
         }else{
-            [self.view makeToast:@"3G Disable!"];
+            [self.view makeToast:@"3G网络连接失败,请检查设置!"];
         }
     }else if(type == 10){
         if (nFlag == 2) {
-            [self.view makeToast:@"WiFi Enable!"];
+            [self.view makeToast:@"WiFi网络正在使用!"];
         }else{
-            [self.view makeToast:@"WiFi Disable!"];
+            [self.view makeToast:@"WiFi网络连接失败,请检查设置!"];
         }
     }
 }

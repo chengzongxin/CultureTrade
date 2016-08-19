@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "BaseViewController.h"
 #import "NSString+helper.h"
 #import "MeFunctionCell.h"
 #import "UIBarButtonItem+helper.h"
