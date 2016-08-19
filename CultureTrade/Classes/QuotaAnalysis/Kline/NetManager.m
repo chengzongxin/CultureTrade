@@ -104,8 +104,7 @@
 // 回调返回stock对象数组
 - (void)quote_ui_hisKDataFirst_rsp:(int)type data:(NSString *)data count:(int)count
 {
-//    int iType = (type - HISKDATA > 0)?(type - HISKDATA):(type - HISKDATAFIRST);
-//    if (self.type!= iType) return;  // 不是当前需要的K线
+    if (self.type!= type) return;  // 不是当前需要的K线
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     data = [NSString stringWithFormat:@"%@%@",data,_stockCurDateString];
     NSString *typeStr = [NSString stringWithFormat:@"%d",self.type];
@@ -123,8 +122,7 @@
 
 - (void)quote_ui_hisKDataCurDate_rsp:(int)type data:(NSString *)data count:(int)count
 {
-    int iType = (type - HISKDATA > 0)?(type - HISKDATA):(type - HISKDATAFIRST);
-//    if (self.type != iType) return;  // 不是当前需要的K线
+    if (self.type != type) return;  // 不是当前需要的K线
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     if ([data isEqual:@""] || data == nil) {
         MYLog(@"quote_ui_hisKDataCurDate_rsp null data");
