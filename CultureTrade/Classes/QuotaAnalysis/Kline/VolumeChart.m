@@ -53,9 +53,11 @@
         CGContextAddRect(context, rect);
         if (chartPoint.openPricepoint.y >= chartPoint.closePricepoint.y) { // 绿色
             // 1.先设置填充颜色，再填充颜色，否则是把当前设置填充颜色填到下一个矩形，导致右偏移bug
-            CGContextSetFillColorWithColor(context, [UIColor redColor].CGColor);
+//            CGContextSetFillColorWithColor(context, [UIColor redColor].CGColor);
             // 2.填充上下文指定的rect
-            CGContextFillRect(context, rect);
+//            CGContextFillRect(context, rect);
+            [[UIColor redColor] set];
+            UIRectFrame(rect);
         }else{
             CGContextSetFillColorWithColor(context, [UIColor greenColor].CGColor);
             CGContextFillRect(context, rect);
