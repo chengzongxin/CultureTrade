@@ -143,6 +143,10 @@
     [[NSTradeEngine sharedInstance] trade_request_shareholdNS];
 }
 
+- (void)requestMoneyHold{}
+
+- (void)trade_ui_moneyhold_rsp:(int)nRet{}
+
 - (void)trade_ui_sharehold_rsp:(int)nRet sharehold:(NSString *)sharehold
 {
     [_tableBlock reloadData];

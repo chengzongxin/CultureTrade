@@ -557,9 +557,15 @@
         [NSTradeEngine sharedInstance].delegate = self;
     }
     
-    [[NSTradeEngine sharedInstance] trade_request_moneyholdNS];
+    [self requestMoneyHold];
     
     [self startTimer];
+}
+
+- (void)requestMoneyHold
+{
+    
+    [[NSTradeEngine sharedInstance] trade_request_moneyholdNS]; // sellcontroller overeide this method
 }
 
 - (void)viewWillDisappear:(BOOL)animated
