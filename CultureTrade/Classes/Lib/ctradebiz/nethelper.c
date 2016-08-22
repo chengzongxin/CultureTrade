@@ -151,7 +151,7 @@ bool on_nhp_session_trans_package_callback_handle_quote(int nSid, int nCmd, int 
         }
         case HISKDATACURDATE:  // 1f00
         {
-            tradeevents.on_nhp_quote_hisKDataCurDate_rsp(nSeq,pData,nLen);
+            tradeevents.on_nhp_quote_hisKDataCurDate_rsp(nCmd,pData,nLen);
             break;
         }
         case STKDEALDATA:     // 0300

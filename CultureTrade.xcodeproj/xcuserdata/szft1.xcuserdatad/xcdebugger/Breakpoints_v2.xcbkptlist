@@ -59,11 +59,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "Yes"
             filePath = "CultureTrade/Classes/QuotaAnalysis/Kline/LineView.m"
-            timestampString = "493287939.961362"
+            timestampString = "493549865.21357"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "433"
-            endingLineNumber = "433"
+            startingLineNumber = "484"
+            endingLineNumber = "484"
             landmarkName = "-leftSlideStockCount:"
             landmarkType = "5">
             <Actions>
@@ -90,11 +90,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "Yes"
             filePath = "CultureTrade/Classes/QuotaAnalysis/Kline/LineView.m"
-            timestampString = "493287939.961362"
+            timestampString = "493549865.21357"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "432"
-            endingLineNumber = "432"
+            startingLineNumber = "483"
+            endingLineNumber = "483"
             landmarkName = "-leftSlideStockCount:"
             landmarkType = "5">
             <Actions>
@@ -190,11 +190,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "Yes"
             filePath = "CultureTrade/Classes/QuotaAnalysis/Kline/LineView.m"
-            timestampString = "493287939.961362"
+            timestampString = "493549865.21357"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "743"
-            endingLineNumber = "743"
+            startingLineNumber = "798"
+            endingLineNumber = "798"
             landmarkName = "-processEvent"
             landmarkType = "5">
             <Actions>
@@ -221,11 +221,11 @@
                   moduleName = "CultureTrade"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/szft1/Desktop/Projects/CultureTrade/CultureTrade/Classes/QuotaAnalysis/Kline/LineView.m"
-                  timestampString = "493521168.154915"
+                  timestampString = "493551203.127557"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "743"
-                  endingLineNumber = "743"
+                  startingLineNumber = "798"
+                  endingLineNumber = "798"
                   offsetFromSymbolStart = "19">
                </Location>
                <Location
@@ -236,11 +236,11 @@
                   moduleName = "CultureTrade"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/szft1/Desktop/Projects/CultureTrade/CultureTrade/Classes/QuotaAnalysis/Kline/LineView.m"
-                  timestampString = "493521168.155134"
+                  timestampString = "493551203.128031"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "743"
-                  endingLineNumber = "743"
+                  startingLineNumber = "798"
+                  endingLineNumber = "798"
                   offsetFromSymbolStart = "39">
                </Location>
             </Locations>
@@ -259,6 +259,22 @@
             startingLineNumber = "636"
             endingLineNumber = "636"
             landmarkName = "-trade_ui_moneyhold_rsp:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CultureTrade/Classes/QuotaAnalysis/Kline/NetManager.m"
+            timestampString = "493547303.18655"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "125"
+            endingLineNumber = "125"
+            landmarkName = "-quote_ui_hisKDataCurDate_rsp:data:count:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

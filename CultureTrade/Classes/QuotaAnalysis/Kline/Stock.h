@@ -23,6 +23,8 @@
 @property (nonatomic,assign) float MA5;
 @property (nonatomic,assign) float MA10;
 @property (nonatomic,assign) float MA20;
+@property (nonatomic,assign) float MAVOL5;
+@property (nonatomic,assign) float MAVOL10;
 
 
 @end

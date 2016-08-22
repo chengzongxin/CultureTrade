@@ -23,6 +23,8 @@
 @property (nonatomic,assign) CGPoint MA5point;
 @property (nonatomic,assign) CGPoint MA10point;
 @property (nonatomic,assign) CGPoint MA20point;
+@property (nonatomic,assign) CGPoint MAVOL5point;
+@property (nonatomic,assign) CGPoint MAVOL10point;
 
 // stock个数
 - (int)numberOfStockInFrame:(CGRect)frame;

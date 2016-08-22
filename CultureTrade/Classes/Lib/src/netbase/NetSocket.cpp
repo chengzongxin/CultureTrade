@@ -2530,7 +2530,7 @@ int CNetSocket::ProcessQuoteData(void *lParam)
                 
                 //新的请求
 //                m_nRecvKUnit += pHisK->m_usSize;
-                pThis->m_pfFireBlockMessage(pThis->m_nSid, HISKDATACURDATE, pDown->m_usIndex, (PBYTE)allHisKData, lpQuotePs->nSize - sizeof(PacketHead)-sizeof(SDownData)-sizeof(SHisKData));
+                pThis->m_pfFireBlockMessage(pThis->m_nSid,pDown->m_usType - HISKDATACURDATE, pDown->m_usIndex, (PBYTE)allHisKData, lpQuotePs->nSize - sizeof(PacketHead)-sizeof(SDownData)-sizeof(SHisKData));
                 delete [] allHisKData;
                 
             }

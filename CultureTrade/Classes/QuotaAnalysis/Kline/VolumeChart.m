@@ -32,6 +32,8 @@
 - (void)drawRect:(CGRect)rect {
     if (self.pointArray.count) { // point数组为空时跳过
         [self drawVolumeChart];
+        [self drawAverageLineMA5VOL:5];
+        [self drawAverageLineMA10VOL:10];
     }
     
 }
@@ -67,6 +69,58 @@
     }
 
 }
+
+- (void)drawAverageLineMA5VOL:(int)skip
+{
+    if (self.pointArray.count < skip ) {
+        return;
+    }
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextSetShouldAntialias(context, NO);
+    CGMutablePathRef pathMA = CGPathCreateMutable();
+    //    CGContextRestoreGState(context);
+    ChartPoint *firstPoint = self.pointArray[skip-1];
+    CGPathMoveToPoint(pathMA, NULL, firstPoint.MAVOL5point.x, firstPoint.MAVOL5point.y);
+    
+    for (int i = skip; i < self.pointArray.count ; i++) {
+        ChartPoint *point = self.pointArray[i];
+        CGPathAddLineToPoint(pathMA, NULL, point.MAVOL5point.x, point.MAVOL5point.y);
+    }
+    CGContextSetLineWidth(context, 0.5);
+    CGContextSetShouldAntialias(context, YES);  // 是否抗锯齿
+    
+    CGContextSetRGBStrokeColor(context, 255/255.0f, 255/255.0f, 255/255.0f, 1);//white
+    CGContextAddPath(context, pathMA);
+    CGContextDrawPath(context, kCGPathStroke);
+    CGPathRelease(pathMA);
+}
+
+- (void)drawAverageLineMA10VOL:(int)skip
+{
+    if (self.pointArray.count < skip ) {
+        return;
+    }
+    
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextSetShouldAntialias(context, NO);
+    CGMutablePathRef pathMA = CGPathCreateMutable();
+    //    CGContextRestoreGState(context);
+    ChartPoint *firstPoint = self.pointArray[skip-1];
+    CGPathMoveToPoint(pathMA, NULL, firstPoint.MAVOL10point.x, firstPoint.MAVOL10point.y);
+    
+    for (int i = skip; i < self.pointArray.count ; i++) {
+        ChartPoint *point = self.pointArray[i];
+        CGPathAddLineToPoint(pathMA, NULL, point.MAVOL10point.x, point.MAVOL10point.y);
+    }
+    CGContextSetLineWidth(context, 0.5);
+    CGContextSetShouldAntialias(context, YES);  // 是否抗锯齿
+    
+    CGContextSetRGBStrokeColor(context, 255/255.0f, 255/255.0f, 0/255.0f, 1);//red
+    CGContextAddPath(context, pathMA);
+    CGContextDrawPath(context, kCGPathStroke);
+    CGPathRelease(pathMA);
+}
+
 
 
 @end

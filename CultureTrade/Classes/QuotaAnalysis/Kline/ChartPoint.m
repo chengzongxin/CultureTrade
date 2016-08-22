@@ -71,7 +71,6 @@
         chartPoint.lowestPricepoint = CGPointMake(x,(1-(stock.lowestPrice - scaleMinPriceValue)/(scaleMaxPriceValue - scaleMinPriceValue))*mainHeight);
         chartPoint.openPricepoint = CGPointMake(x,(1-(stock.openPrice - scaleMinPriceValue)/(scaleMaxPriceValue - scaleMinPriceValue))*mainHeight);
         chartPoint.closePricepoint = CGPointMake(x,(1-(stock.closePrice - scaleMinPriceValue)/(scaleMaxPriceValue - scaleMinPriceValue))*mainHeight);
-        chartPoint.volumepoint = CGPointMake(x,(stock.volume - minVolume)/(maxVolume - minVolume)*bottomHeight); // 写死
 //        chartPoint.MA5point = CGPointMake(x,(1-(stock.MA5 - minPriceValue)/(maxPriceValue - minPriceValue))*mainHeight);
 //        chartPoint.MA10point = CGPointMake(x,(1-(stock.MA10 - minPriceValue)/(maxPriceValue - minPriceValue))*mainHeight);
 //        chartPoint.MA20point = CGPointMake(x,(1-(stock.MA20 - minPriceValue)/(maxPriceValue - minPriceValue))*mainHeight);
@@ -79,6 +78,10 @@
         chartPoint.MA5point = (stock.MA5 > 0) ? CGPointMake(x,(1-(stock.MA5 - scaleMinPriceValue)/(scaleMaxPriceValue - scaleMinPriceValue))*mainHeight) : CGPointMake(x, 0);
         chartPoint.MA10point = (stock.MA10 > 0) ? CGPointMake(x,(1-(stock.MA10 - scaleMinPriceValue)/(scaleMaxPriceValue - scaleMinPriceValue))*mainHeight) : CGPointMake(x, 0);
         chartPoint.MA20point = (stock.MA20 > 0) ? CGPointMake(x,(1-(stock.MA20 - scaleMinPriceValue)/(scaleMaxPriceValue - scaleMinPriceValue))*mainHeight) : CGPointMake(x, 0);
+        // MAVOL
+        chartPoint.volumepoint = CGPointMake(x,stock.volume/maxVolume*bottomHeight); // 写死
+        chartPoint.MAVOL5point = CGPointMake(x,(1-stock.MAVOL5/maxVolume)*bottomHeight);
+        chartPoint.MAVOL10point = CGPointMake(x,(1-stock.MAVOL10/maxVolume)*bottomHeight);
         [pointArray addObject:chartPoint];
     }
     return pointArray;

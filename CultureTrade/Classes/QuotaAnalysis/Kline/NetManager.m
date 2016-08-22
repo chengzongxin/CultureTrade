@@ -128,10 +128,11 @@
         MYLog(@"quote_ui_hisKDataCurDate_rsp null data");
         return;
     }
-    if ([_stockCurDateString containsString:data]) { // curData 数据先到
+    if ([_stockCurDateString hasSuffix:data]) { // curData 数据先到 normal
         return;
+    }else{
+        _stockCurDateString = data;
     }
-    _stockCurDateString = data;
 }
 
 
@@ -166,36 +167,40 @@
         // Volume
         stock.volume = [filedArr[6] intValue];
         
-        // MA5,MA10,MA20
-        stock.MA5 = [self averageWithMAdata:strDataArray range:NSMakeRange(i, 5)];
+        // MA5,MA10,MA20,MAVOL5,MAVOL10
+        stock.MA5 = [self averageWithMAdata:strDataArray range:NSMakeRange(i, 5) indexOfArray:4] * 0.001;
         
-        stock.MA10 = [self averageWithMAdata:strDataArray range:NSMakeRange(i, 10)];
+        stock.MA10 = [self averageWithMAdata:strDataArray range:NSMakeRange(i, 10) indexOfArray:4] * 0.001;
         
-        stock.MA20 = [self averageWithMAdata:strDataArray range:NSMakeRange(i, 20)];
+        stock.MA20 = [self averageWithMAdata:strDataArray range:NSMakeRange(i, 20) indexOfArray:4] * 0.001;
+        
+        stock.MAVOL5 = [self averageWithMAdata:strDataArray range:NSMakeRange(i, 5) indexOfArray:6];
+        
+        stock.MAVOL10 = [self averageWithMAdata:strDataArray range:NSMakeRange(i, 10) indexOfArray:6];
+        
         [stockArray addObject:stock];
-        
     }
     
     return stockArray;
 }
 
-- (float)averageWithMAdata:(NSArray *)strDataArray range:(NSRange)range
+- (float)averageWithMAdata:(NSArray *)strDataArray range:(NSRange)range indexOfArray:(int)index
 {
+    if (range.location < range.length - 1) {  //很久之前第一天，往前没有数据,就不画那一天的K线
+        return 0;
+    }
     // loc = 0,len = 5 显示的从昨天开始最近5天收盘价,第0个元素是当天的，第0+1个元素是昨天的，从0+1个元素开始算
-    float sum = 0; int j = 1;
+    float sum = 0; int j = 0;
     for (NSUInteger i = range.location; i < range.location + range.length; i ++) {
-        if (range.length > i) {  //很久之前第一天，往前没有数据,就不画那一天的K线
-            return 0;
-        }
-
+        
         // loc - i = 46 - (46,5)
         
         NSString *strLine = strDataArray[range.location - j];    //取昨天往前5天的
         NSArray *filedArr = [strLine componentsSeparatedByCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@","]];
-        sum += [filedArr[4] floatValue];
+        sum += [filedArr[index] floatValue];
         j++;
     }
-    return sum / range.length * 0.001;
+    return sum / range.length;
 }
 
 @end

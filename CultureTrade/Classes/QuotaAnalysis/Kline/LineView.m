@@ -45,6 +45,10 @@
     UILabel *_MA10;
     UILabel *_MA20;
     UILabel *_volMaxValueLab;
+    UILabel *_MAVOL5;
+    UILabel *_MAVOL10;
+    UILabel *_MAVOL5Tag;
+    UILabel *_MAVOL10Tag;
     
     NSMutableArray *_stockArray;   // 缓存所有股票数据
     NSMutableArray *_showStockArray;
@@ -310,6 +314,53 @@
         [self addSubview:_volMaxValueLab];
     }
     
+    // MAVOL5,10
+    if (_MAVOL5Tag==nil) {
+        _MAVOL5Tag = [[UILabel alloc] initWithFrame:CGRectMake(5,_bottomBoxView.frame.origin.y + 20,30, self.font.lineHeight)];
+        _MAVOL5Tag.font = [UIFont systemFontOfSize:5];
+        _MAVOL5Tag.text = @"MAVOL5:";
+        _MAVOL5Tag.textColor = [UIColor colorWithHexString:@"FFFFFF" withAlpha:1];
+        _MAVOL5Tag.backgroundColor = [UIColor clearColor];
+        _MAVOL5Tag.textAlignment = NSTextAlignmentLeft;
+        _MAVOL5Tag.numberOfLines = 2;
+        [self addSubview:_MAVOL5Tag];
+    }
+    
+    
+    
+    if (_MAVOL5==nil) {
+        _MAVOL5 = [[UILabel alloc] initWithFrame:CGRectMake(5,_bottomBoxView.frame.origin.y + 35,30, self.font.lineHeight)];
+        _MAVOL5.font = self.font;
+        _MAVOL5.text = @"--";
+        _MAVOL5.textColor = [UIColor colorWithHexString:@"FFFFFF" withAlpha:1];
+        _MAVOL5.backgroundColor = [UIColor clearColor];
+        _MAVOL5.textAlignment = NSTextAlignmentLeft;
+        _MAVOL5.numberOfLines = 2;
+        [self addSubview:_MAVOL5];
+    }
+    
+    if (_MAVOL10Tag==nil) {
+        _MAVOL10Tag = [[UILabel alloc] initWithFrame:CGRectMake(5,_bottomBoxView.frame.origin.y + 50,30, self.font.lineHeight)];
+        _MAVOL10Tag.font = [UIFont systemFontOfSize:5];
+        _MAVOL10Tag.text = @"MAVOL10";
+        _MAVOL10Tag.textColor = [UIColor colorWithHexString:@"FFFF00" withAlpha:1];
+        _MAVOL10Tag.backgroundColor = [UIColor clearColor];
+        _MAVOL10Tag.textAlignment = NSTextAlignmentLeft;
+        _MAVOL10Tag.numberOfLines = 2;
+        [self addSubview:_MAVOL10Tag];
+    }
+    
+    if (_MAVOL10==nil) {
+        _MAVOL10 = [[UILabel alloc] initWithFrame:CGRectMake(5,_bottomBoxView.frame.origin.y + 65,30, self.font.lineHeight)];
+        _MAVOL10.font = self.font;
+        _MAVOL10.text = @"--";
+        _MAVOL10.textColor = [UIColor colorWithHexString:@"FFFF00" withAlpha:1];
+        _MAVOL10.backgroundColor = [UIColor clearColor];
+        _MAVOL10.textAlignment = NSTextAlignmentLeft;
+        _MAVOL10.numberOfLines = 2;
+        [self addSubview:_MAVOL10];
+    }
+    
     // 长按时的十字线条
     _moveOneView = [[UIView alloc] initWithFrame:CGRectMake(kLeftMatgin, kTopMargin, self.frame.size.width, 0.5)];
     _moveOneView.backgroundColor = [UIColor whiteColor];
@@ -570,6 +621,8 @@
         _MA5.text = [NSString stringWithFormat:@"MA5:%.2f",stock.MA5];
         _MA10.text = [NSString stringWithFormat:@"MA10:%.2f",stock.MA10];
         _MA20.text = [NSString stringWithFormat:@"MA20:%.2f",stock.MA20];
+        _MAVOL5.text = [NSString stringWithFormat:@"%d",(int)stock.MAVOL5];
+        _MAVOL10.text = [NSString stringWithFormat:@"%d",(int)stock.MAVOL10];
         }
     }
     
@@ -580,6 +633,8 @@
         _MA5.text = @"MA5:--";
         _MA10.text = @"MA10:--";
         _MA20.text = @"MA20:--";
+        _MAVOL5.text = @"--";
+        _MAVOL10.text = @"--";
     }
 }
 
