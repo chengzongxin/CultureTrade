@@ -221,7 +221,7 @@
                   moduleName = "CultureTrade"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/szft1/Desktop/Projects/CultureTrade/CultureTrade/Classes/QuotaAnalysis/Kline/LineView.m"
-                  timestampString = "493635684.659824"
+                  timestampString = "493637068.834247"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "801"
@@ -236,7 +236,7 @@
                   moduleName = "CultureTrade"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/szft1/Desktop/Projects/CultureTrade/CultureTrade/Classes/QuotaAnalysis/Kline/LineView.m"
-                  timestampString = "493635684.660234"
+                  timestampString = "493637068.834437"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "801"
@@ -259,22 +259,6 @@
             startingLineNumber = "636"
             endingLineNumber = "636"
             landmarkName = "-trade_ui_moneyhold_rsp:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CultureTrade/Classes/QuotaAnalysis/Kline/NetManager.m"
-            timestampString = "493547303.18655"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "125"
-            endingLineNumber = "125"
-            landmarkName = "-quote_ui_hisKDataCurDate_rsp:data:count:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

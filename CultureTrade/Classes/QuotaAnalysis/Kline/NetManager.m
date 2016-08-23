@@ -9,7 +9,6 @@
 #import "NetManager.h"
 #import "AsyncURLConnection.h"
 #import "Stock.h"
-#import <objc/runtime.h>
 @implementation NetManager
 @synthesize _finishBlock = _finishBlock;
 @synthesize _errorBlock = _errorBlock;
@@ -167,24 +166,48 @@
         // Volume
         stock.volume = [filedArr[6] intValue];
         
-        // MA5,MA10,MA20,MAVOL5,MAVOL10
-        
-        stock.MA5 = [self averageWithMAdata:strDataArray range:NSMakeRange(i, 5) indexOfArray:4] * 0.001;
-        
-        stock.MA10 = [self averageWithMAdata:strDataArray range:NSMakeRange(i, 10) indexOfArray:4] * 0.001;
-        
-        stock.MA20 = [self averageWithMAdata:strDataArray range:NSMakeRange(i, 20) indexOfArray:4] * 0.001;
-        
-        stock.MAVOL5 = [self averageWithMAdata:strDataArray range:NSMakeRange(i, 5) indexOfArray:6];
-        
-        stock.MAVOL10 = [self averageWithMAdata:strDataArray range:NSMakeRange(i, 10) indexOfArray:6];
-        
         [stockArray addObject:stock];
     }
+    // MA5,MA10,MA20,MAVOL5,MAVOL10
+    stockArray = [self CalculationMALine:stockArray];
     
     return stockArray;
 }
 
+
+
+//  calculation by stock object
+- (NSMutableArray *)CalculationMALine:(NSMutableArray *)stockArray
+{
+    for (int i = 0; i < stockArray.count; i++) {
+        Stock *stock = stockArray[i];
+        stock.MA5 = [self averageWithMAData:stockArray MArange:NSMakeRange(i, 5) expectMAProperty:@"closePrice"];
+        stock.MA10 = [self averageWithMAData:stockArray MArange:NSMakeRange(i, 10) expectMAProperty:@"closePrice"];
+        stock.MA20 = [self averageWithMAData:stockArray MArange:NSMakeRange(i, 20) expectMAProperty:@"closePrice"];
+        stock.MAVOL5 = [self averageWithMAData:stockArray MArange:NSMakeRange(i, 5) expectMAProperty:@"volume"];
+        stock.MAVOL10 = [self averageWithMAData:stockArray MArange:NSMakeRange(i, 10) expectMAProperty:@"volume"];
+    }
+    return  stockArray;
+}
+
+- (float)averageWithMAData:(NSArray *)stockArray MArange:(NSRange)MArange expectMAProperty:(NSString *)MAProperty
+{
+    if (MArange.location < MArange.length - 1) return 0.0f;
+    float sum = 0.0f;
+    NSArray *needValueArr = [stockArray subarrayWithRange:NSMakeRange(MArange.location - (MArange.length - 1), MArange.length)];
+    
+    for (Stock *s in needValueArr) {
+//        unsigned int count;
+//        const char *name = [MAProperty UTF8String];
+//        objc_property_t properties = class_getProperty([Stock class], name);
+        float value = [[s valueForKey:MAProperty] floatValue];
+        sum += value;
+    }
+    return sum/MArange.length;
+}
+
+
+/*
 //  calculation by NSString Object
 - (float)averageWithMAdata:(NSArray *)strDataArray range:(NSRange)range indexOfArray:(int)index
 {
@@ -204,36 +227,5 @@
     }
     return sum / range.length;
 }
-
-//  calculation by stock object
-- (NSMutableArray *)CalculationMALine:(NSMutableArray *)stockArray
-{
-    for (int i = 0; i < stockArray.count; i++) {
-        Stock *stock = stockArray[i];
-        stock.MA5 = [self averageWithMAData:stockArray MArange:NSMakeRange(i, 5) expectMAProperty:@"closePrice"];
-        stock.MA10 = [self averageWithMAData:stockArray MArange:NSMakeRange(i, 10) expectMAProperty:@"closePrice"];
-        stock.MA20 = [self averageWithMAData:stockArray MArange:NSMakeRange(i, 20) expectMAProperty:@"closePrice"];
-        stock.MAVOL5 = [self averageWithMAData:stockArray MArange:NSMakeRange(i, 5) expectMAProperty:@"volume"];
-        stock.MAVOL10 = [self averageWithMAData:stockArray MArange:NSMakeRange(i, 10) expectMAProperty:@"volume"];
-    }
-    return  stockArray;
-}
-
-- (float)averageWithMAData:(NSArray *)stockArray MArange:(NSRange)MArange expectMAProperty:(NSString *)MAProperty
-{
-    if (MArange.location < MArange.length) return 0.0f;
-    float sum = 0.0f;
-    NSArray *needValueArr = [stockArray subarrayWithRange:NSMakeRange(MArange.location - MArange.length , MArange.length)];
-    
-    for (Stock *s in needValueArr) {
-//        unsigned int count;
-//        const char *name = [MAProperty UTF8String];
-//        objc_property_t properties = class_getProperty([Stock class], name);
-        float MAvalue = [[s valueForKey:MAProperty] floatValue];
-        sum += MAvalue;
-    }
-    return sum;
-}
-
-
+ */
 @end

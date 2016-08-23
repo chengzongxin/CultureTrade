@@ -486,7 +486,7 @@
         [_willShowStockArray removeLastObject];
     }
 //    // MALine reCaluate
-//    _showStockArray = [_netMgr CalculationMALine:_showStockArray];
+    _showStockArray = [_netMgr CalculationMALine:_showStockArray];
     
     // loadhistory
     _pointArray = [NSMutableArray arrayWithArray:[_chartPoint pointArrayTranslateByStockArray:_showStockArray innerMainFrame:_mainboxView.frame bottomFrame:_bottomBoxView.frame]];
