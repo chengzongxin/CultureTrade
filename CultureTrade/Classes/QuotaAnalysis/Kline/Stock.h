@@ -26,5 +26,4 @@
 @property (nonatomic,assign) float MAVOL5;
 @property (nonatomic,assign) float MAVOL10;
 
-
 @end

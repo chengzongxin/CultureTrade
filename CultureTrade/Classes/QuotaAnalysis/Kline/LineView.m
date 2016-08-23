@@ -485,14 +485,17 @@
         [_showStockArray insertObject:[_willShowStockArray lastObject] atIndex:0];
         [_willShowStockArray removeLastObject];
     }
+//    // MALine reCaluate
+//    _showStockArray = [_netMgr CalculationMALine:_showStockArray];
     
+    // loadhistory
     _pointArray = [NSMutableArray arrayWithArray:[_chartPoint pointArrayTranslateByStockArray:_showStockArray innerMainFrame:_mainboxView.frame bottomFrame:_bottomBoxView.frame]];
     finishUpdateBlock(self);
     
     if (_willShowStockArray.count <=kMinStocksReq) {//加载数据 willshowstockarray <= 20
         
         NSDate *nowDate = [NSDate date];
-        if ([nowDate timeIntervalSinceDate:_currentDate] < 0.1) {   // 拖动多次回调bug，定时器解决
+        if ([nowDate timeIntervalSinceDate:_currentDate] < 1) {   // 拖动多次回调bug，定时器解决
             MYLog(@"%f",[nowDate timeIntervalSinceDate:_currentDate]);
             _currentDate = nowDate;
             return;

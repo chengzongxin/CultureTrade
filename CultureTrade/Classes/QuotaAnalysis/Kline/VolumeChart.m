@@ -32,8 +32,8 @@
 - (void)drawRect:(CGRect)rect {
     if (self.pointArray.count) { // point数组为空时跳过
         [self drawVolumeChart];
-        [self drawAverageLineMA5VOL:5];
-        [self drawAverageLineMA10VOL:10];
+        [self drawAverageLineMA5VOL];
+        [self drawAverageLineMA10VOL];
     }
     
 }
@@ -70,17 +70,20 @@
 
 }
 
-- (void)drawAverageLineMA5VOL:(int)skip
+- (void)drawAverageLineMA5VOL
 {
-    if (self.pointArray.count < skip ) {
-        return;
-    }
     CGContextRef context = UIGraphicsGetCurrentContext();
     CGContextSetShouldAntialias(context, NO);
     CGMutablePathRef pathMA = CGPathCreateMutable();
     //    CGContextRestoreGState(context);
-    ChartPoint *firstPoint = self.pointArray[skip-1];
-    CGPathMoveToPoint(pathMA, NULL, firstPoint.MAVOL5point.x, firstPoint.MAVOL5point.y);
+    int skip = 0;
+    for (skip = 0 ; skip < self.pointArray.count; skip++) {
+        ChartPoint *firstPoint = self.pointArray[skip];
+        if (firstPoint.MAVOL5point.y != 0) {
+            CGPathMoveToPoint(pathMA, NULL, firstPoint.MAVOL5point.x, firstPoint.MAVOL5point.y);
+            break;
+        }
+    }
     
     for (int i = skip; i < self.pointArray.count ; i++) {
         ChartPoint *point = self.pointArray[i];
@@ -95,19 +98,20 @@
     CGPathRelease(pathMA);
 }
 
-- (void)drawAverageLineMA10VOL:(int)skip
+- (void)drawAverageLineMA10VOL
 {
-    if (self.pointArray.count < skip ) {
-        return;
-    }
-    
     CGContextRef context = UIGraphicsGetCurrentContext();
     CGContextSetShouldAntialias(context, NO);
     CGMutablePathRef pathMA = CGPathCreateMutable();
     //    CGContextRestoreGState(context);
-    ChartPoint *firstPoint = self.pointArray[skip-1];
-    CGPathMoveToPoint(pathMA, NULL, firstPoint.MAVOL10point.x, firstPoint.MAVOL10point.y);
-    
+    int skip = 0;
+    for (skip = 0 ; skip < self.pointArray.count; skip++) {
+        ChartPoint *firstPoint = self.pointArray[skip];
+        if (firstPoint.MAVOL10point.y != 0) {
+            CGPathMoveToPoint(pathMA, NULL, firstPoint.MAVOL10point.x, firstPoint.MAVOL10point.y);
+            break;
+        }
+    }
     for (int i = skip; i < self.pointArray.count ; i++) {
         ChartPoint *point = self.pointArray[i];
         CGPathAddLineToPoint(pathMA, NULL, point.MAVOL10point.x, point.MAVOL10point.y);

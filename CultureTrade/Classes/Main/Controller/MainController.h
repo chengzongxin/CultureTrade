@@ -10,5 +10,4 @@
 #import "DockController.h"
 
 @interface MainController : DockController
-
 @end

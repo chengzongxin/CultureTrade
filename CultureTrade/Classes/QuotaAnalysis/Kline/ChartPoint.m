@@ -71,10 +71,10 @@
         chartPoint.lowestPricepoint = CGPointMake(x,(1-(stock.lowestPrice - scaleMinPriceValue)/(scaleMaxPriceValue - scaleMinPriceValue))*mainHeight);
         chartPoint.openPricepoint = CGPointMake(x,(1-(stock.openPrice - scaleMinPriceValue)/(scaleMaxPriceValue - scaleMinPriceValue))*mainHeight);
         chartPoint.closePricepoint = CGPointMake(x,(1-(stock.closePrice - scaleMinPriceValue)/(scaleMaxPriceValue - scaleMinPriceValue))*mainHeight);
-//        chartPoint.MA5point = CGPointMake(x,(1-(stock.MA5 - minPriceValue)/(maxPriceValue - minPriceValue))*mainHeight);
-//        chartPoint.MA10point = CGPointMake(x,(1-(stock.MA10 - minPriceValue)/(maxPriceValue - minPriceValue))*mainHeight);
-//        chartPoint.MA20point = CGPointMake(x,(1-(stock.MA20 - minPriceValue)/(maxPriceValue - minPriceValue))*mainHeight);
-        // 前面的数据为0的均线不画
+//        chartPoint.MA5point = CGPointMake(x,(1-(stock.MA5 - scaleMinPriceValue)/(scaleMaxPriceValue - scaleMinPriceValue))*mainHeight);
+//        chartPoint.MA10point = CGPointMake(x,(1-(stock.MA10 - scaleMinPriceValue)/(scaleMaxPriceValue - scaleMinPriceValue))*mainHeight);
+//        chartPoint.MA20point = CGPointMake(x,(1-(stock.MA20 - scaleMinPriceValue)/(scaleMaxPriceValue - scaleMinPriceValue))*mainHeight);
+        // 前面的数据为0的均线不画,first 5,10,20MALINE is zeror
         chartPoint.MA5point = (stock.MA5 > 0) ? CGPointMake(x,(1-(stock.MA5 - scaleMinPriceValue)/(scaleMaxPriceValue - scaleMinPriceValue))*mainHeight) : CGPointMake(x, 0);
         chartPoint.MA10point = (stock.MA10 > 0) ? CGPointMake(x,(1-(stock.MA10 - scaleMinPriceValue)/(scaleMaxPriceValue - scaleMinPriceValue))*mainHeight) : CGPointMake(x, 0);
         chartPoint.MA20point = (stock.MA20 > 0) ? CGPointMake(x,(1-(stock.MA20 - scaleMinPriceValue)/(scaleMaxPriceValue - scaleMinPriceValue))*mainHeight) : CGPointMake(x, 0);
