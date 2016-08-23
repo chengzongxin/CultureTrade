@@ -220,6 +220,7 @@
     anonyLabel.font = [UIFont systemFontOfSize:12];
     anonyLabel.textColor = COLOR_GOLD_THEME;
     [self.view addSubview:anonyLabel];
+    anonyLabel.hidden = YES;
     
     UIImage *btnImg = [UIImage imageNamed:@"login"];
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
