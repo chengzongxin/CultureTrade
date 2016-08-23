@@ -213,6 +213,7 @@
     [anonybtn addTarget:self action:@selector(anonylogin:) forControlEvents:UIControlEventTouchDown];
     [self.view addSubview:anonybtn];
     _anonyLoginBtn = anonybtn;
+    _anonyLoginBtn.hidden = YES;
     
     UILabel *anonyLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(anonybtn.frame) + 10, anonybtn.frame.origin.y, 50,anonyloginImg.size.height)];
     anonyLabel.text = @"匿名登录";
@@ -395,8 +396,13 @@
 
 - (void)sendLoginPackage
 {
+    [NSTradeEngine sharedInstance].delegate = self;
+    [[NSTradeEngine sharedInstance] startWithNet];
+    /*
     NSString *account = _account.text;
     NSString *password = _password.text;
+    
+    [[NSTradeEngine setup] startWithNet];
     
     int tradeport = TRADESERVER_PORT;
     int quotaport = QUOTESERVER_PORT;
@@ -405,25 +411,26 @@
         [NSTradeEngine sharedInstance].delegate = self;
     }
     
-    /*
+    
      优先级
      
      1.切换交易商服务器
      2.ONLINECONFIG
      3.宏定义
      
-     */
+     
     
     [[NSTradeEngine sharedInstance] userloginwithnet:account password:password tradeip:self.tradeIP tradeport:tradeport quoteip:self.quotaIP quoteport:quotaport];
     
     [MobClick profileSignInWithPUID:@"Login" provider:account];
+     */
 }
 
 #pragma mark -
 #pragma mark 网络回调
 - (void)trade_login_rsp_to_ui:(int)nRet nType:(int)nType
 {
-    if (nRet != 1) {
+    if (nRet != 0) {
         NSString *message = [NSString stringWithFormat:@"%@",LocalizedStringByInt(nRet)];
         BasicAlertView *alert = [BasicAlertView alertViewWithTitle:@"登陆失败"
                                                           subtitle:nil

@@ -13,11 +13,7 @@
 #import "SelectController.h"
 #import "QuotationController.h"
 #import "MeController.h"
-#define kAccountKey @"Account"
-#define kPasswordKey @"Password"
-#define kServerIP   @"ServerIP"
-#define kBalanceIP  @"BalanceIP"
-#define kBalancePort @"BalancePort"
+
 
 @interface MainController () <UINavigationControllerDelegate>
 
@@ -33,76 +29,8 @@
     [self addDockItem];
     
     [_dock addSpliteLine];
-#if BALANCE_ENABLE
-//    [self useOuterBalance];      // wd
-
-    [self useInnerBanlance];    // test
-#else
-    [self initalization];
-#endif
-}
-
-- (void)useInnerBanlance
-{
-    [self useBalaceWith:INNER_BALANCE_IP port:INNER_BALANCE_PORT];
-    [self rememberBalanceIP:INNER_BALANCE_IP Port:INNER_BALANCE_PORT];
-}
-
-- (void)useOuterBalance
-{
-    [self LoginWithCacheIP];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onlineConfigCallBack:) name:UMOnlineConfigDidFinishedNotification object:nil];
-}
-
-- (void)LoginWithCacheIP
-{
-    NSString *server = [self getRememberBalanceIP];
-    int port = [self getRememberBalancePort];
-    if (server&&port){
-        MYLog(@"LoginWithCacheIP server = %@,port = %d",server,port);
-        [self useBalaceWith:server port:port];
-    }
-}
-
-- (void)onlineConfigCallBack:(NSNotification *)notification {
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-    NSLog(@"online config has fininshed and params = %@", notification.userInfo);
-    NSDictionary *paramDict = notification.userInfo;
-    NSString *serverIP = [paramDict objectForKey:@"serverIP"];
-    int serverPort = [[paramDict objectForKey:@"serverPort"] intValue];
-    
-    if ([serverIP isEqualToString:[self getRememberBalanceIP]]&&(serverPort == [self getRememberBalancePort])) return;  // same as cache
-    
-    // diff as cache
-    MYLog(@"diff as chche,outter server = [%@],port = [%d],cache server = [%@],port = [%d]",serverIP,serverPort,[self getRememberBalanceIP],[self getRememberBalancePort]);
-    [self useBalaceWith:serverIP port:serverPort];    // login balance
-    [self rememberBalanceIP:serverIP Port:serverPort]; // cache
-}
-
-
-- (void)useBalaceWith:(NSString *)ip port:(int)port
-{
-    [[NSTradeEngine sharedInstance] clear_balance];
-    [[NSTradeEngine sharedInstance] add_balance:ip port:port];
-    [[NSTradeEngine sharedInstance] start_balance];
-}
-
-- (void)initalization
-{
-    MYLog(@"get remember data!!!");
-    MYLog(@"%@",[self getRememberServerIP]);
-    MYLog(@"%@",[self getRememberAccount]);
-    MYLog(@"%@",[self getRememberPassword]);
-    if ([self getRememberAccount]&&[self getRememberPassword]&&[self getRememberServerIP]) { // 记住了用户密码，服务器IP同时登陆交易和行情
-        [[NSTradeEngine setup] userloginwithnet:[self getRememberAccount] password:[self getRememberPassword] tradeip:[self getRememberServerIP] tradeport:TRADESERVER_PORT quoteip:[self getRememberServerIP] quoteport:QUOTESERVER_PORT];
-    }else{
-        if ([self getRememberServerIP]) { // 记住了服务器IP，匿名登陆行情服务器
-            [[NSTradeEngine setup] loginquotewithnet:[self getRememberServerIP] quoteport:QUOTESERVER_PORT];
-        }else{  //什么都没记住，匿名登陆默认服务器
-            [[NSTradeEngine setup] loginquotewithnet:QUOTESERVER_IP quoteport:QUOTESERVER_PORT];
-        }
-    }
+    [[NSTradeEngine sharedInstance] startWithNet];
 }
 
 - (void)addChildViewControllers
@@ -190,40 +118,6 @@
 }
 
 
-- (NSString *)getRememberAccount
-{
-    return [[NSUserDefaults standardUserDefaults] objectForKey:kAccountKey];
-}
 
-- (NSString *)getRememberPassword
-{
-    return [[NSUserDefaults standardUserDefaults] objectForKey:kPasswordKey];
-}
-
-- (NSString *)getRememberServerIP
-{
-    return [[NSUserDefaults standardUserDefaults] objectForKey:kServerIP];
-}
-
-
-- (void)rememberBalanceIP:(NSString *)ip Port:(int)port
-{
-    [[NSUserDefaults standardUserDefaults] setObject:ip forKey:kBalanceIP];
-    [[NSUserDefaults standardUserDefaults] synchronize];
-    
-    [[NSUserDefaults standardUserDefaults] setObject:@(port) forKey:kBalancePort];
-    [[NSUserDefaults standardUserDefaults] synchronize];
-}
-
-- (NSString *)getRememberBalanceIP
-{
-    return [[NSUserDefaults standardUserDefaults] objectForKey:kBalanceIP];
-}
-
-- (int)getRememberBalancePort
-{
-    NSNumber *number = [[NSUserDefaults standardUserDefaults] objectForKey:kBalancePort];
-    return [number intValue];
-}
 
 @end

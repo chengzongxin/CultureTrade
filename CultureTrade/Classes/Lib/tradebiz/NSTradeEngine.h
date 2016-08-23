@@ -172,7 +172,7 @@ extern NSString * const REFRESH_NOTIFY;
 
 @property (weak, nonatomic) id<NSTradeEngineDelegate> delegate;
 
-
+- (void)startWithNet;
 
 //请求登录 带地址信息
 -(void)userloginwithnet:(NSString*)account password:(NSString*)password tradeip:(NSString*)tradeip tradeport:(int)tradeport quoteip:(NSString *)quoteip  quoteport:(int)quoteport;

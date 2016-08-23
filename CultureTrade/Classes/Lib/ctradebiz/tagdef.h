@@ -789,7 +789,7 @@
 
 
 #define FIX_MSGTYPE_RES_OK              0
-#define FIX_MSGTYPE_RES_RELOGIN         "1"
+#define FIX_MSGTYPE_RES_RELOGIN         1
 
 //#define FIX_TAG_SESSION                  "SESSION"
 

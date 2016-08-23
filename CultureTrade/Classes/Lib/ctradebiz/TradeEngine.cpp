@@ -1024,12 +1024,14 @@ extern "C"
                 if(NULL != szIdentifier) strcpy(Identifier, szIdentifier->valuestring);
                 //2.0
                 if(NULL != szJurisdiction) strcpy(Jurisdiction, szJurisdiction->valuestring);
-                
-                nRet = TRADE_MSGTYPE_RES_OK;
+                tradeuievents.trade_ui_login_rsp(TRADE_TYPE, nRet);
+            }else if ((nRet = atoi(retcode->valuestring)) == 1){
+                tradeuievents.trade_ui_login_rsp(TRADE_TYPE, nRet);
+                nhp_stop_session();
             }
         }
         cJSON_Delete(root);
-        tradeuievents.trade_ui_login_rsp(TRADE_TYPE, nRet);
+        
         if(TRADE_MSGTYPE_RES_OK == nRet) {
             request_trade_info();
 //            set_login_progress_rsp(); // 需要放到初始化交易信息后面，最大进度条初始化

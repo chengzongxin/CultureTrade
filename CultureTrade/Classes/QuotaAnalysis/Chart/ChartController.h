@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "QuotaAnalysisController.h"
-
-@interface ChartController : UIViewController
+#import "SuperViewController.h"
+@interface ChartController : SuperViewController
 @property (nonatomic,retain) QuotaAnalysisController *QuotaAnalysisController;
 @end

@@ -33,7 +33,7 @@
 #define kCount      4
 #define kIphone4Scale 0.8
 
-@interface HomeController () <UITableViewDataSource,UITableViewDelegate,AKSegmentedControlDelegate,NSTradeEngineDelegate>
+@interface HomeController () <UITableViewDataSource,UITableViewDelegate,AKSegmentedControlDelegate>
 {
     UIImageView *_imageView;
     AKSegmentedControl *_segmentedControl;
@@ -446,12 +446,6 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [_tableView deselectRowAtIndexPath:indexPath animated:YES];
-}
-
-- (void)queto_ui_hisKDataFirst_rsp:(NSString *)data count:(int)count
-{
-    MYLOGFUN;
-    MYLog(@"data = = = %@,%d",data,count);
 }
 
 - (void)viewDidLayoutSubviews

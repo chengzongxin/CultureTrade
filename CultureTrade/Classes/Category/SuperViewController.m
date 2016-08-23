@@ -11,6 +11,7 @@
 #import "CombiInputText.h"
 #import "UIBarButtonItem+helper.h"
 #import "UIView+Toast.h"
+#import "LoginController.h"
 
 @interface SuperViewController () <UITextFieldDelegate>
 {
@@ -27,8 +28,15 @@
     self.view.backgroundColor = COLOR_VC_BG;
     
     [NSNetHelper setup].delegate = self;
+    [NSTradeEngine setup].delegate = self;
     
     [self addTitleView];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [NSTradeEngine sharedInstance].delegate = self;
 }
 
 - (void)addTitleView
@@ -196,5 +204,15 @@
         }
     }
 }
+
+- (void)trade_login_rsp_to_ui:(int)nRet nType:(int)nType
+{
+    if (nRet == 1) {
+        LoginController *login = [[LoginController alloc] init];
+        [self.navigationController pushViewController:login animated:YES];
+        [login.view makeToast:@"重复登录,您已被踢出系统"];
+    }
+}
+
 
 @end

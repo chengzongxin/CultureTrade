@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SuperViewController : UIViewController<NSNetHelperDelegate>
+@interface SuperViewController : UIViewController<NSNetHelperDelegate,NSTradeEngineDelegate>
 {
     UIButton *doneButton;
 }

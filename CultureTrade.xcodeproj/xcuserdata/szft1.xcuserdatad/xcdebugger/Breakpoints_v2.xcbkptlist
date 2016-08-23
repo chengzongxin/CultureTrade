@@ -221,7 +221,7 @@
                   moduleName = "CultureTrade"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/szft1/Desktop/Projects/CultureTrade/CultureTrade/Classes/QuotaAnalysis/Kline/LineView.m"
-                  timestampString = "493637068.834247"
+                  timestampString = "493643448.427572"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "801"
@@ -236,7 +236,7 @@
                   moduleName = "CultureTrade"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/szft1/Desktop/Projects/CultureTrade/CultureTrade/Classes/QuotaAnalysis/Kline/LineView.m"
-                  timestampString = "493637068.834437"
+                  timestampString = "493643448.427923"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "801"
@@ -252,14 +252,14 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "CultureTrade/Classes/Trade/BuyController.m"
-            timestampString = "493523748.433829"
+            filePath = "CultureTrade/Classes/Lib/tradebiz/NSTradeEngine.mm"
+            timestampString = "493643555.037025"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "636"
-            endingLineNumber = "636"
-            landmarkName = "-trade_ui_moneyhold_rsp:"
-            landmarkType = "5">
+            startingLineNumber = "343"
+            endingLineNumber = "343"
+            landmarkName = "trade_ui_login_rsp(int type, int nRet)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

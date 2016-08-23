@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "QuotaAnalysisController.h"
-
-@interface KlineController : UIViewController
+#import "SuperViewController.h"
+@interface KlineController : SuperViewController
 @property (nonatomic,retain) QuotaAnalysisController *QuotaAnalysisController;
 @end
