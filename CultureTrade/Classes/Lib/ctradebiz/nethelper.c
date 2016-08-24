@@ -938,7 +938,11 @@ void nhp_init_net_login_quote(char * quoteserver, int quoteport)
     //建立行情链路
     nQuoteSID = CreateSession();
     SetSessionSocketPackType(nQuoteSID, 1);
-    AddHost(nQuoteSID, 1, quoteserver, quoteport);
+#if BALANCE_ENABLE
+    AddHost(nQuoteSID, 1,  loginInfo.szQuoteServer, loginInfo.sQuotePort);
+#else
+    AddHost(nQuoteSID, 1,  quoteserver, quoteport);
+#endif
     
     BindFirePackage(nQuoteSID, on_nhp_session_trans_package_callback_handle_quote);
     BindFireSessionStatus(nQuoteSID, on_nhp_session_status_callback_handle_quote);

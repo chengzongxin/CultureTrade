@@ -30,18 +30,18 @@
 #define BAICHUAN_USERID @"shaxf@21cn.com"
 #define BAICHUAN_USERPWD @"Gongxiaofeng&123"
 #define ONLINECONFIG    0
-#define OUTER_BALANCE_IP          @"120.27.130.188"
+#define OUTER_BALANCE_IP          @"120.25.224.254"
 #define OUTER_BALANCE_PORT      5212    //pc->5213 app->5212
 #define INNER_BALANCE_IP          @"192.168.0.193"
 #define INNER_BALANCE_PORT      5212
-#define TRADESERVER_IP          @"120.25.224.254"
-#define QUOTESERVER_IP          @"120.25.224.254"
+//#define TRADESERVER_IP          @"120.25.224.254"
+//#define QUOTESERVER_IP          @"120.25.224.254"
 //#define TRADESERVER_IP          @"192.168.0.194"
 //#define QUOTESERVER_IP          @"192.168.0.194"
 //#define TRADESERVER_IP          @"192.168.10.28"
 //#define QUOTESERVER_IP          @"192.168.10.28"
-#define TRADESERVER_PORT        9999
-#define QUOTESERVER_PORT        4433
+//#define TRADESERVER_PORT        9999
+//#define QUOTESERVER_PORT        4433
 
 #define IS_IPHONE4      ([[UIScreen mainScreen] bounds].size.height == 480 ? YES : NO)
 #define IS_IPHONE5      ([[UIScreen mainScreen] bounds].size.height == 568 ? YES : NO)

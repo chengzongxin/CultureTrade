@@ -53,11 +53,13 @@ NSString * const REFRESH_NOTIFY = @"REFRESH_NOTIFY";
 - (void)startWithNet
 {
 #if BALANCE_ENABLE
-//    [self useOuterBalance];      // wd
+//    [self useInnerBanlance];    // inner
     
-    [self useInnerBanlance];    // test
+    [self useOuterBalance];  // outer
+    
+//    [self useHNWDBalance];      // wd
 #else
-    [self initalization];
+    
 #endif
 }
 
@@ -68,6 +70,12 @@ NSString * const REFRESH_NOTIFY = @"REFRESH_NOTIFY";
 }
 
 - (void)useOuterBalance
+{
+    [self useBalaceWith:OUTER_BALANCE_IP port:OUTER_BALANCE_PORT];
+    [self rememberBalanceIP:OUTER_BALANCE_IP Port:OUTER_BALANCE_PORT];
+}
+
+- (void)useHNWDBalance
 {
     [self LoginWithCacheIP];
     
@@ -107,22 +115,6 @@ NSString * const REFRESH_NOTIFY = @"REFRESH_NOTIFY";
     [[NSTradeEngine sharedInstance] start_balance];
 }
 
-- (void)initalization
-{
-    MYLog(@"get remember data!!!");
-    MYLog(@"%@",[self getRememberServerIP]);
-    MYLog(@"%@",[self getRememberAccount]);
-    MYLog(@"%@",[self getRememberPassword]);
-    if ([self getRememberAccount]&&[self getRememberPassword]&&[self getRememberServerIP]) { // 记住了用户密码，服务器IP同时登陆交易和行情
-        [[NSTradeEngine setup] userloginwithnet:[self getRememberAccount] password:[self getRememberPassword] tradeip:[self getRememberServerIP] tradeport:TRADESERVER_PORT quoteip:[self getRememberServerIP] quoteport:QUOTESERVER_PORT];
-    }else{
-        if ([self getRememberServerIP]) { // 记住了服务器IP，匿名登陆行情服务器
-            [[NSTradeEngine setup] loginquotewithnet:[self getRememberServerIP] quoteport:QUOTESERVER_PORT];
-        }else{  //什么都没记住，匿名登陆默认服务器
-            [[NSTradeEngine setup] loginquotewithnet:QUOTESERVER_IP quoteport:QUOTESERVER_PORT];
-        }
-    }
-}
 
 - (NSString *)getRememberAccount
 {

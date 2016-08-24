@@ -86,8 +86,8 @@
         self.tradeIP = [self getRememberServerIP];
         self.quotaIP = [self getRememberServerIP];
     }else{
-        self.tradeIP = TRADESERVER_IP;
-        self.quotaIP = QUOTESERVER_IP;
+//        self.tradeIP = TRADESERVER_IP;
+//        self.quotaIP = QUOTESERVER_IP;
     }
 #if ONLINECONFIG
     if (_serverIP) {  // 在线参数
@@ -213,14 +213,14 @@
     [anonybtn addTarget:self action:@selector(anonylogin:) forControlEvents:UIControlEventTouchDown];
     [self.view addSubview:anonybtn];
     _anonyLoginBtn = anonybtn;
-    _anonyLoginBtn.hidden = YES;
+//    _anonyLoginBtn.hidden = YES;
     
     UILabel *anonyLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(anonybtn.frame) + 10, anonybtn.frame.origin.y, 50,anonyloginImg.size.height)];
     anonyLabel.text = @"匿名登录";
     anonyLabel.font = [UIFont systemFontOfSize:12];
     anonyLabel.textColor = COLOR_GOLD_THEME;
     [self.view addSubview:anonyLabel];
-    anonyLabel.hidden = YES;
+//    anonyLabel.hidden = YES;
     
     UIImage *btnImg = [UIImage imageNamed:@"login"];
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -372,7 +372,7 @@
 {
     [self rememberServerIP];
     
-    [[NSTradeEngine setup] loginquotewithnet:self.quotaIP quoteport:QUOTESERVER_PORT];
+    [[NSTradeEngine setup] loginquotewithnet:nil quoteport:5212];
     
     [self.navigationController popViewControllerAnimated:YES];
 }
