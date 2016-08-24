@@ -131,7 +131,7 @@
     CGContextSetLineWidth(context, 0.5);
     CGContextSetShouldAntialias(context, YES);  // 是否抗锯齿
     
-    CGContextSetRGBStrokeColor(context, 255/255.0f, 0/255.0f, 0/255.0f, 1);//red
+    CGContextSetRGBStrokeColor(context, 255/255.0f, 255/255.0f, 0/255.0f, 1);//yellow
     CGContextAddPath(context, pathMA);
     CGContextDrawPath(context, kCGPathStroke);
     CGPathRelease(pathMA);
@@ -160,7 +160,7 @@
     CGContextSetLineWidth(context, 0.5);
     CGContextSetShouldAntialias(context, YES);  // 是否抗锯齿
     
-    CGContextSetRGBStrokeColor(context, 255/255.0f, 255/255.0f, 0/255.0f, 1);//yellow
+    CGContextSetRGBStrokeColor(context, 255/255.0f, 0/255.0f, 0/255.0f, 1);//red
     CGContextAddPath(context, pathMA);
     CGContextDrawPath(context, kCGPathStroke);
     CGPathRelease(pathMA);
