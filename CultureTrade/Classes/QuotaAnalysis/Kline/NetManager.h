@@ -39,4 +39,5 @@ typedef void(^errorBlock)(NSError *error);
 - (void)loadHisKData:(NSString *)productID type:(int)type requestIndex:(int)index finish:(finishBlock)finishBlock error:(errorBlock)errorBlock; //加载文交所
 - (void)loadStockData:(finishBlock)finishBlock error:(errorBlock)errorBlock; // 加载搜狐雅虎财经K线
 - (NSMutableArray *)CalculationMALine:(NSMutableArray *)stockArray;
+- (NSMutableArray *)reCalculationMALine:(NSMutableArray *)showArray willShowArray:(NSMutableArray *)willShowArray; // 重新计算MA线
 @end

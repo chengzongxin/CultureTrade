@@ -194,7 +194,7 @@
 {
     if (MArange.location < MArange.length - 1) return 0.0f;
     float sum = 0.0f;
-    NSArray *needValueArr = [stockArray subarrayWithRange:NSMakeRange(MArange.location - (MArange.length - 1), MArange.length)];
+    NSArray *needValueArr = [stockArray subarrayWithRange:NSMakeRange(MArange.location - MArange.length + 1, MArange.length)];
     
     for (Stock *s in needValueArr) {
 //        unsigned int count;
@@ -211,6 +211,29 @@
     if ([_delegate respondsToSelector:@selector(login_rsp_ui:type:)]) {
         [_delegate login_rsp_ui:nRet type:nType];
     }
+}
+
+- (NSMutableArray *)reCalculationMALine:(NSMutableArray *)showArray willShowArray:(NSMutableArray *)willShowArray
+{
+    NSMutableArray *allArray = [NSMutableArray array];
+    // merge
+    for (Stock *s in showArray) {
+        [allArray addObject:s];
+    }
+    for (Stock *s in willShowArray) {
+        [allArray addObject:s];
+    }
+    
+    for (int i = 0; i < allArray.count; i++) {
+        Stock *stock =allArray[i];
+        stock.MA5 = [self averageWithMAData:allArray MArange:NSMakeRange(i, 5) expectMAProperty:@"closePrice"];
+        stock.MA10 = [self averageWithMAData:allArray MArange:NSMakeRange(i, 10) expectMAProperty:@"closePrice"];
+        stock.MA20 = [self averageWithMAData:allArray MArange:NSMakeRange(i, 20) expectMAProperty:@"closePrice"];
+        stock.MAVOL5 = [self averageWithMAData:allArray MArange:NSMakeRange(i, 5) expectMAProperty:@"volume"];
+        stock.MAVOL10 = [self averageWithMAData:allArray MArange:NSMakeRange(i, 10) expectMAProperty:@"volume"];
+    }
+    NSArray *array = [allArray subarrayWithRange:NSMakeRange(allArray.count - showArray.count , showArray.count)];
+    return [NSMutableArray arrayWithArray:array];
 }
 
 

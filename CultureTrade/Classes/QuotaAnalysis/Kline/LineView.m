@@ -521,7 +521,7 @@
         [_willShowStockArray removeLastObject];
     }
 //    // MALine reCaluate
-    _showStockArray = [_netMgr CalculationMALine:_showStockArray];
+//    _showStockArray = [_netMgr CalculationMALine:_showStockArray];
     
     
     
@@ -543,6 +543,7 @@
         _netMgr.isLoading = YES;
         [_netMgr loadHisKData:GLOBAL.sortUnit.productID type:HISKDATA+_selectedKLineType requestIndex:(int)(_showStockArray.count+_willShowStockArray.count)  finish:^(NSMutableArray *stockArray) {
             _willShowStockArray = stockArray;
+            _showStockArray = [_netMgr reCalculationMALine:_showStockArray willShowArray:_willShowStockArray];
             _netMgr.isLoading = NO;
         } error:^(NSError *error) {
             MYLog(@"%@",error);
