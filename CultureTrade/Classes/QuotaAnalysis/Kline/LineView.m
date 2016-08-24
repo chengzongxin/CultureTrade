@@ -71,6 +71,9 @@
     ScaleButton *_btnBigScall;
     ScaleButton *_btnSmallScall;
     
+    NSTimer *_slideLeftTimer;
+    NSTimer *_slideRightTimer;
+    
     NSTimer *_mTimer;
     NSString *_currentProductID;
 }
@@ -390,14 +393,18 @@
     _btnLeftMove.frame = CGRectMake(leftMargin, y, 20, 20);
     [_btnLeftMove setTitle:@"<-" forState:UIControlStateNormal];
     _btnLeftMove.tag = 3;
-    [_btnLeftMove addTarget:self action:@selector(leftSlideStockCount:) forControlEvents:UIControlEventTouchDown];
+    [_btnLeftMove addTarget:self action:@selector(clickLeftDown) forControlEvents:UIControlEventTouchDown];
+    [_btnLeftMove addTarget:self action:@selector(clickLeftUp) forControlEvents:UIControlEventTouchUpInside];
+    [_btnLeftMove addTarget:self action:@selector(clickLeftUp) forControlEvents:UIControlEventTouchUpOutside];
     [self addSubview:_btnLeftMove];
     
     _btnRightMove = [[ScaleButton alloc] init];
     _btnRightMove.frame = CGRectMake(leftMargin + interValue , y, 20, 20);
     [_btnRightMove setTitle:@"->" forState:UIControlStateNormal];
     _btnRightMove.tag = 3;
-    [_btnRightMove addTarget:self action:@selector(rightSlideStockCount:) forControlEvents:UIControlEventTouchDown];
+    [_btnRightMove addTarget:self action:@selector(clickRightDown) forControlEvents:UIControlEventTouchDown];
+    [_btnRightMove addTarget:self action:@selector(clickRightUp) forControlEvents:UIControlEventTouchUpInside];
+    [_btnRightMove addTarget:self action:@selector(clickRightUp) forControlEvents:UIControlEventTouchUpOutside];
     [self addSubview:_btnRightMove];
     
     _btnBigScall = [[ScaleButton alloc] init];
@@ -411,10 +418,37 @@
     [_btnSmallScall setTitle:@"-" forState:UIControlStateNormal];
     [_btnSmallScall addTarget:self action:@selector(smallScale) forControlEvents:UIControlEventTouchDown];
     [self addSubview:_btnSmallScall];
-    
-    
 }
 
+- (void)clickLeftDown
+{
+    if (_slideLeftTimer == nil || ![_slideLeftTimer isValid]) {
+        _slideLeftTimer = [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(leftSlideStockCount:) userInfo:nil repeats:YES];
+        
+    }
+}
+
+- (void)clickLeftUp
+{
+    if ([_slideLeftTimer isValid]) {
+        [_slideLeftTimer invalidate];
+    }
+}
+
+- (void)clickRightDown
+{
+    if (_slideRightTimer == nil || ![_slideRightTimer isValid]) {
+        _slideRightTimer = [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(rightSlideStockCount:) userInfo:nil repeats:YES];
+        
+    }
+}
+
+- (void)clickRightUp
+{
+    if ([_slideRightTimer isValid]) {
+        [_slideRightTimer invalidate];
+    }
+}
 
 #pragma mark -
 #pragma mark 手指捏合动作
@@ -474,6 +508,8 @@
     int offset = 0;
     if ([sender isKindOfClass:[UIButton class]]) {
         offset = (int)[(UIButton *)sender tag];
+    }else if ([sender isKindOfClass:[NSTimer class]]){
+        offset = [(NSTimer *)sender timeInterval] * 20;
     }else{
         offset = [(NSNumber *)sender intValue];
     }
@@ -487,6 +523,8 @@
     }
 //    // MALine reCaluate
     _showStockArray = [_netMgr CalculationMALine:_showStockArray];
+    
+    
     
     // loadhistory
     _pointArray = [NSMutableArray arrayWithArray:[_chartPoint pointArrayTranslateByStockArray:_showStockArray innerMainFrame:_mainboxView.frame bottomFrame:_bottomBoxView.frame]];
@@ -520,6 +558,8 @@
     int offset = 0;
     if ([sender isKindOfClass:[UIButton class]]) {
         offset = (int)[(UIButton *)sender tag];
+    }else if ([sender isKindOfClass:[NSTimer class]]){
+        offset = [(NSTimer *)sender timeInterval] * 20;
     }else{
         offset = [(NSNumber *)sender intValue];
     }
