@@ -18,7 +18,7 @@
 #import "LoginController.h"
 #import "SearchProductController.h"
 #define kKlineTypeCount 8
-@interface KlineController () <QuotaAnalysisControllerDelegate>
+@interface KlineController () <QuotaAnalysisControllerDelegate,NetManagerDelegate>
 {
     LineView *_lineView;
     UIView *_buttonListView;
@@ -268,6 +268,7 @@
                                                            kQuotaGuideViewHeight + 40,
                                                            self.view.frame.size.width,
                                                            self.view.frame.size.height - kQuotaGuideViewHeight - kQuotaBannerHeight  - kQuotaKlineTypeBarHeight -kQuotaButtonListHeight- kDockHeight - 40)];
+    _lineView.netMgr.delegate = self;
     
     [self.view addSubview:_lineView];
 }
@@ -311,6 +312,11 @@
 - (BOOL)isLogin
 {
     return [[NSTradeEngine setup] isLogin];
+}
+
+- (void)login_rsp_ui:(int)nRet type:(int)nType
+{
+    [super trade_login_rsp_to_ui:nRet nType:nType];
 }
 
 @end

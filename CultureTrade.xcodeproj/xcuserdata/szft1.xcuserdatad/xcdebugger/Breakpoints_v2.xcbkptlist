@@ -59,11 +59,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "Yes"
             filePath = "CultureTrade/Classes/QuotaAnalysis/Kline/LineView.m"
-            timestampString = "493695963.010798"
+            timestampString = "493702866.146975"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "513"
-            endingLineNumber = "513"
+            startingLineNumber = "532"
+            endingLineNumber = "532"
             landmarkName = "-leftSlideStockCount:"
             landmarkType = "5">
             <Actions>
@@ -90,11 +90,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "Yes"
             filePath = "CultureTrade/Classes/QuotaAnalysis/Kline/LineView.m"
-            timestampString = "493695963.010798"
+            timestampString = "493702866.146975"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "512"
-            endingLineNumber = "512"
+            startingLineNumber = "531"
+            endingLineNumber = "531"
             landmarkName = "-leftSlideStockCount:"
             landmarkType = "5">
             <Actions>
@@ -190,11 +190,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "Yes"
             filePath = "CultureTrade/Classes/QuotaAnalysis/Kline/LineView.m"
-            timestampString = "493695963.010798"
+            timestampString = "493702866.146975"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "830"
-            endingLineNumber = "830"
+            startingLineNumber = "851"
+            endingLineNumber = "851"
             landmarkName = "-processEvent"
             landmarkType = "5">
             <Actions>

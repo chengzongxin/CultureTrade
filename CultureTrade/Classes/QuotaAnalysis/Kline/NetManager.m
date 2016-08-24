@@ -206,6 +206,13 @@
     return sum/MArange.length;
 }
 
+- (void)trade_login_rsp_to_ui:(int)nRet nType:(int)nType
+{
+    if ([_delegate respondsToSelector:@selector(login_rsp_ui:type:)]) {
+        [_delegate login_rsp_ui:nRet type:nType];
+    }
+}
+
 
 /*
 //  calculation by NSString Object

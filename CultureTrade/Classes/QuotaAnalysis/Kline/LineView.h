@@ -7,13 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "NetManager.h"
 
 typedef void (^updateBlock)(id);
 
 @interface LineView : UIView
 {
     updateBlock finishUpdateBlock; // 定义一个block回调 更新界面
+    NetManager *_netMgr;
 }
+@property (nonatomic,retain) NetManager *netMgr;
 @property (nonatomic,retain) UIFont *font;
 @property (nonatomic,assign) CGFloat lineWidth;
 

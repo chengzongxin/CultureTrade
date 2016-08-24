@@ -35,5 +35,6 @@
 
 - (void)ClickClear;
 
+- (void)trade_login_rsp_to_ui:(int)nRet nType:(int)nType;
 @end
 

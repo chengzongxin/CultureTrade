@@ -10,6 +10,11 @@
 typedef void(^finishBlock)(NSMutableArray *stockArray);
 typedef void(^errorBlock)(NSError *error);
 
+@protocol NetManagerDelegate <NSObject>
+@optional
+- (void)login_rsp_ui:(int)nRet type:(int)nType;
+
+@end
 @interface NetManager : NSObject <NSTradeEngineDelegate>
 {
     finishBlock _finishBlock;
@@ -17,6 +22,9 @@ typedef void(^errorBlock)(NSError *error);
     NSMutableArray *_stockArray;
     NSString *_stockCurDateString;
 }
+
+@property (nonatomic,weak) id<NetManagerDelegate> delegate;
+
 @property (nonatomic,strong) finishBlock _finishBlock;
 @property (nonatomic,strong) errorBlock _errorBlock;
 @property (nonatomic,retain) NSString *req_url;

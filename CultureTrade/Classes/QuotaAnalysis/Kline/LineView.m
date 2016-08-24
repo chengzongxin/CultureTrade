@@ -8,7 +8,6 @@
 
 #import "LineView.h"
 #import "KlineChart.h"
-#import "NetManager.h"
 #import "Stock.h"
 #import "ChartPoint.h"
 #import "VolumeChart.h"
@@ -61,7 +60,7 @@
     KlineChart *_lineChart; // K线图
     VolumeChart *_volumeChart;  //成交量图
     ChartPoint *_chartPoint;
-    NetManager *_netMgr;
+    
     
     NSDate *_currentDate;
     BOOL isGetNewKLine;

@@ -23,7 +23,7 @@
 
 #define kButtonHeight 20
 
-@interface ChartController ()  <QuotaAnalysisControllerDelegate>
+@interface ChartController ()  <QuotaAnalysisControllerDelegate,TimeLineViewDelegate>
 {
     TimeLineView *_timeLineView;
 }
@@ -76,6 +76,7 @@
                                                                    kQuotaGuideViewHeight+10,
                                                                    self.view.frame.size.width,
                                                                    self.view.frame.size.height - kQuotaGuideViewHeight - kQuotaBannerHeight  - kQuotaButtonListHeight- kDockHeight - 40)];
+    _timeLineView.delegate = self;
 
     [self.view addSubview:_timeLineView];
 }
@@ -175,5 +176,9 @@
     return [[NSTradeEngine setup] isLogin];
 }
 
+- (void)login_rsp_ui:(int)nRet type:(int)nType
+{
+    [super trade_login_rsp_to_ui:nRet nType:nType];
+}
 
 @end
