@@ -44,8 +44,7 @@
         Stock *stock = stockArray[i];
         
         maxPriceValue = MAX(MAX(MAX(MAX(maxPriceValue,stock.highestPrice),stock.MA5),stock.MA10),stock.MA20);
-        minPriceValue = MIN(MIN(MIN(MIN(minPriceValue,stock.lowestPrice),stock.MA5),stock.MA10),stock.MA20);
-        
+        minPriceValue = MIN(minPriceValue,stock.lowestPrice);
         maxVolume = MAX(stock.volume, maxVolume);
         minVolume = 0.0;
     }

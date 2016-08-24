@@ -53,9 +53,9 @@ NSString * const REFRESH_NOTIFY = @"REFRESH_NOTIFY";
 - (void)startWithNet
 {
 #if BALANCE_ENABLE
-    [self useInnerBanlance];    // inner
+//    [self useInnerBanlance];    // inner
     
-//    [self useOuterBalance];  // outer
+    [self useOuterBalance];  // outer
     
 //    [self useHNWDBalance];      // wd
 #else
