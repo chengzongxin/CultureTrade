@@ -319,8 +319,8 @@
     // MAVOL5,10
     if (_MAVOL5Tag==nil) {
         _MAVOL5Tag = [[UILabel alloc] initWithFrame:CGRectMake(5,_bottomBoxView.frame.origin.y + 20,30, self.font.lineHeight)];
-        _MAVOL5Tag.font = [UIFont systemFontOfSize:5];
-        _MAVOL5Tag.text = @"MAVOL5:";
+        _MAVOL5Tag.font = self.font;
+        _MAVOL5Tag.text = @"VOL5";
         _MAVOL5Tag.textColor = [UIColor colorWithHexString:@"FFFFFF" withAlpha:1];
         _MAVOL5Tag.backgroundColor = [UIColor clearColor];
         _MAVOL5Tag.textAlignment = NSTextAlignmentLeft;
@@ -343,8 +343,8 @@
     
     if (_MAVOL10Tag==nil) {
         _MAVOL10Tag = [[UILabel alloc] initWithFrame:CGRectMake(5,_bottomBoxView.frame.origin.y + 50,30, self.font.lineHeight)];
-        _MAVOL10Tag.font = [UIFont systemFontOfSize:5];
-        _MAVOL10Tag.text = @"MAVOL10";
+        _MAVOL10Tag.font = self.font;
+        _MAVOL10Tag.text = @"VOL10";
         _MAVOL10Tag.textColor = [UIColor colorWithHexString:@"FFFF00" withAlpha:1];
         _MAVOL10Tag.backgroundColor = [UIColor clearColor];
         _MAVOL10Tag.textAlignment = NSTextAlignmentLeft;

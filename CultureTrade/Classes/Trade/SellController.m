@@ -141,6 +141,16 @@
     }
     
     [[NSTradeEngine sharedInstance] trade_request_shareholdNS];
+    
+}
+- (void)fillData{ // 修复卖出UI自动填充买入的数据BUG
+    for (ShareHold *s in GLOBAL.shareHoldArray) {
+        if (s.productID == GLOBAL.sortUnit.productID) {
+            GLOBAL.shareHold = s;
+            [self updateUserinterface];
+            break;
+        }
+    }
 }
 
 - (void)requestMoneyHold{}
