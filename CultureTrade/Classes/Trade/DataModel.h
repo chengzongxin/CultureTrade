@@ -43,7 +43,7 @@
 @end
 
 @interface VolPriceNS : NSObject
-@property (nonatomic,assign) int		m_uiPrice;//价格
+@property (nonatomic,assign) float		m_uiPrice;//价格
 @property (nonatomic,assign) int		m_uiVolume;//量
 @end
 

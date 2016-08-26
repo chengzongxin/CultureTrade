@@ -208,6 +208,7 @@
 		1DEAECCD1C89576500297148 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DEAECC61C8956D000297148 /* libsqlite3.0.tbd */; };
 		1DEAECCE1C89577000297148 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DEAECC81C8956ED00297148 /* libz.tbd */; };
 		1DEAECCF1C89577C00297148 /* libstdc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DEAECCA1C89570400297148 /* libstdc++.tbd */; };
+		1DED954D1D6EFC1100B25509 /* FiveQuotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DED954C1D6EFC1100B25509 /* FiveQuotationView.m */; };
 		1DF3712E1CA119A3002E7818 /* ASPopUpView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DF3712B1CA119A3002E7818 /* ASPopUpView.m */; };
 		1DF3712F1CA119A3002E7818 /* ASProgressPopUpView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DF3712D1CA119A3002E7818 /* ASProgressPopUpView.m */; };
 		1DF377BF1C7BFEC600081CDB /* Debug.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DF377A41C7BFEC600081CDB /* Debug.m */; };
@@ -719,6 +720,8 @@
 		1DEAECC61C8956D000297148 /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
 		1DEAECC81C8956ED00297148 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		1DEAECCA1C89570400297148 /* libstdc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.tbd"; path = "usr/lib/libstdc++.tbd"; sourceTree = SDKROOT; };
+		1DED954B1D6EFC1100B25509 /* FiveQuotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FiveQuotationView.h; sourceTree = "<group>"; };
+		1DED954C1D6EFC1100B25509 /* FiveQuotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FiveQuotationView.m; sourceTree = "<group>"; };
 		1DF3712A1CA119A3002E7818 /* ASPopUpView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASPopUpView.h; sourceTree = "<group>"; };
 		1DF3712B1CA119A3002E7818 /* ASPopUpView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASPopUpView.m; sourceTree = "<group>"; };
 		1DF3712C1CA119A3002E7818 /* ASProgressPopUpView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASProgressPopUpView.h; sourceTree = "<group>"; };
@@ -1297,6 +1300,8 @@
 				1DA3C78C1C3B74130099BB13 /* TimeLineChart.m */,
 				1D31A47D1C3DF29500FC12F8 /* TimeVolumeChart.h */,
 				1D31A47E1C3DF29500FC12F8 /* TimeVolumeChart.m */,
+				1DED954B1D6EFC1100B25509 /* FiveQuotationView.h */,
+				1DED954C1D6EFC1100B25509 /* FiveQuotationView.m */,
 			);
 			path = Chart;
 			sourceTree = "<group>";
@@ -2080,6 +2085,7 @@
 				1D5F43BB1C191981003F2AC6 /* SDPieLoopProgressView.m in Sources */,
 				1D91AC751C18054000830059 /* BasicAlertView.m in Sources */,
 				1DAF87CB1CA3C0CA008B82C4 /* SpliteLineView.m in Sources */,
+				1DED954D1D6EFC1100B25509 /* FiveQuotationView.m in Sources */,
 				1D7211E51C0EC294008FC6F3 /* common.c in Sources */,
 				1D59E17D1BFC2660007493FC /* ToggleBase.m in Sources */,
 				1DE6819E1C96AFE300C378FE /* InOutMoneyController.m in Sources */,

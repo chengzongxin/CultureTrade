@@ -14,7 +14,7 @@
 {
     self = [super initWithFrame:frame];
     self.titleLabel.font = [UIFont systemFontOfSize: 10.0];
-    self.layer.cornerRadius = 10.0f;
+    self.layer.cornerRadius = 12.5;
     self.layer.borderColor = [UIColor whiteColor].CGColor;
     self.layer.borderWidth = 0.5f;
     self.layer.masksToBounds = YES;

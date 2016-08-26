@@ -12,7 +12,7 @@ typedef void (^updateBlock)(id);
 @protocol TimeLineViewDelegate <NSObject>
 @optional
 - (void)login_rsp_ui:(int)nRet type:(int)nType;
-
+- (void)fiveQuotation_rsp:(NSMutableArray *)array;
 @end
 
 @interface TimeLineView : UIView <NSTradeEngineDelegate>

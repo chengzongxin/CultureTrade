@@ -20,12 +20,14 @@
 #import "TimeLineView.h"
 #import "LoginController.h"
 #import "SearchProductController.h"
+#import "FiveQuotationView.h"
 
 #define kButtonHeight 20
 
 @interface ChartController ()  <QuotaAnalysisControllerDelegate,TimeLineViewDelegate>
 {
     TimeLineView *_timeLineView;
+    FiveQuotationView *_fiveQuotationView;
 }
 @end
 
@@ -74,11 +76,20 @@
 {
     _timeLineView = [[TimeLineView alloc] initWithFrame:CGRectMake(0,
                                                                    kQuotaGuideViewHeight+10,
-                                                                   self.view.frame.size.width,
+                                                                   self.view.frame.size.width*0.7,
                                                                    self.view.frame.size.height - kQuotaGuideViewHeight - kQuotaBannerHeight  - kQuotaButtonListHeight- kDockHeight - 40)];
     _timeLineView.delegate = self;
-
     [self.view addSubview:_timeLineView];
+    
+    _fiveQuotationView = [[FiveQuotationView alloc] initWithFrame:CGRectMake(self.view.frame.size.width*0.7,
+                                                                   kQuotaGuideViewHeight+10,
+                                                                   self.view.frame.size.width*0.3,
+                                                                   self.view.frame.size.height - kQuotaGuideViewHeight - kQuotaBannerHeight  - kQuotaButtonListHeight- kDockHeight - 40)];
+    _fiveQuotationView.sellQuotation = [NSMutableArray arrayWithArray:@[@"-",@"-",@"-",@"-",@"-"]];
+    _fiveQuotationView.sellVolume = [NSMutableArray arrayWithArray:@[@"-",@"-",@"-",@"-",@"-"]];
+    _fiveQuotationView.buyQuotation = [NSMutableArray arrayWithArray:@[@"-",@"-",@"-",@"-",@"-"]];
+    _fiveQuotationView.buyVolume = [NSMutableArray arrayWithArray:@[@"-",@"-",@"-",@"-",@"-"]];
+    [self.view addSubview:_fiveQuotationView];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -181,4 +192,29 @@
     [super trade_login_rsp_to_ui:nRet nType:nType];
 }
 
+- (void)fiveQuotation_rsp:(NSMutableArray *)array
+{
+    if (array.count < 10) {
+        MYLog(@"fiveQuotation_rsp count < 10");
+        return;
+    }
+    NSMutableArray *sellQuotationArr = [NSMutableArray array];
+    NSMutableArray *sellVolumeArr = [NSMutableArray array];
+    NSMutableArray *buyQuotationArr = [NSMutableArray array];
+    NSMutableArray *buyVolumeArr =[NSMutableArray array];
+    for (int i = 0; i < 5; i++) {
+        VolPriceNS *volPrice = array[i];
+        [sellQuotationArr addObject:[NSString stringWithFormat:@"%0.2f",volPrice.m_uiPrice]];
+        [sellVolumeArr addObject:[NSString stringWithFormat:@"%d",volPrice.m_uiVolume]];
+    }
+    for (int i = 5; i < 10; i++) {
+        VolPriceNS *volPrice = array[i];
+        [buyQuotationArr addObject:[NSString stringWithFormat:@"%0.2f",volPrice.m_uiPrice]];
+        [buyVolumeArr addObject:[NSString stringWithFormat:@"%d",volPrice.m_uiVolume]];
+    }
+    _fiveQuotationView.sellQuotation = sellQuotationArr;
+    _fiveQuotationView.sellVolume = sellVolumeArr;
+    _fiveQuotationView.buyQuotation = buyQuotationArr;
+    _fiveQuotationView.buyVolume = buyVolumeArr;
+}
 @end

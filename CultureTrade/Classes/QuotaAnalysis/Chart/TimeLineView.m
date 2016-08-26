@@ -204,9 +204,9 @@
             [self updateGuideViewWithnowData:now];
             GLOBAL.nowData = now;               // 存入缓存
         }else if (filedArr.count == 2){  // 买1卖1，10个
-            
+            _volPriceArr = [NSMutableArray array];
             VolPriceNS *vol = [[VolPriceNS alloc] init];
-            vol.m_uiPrice = [filedArr[0] intValue];
+            vol.m_uiPrice = [filedArr[0] floatValue];
             vol.m_uiVolume = [filedArr[1] intValue];
             [_volPriceArr addObject:vol];
             [GLOBAL.volPriceArray addObject:vol];
@@ -237,6 +237,9 @@
     }
     
     _realPointArr = [_timeChartPoint pointArrayTranslateByRealArray:_realMinsUnitArr innerMainFrame:_mainboxView.frame bottomFrame:_bottomBoxView.frame];
+    if ([_delegate respondsToSelector:@selector(fiveQuotation_rsp:)]) {
+        [_delegate fiveQuotation_rsp:GLOBAL.volPriceArray];
+    }
 }
 
 

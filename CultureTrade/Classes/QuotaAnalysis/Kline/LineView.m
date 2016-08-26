@@ -387,9 +387,9 @@
     // scale button
     float leftMargin = (_mainboxView.frame.size.width - 20)/ 4;
     float interValue = _mainboxView.frame.size.width / 4;
-    CGFloat y = CGRectGetMaxY(_mainboxView.frame) + 2;
+    CGFloat y = CGRectGetMaxY(_mainboxView.frame);
     _btnLeftMove = [[ScaleButton alloc] init];
-    _btnLeftMove.frame = CGRectMake(leftMargin, y, 20, 20);
+    _btnLeftMove.frame = CGRectMake(leftMargin, y, 25, 25);
     [_btnLeftMove setTitle:@"<-" forState:UIControlStateNormal];
     _btnLeftMove.tag = 3;
     [_btnLeftMove addTarget:self action:@selector(clickLeftDown) forControlEvents:UIControlEventTouchDown];
@@ -398,7 +398,7 @@
     [self addSubview:_btnLeftMove];
     
     _btnRightMove = [[ScaleButton alloc] init];
-    _btnRightMove.frame = CGRectMake(leftMargin + interValue , y, 20, 20);
+    _btnRightMove.frame = CGRectMake(leftMargin + interValue , y, 25, 25);
     [_btnRightMove setTitle:@"->" forState:UIControlStateNormal];
     _btnRightMove.tag = 3;
     [_btnRightMove addTarget:self action:@selector(clickRightDown) forControlEvents:UIControlEventTouchDown];
@@ -407,13 +407,13 @@
     [self addSubview:_btnRightMove];
     
     _btnBigScall = [[ScaleButton alloc] init];
-    _btnBigScall.frame = CGRectMake(leftMargin + interValue * 2, y, 20, 20);
+    _btnBigScall.frame = CGRectMake(leftMargin + interValue * 2, y, 25, 25);
     [_btnBigScall setTitle:@"+" forState:UIControlStateNormal];
     [_btnBigScall addTarget:self action:@selector(bigScale) forControlEvents:UIControlEventTouchDown];
     [self addSubview:_btnBigScall];
     
     _btnSmallScall = [[ScaleButton alloc] init];
-    _btnSmallScall.frame = CGRectMake(leftMargin + interValue * 3, y, 20, 20);
+    _btnSmallScall.frame = CGRectMake(leftMargin + interValue * 3, y, 25, 25);
     [_btnSmallScall setTitle:@"-" forState:UIControlStateNormal];
     [_btnSmallScall addTarget:self action:@selector(smallScale) forControlEvents:UIControlEventTouchDown];
     [self addSubview:_btnSmallScall];

@@ -138,7 +138,7 @@
 // strDataArray -> strData -> filedArr
 - (NSMutableArray *)loadStockWithArray:(NSMutableArray *)strDataArray
 {
-    if ([[strDataArray lastObject] isEqualToString:@""]) {
+    if ([[strDataArray lastObject] isEqualToString:@""] || [strDataArray lastObject] == NULL) {
         MYLog(@"===============last NULL===============");
         [strDataArray removeLastObject];
     }
