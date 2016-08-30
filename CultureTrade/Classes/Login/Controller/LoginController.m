@@ -461,8 +461,7 @@
     
     if (progress == max_progress) {
 //        [super closeProgressSuccess:@"Success!"];
-//        [self presentViewController:[[MainController alloc] init] animated:YES completion:nil];
-//        [self.navigationController popViewControllerAnimated:YES];
+//        [self presentViewController:[[MainControl  lerAnimated:YES];
 //        [self dismissViewControllerAnimated:YES completion:nil];
     }
 }

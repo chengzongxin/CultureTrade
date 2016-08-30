@@ -1028,6 +1028,9 @@ extern "C"
             }else if ((nRet = atoi(retcode->valuestring)) == 1){
                 tradeuievents.trade_ui_login_rsp(TRADE_TYPE, nRet);
                 nhp_stop_session();
+            }else{
+                nRet = atoi(retcode->valuestring);
+                tradeuievents.trade_ui_login_rsp(TRADE_TYPE, nRet);
             }
         }
         cJSON_Delete(root);

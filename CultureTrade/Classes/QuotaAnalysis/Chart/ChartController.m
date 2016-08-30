@@ -204,12 +204,12 @@
     NSMutableArray *buyVolumeArr =[NSMutableArray array];
     for (int i = 0; i < 5; i++) {
         VolPriceNS *volPrice = array[i];
-        [sellQuotationArr addObject:[NSString stringWithFormat:@"%0.2f",volPrice.m_uiPrice]];
+        [sellQuotationArr addObject:[NSString stringWithFormat:@"%0.2f",volPrice.m_uiPrice*0.001]];
         [sellVolumeArr addObject:[NSString stringWithFormat:@"%d",volPrice.m_uiVolume]];
     }
     for (int i = 5; i < 10; i++) {
         VolPriceNS *volPrice = array[i];
-        [buyQuotationArr addObject:[NSString stringWithFormat:@"%0.2f",volPrice.m_uiPrice]];
+        [buyQuotationArr addObject:[NSString stringWithFormat:@"%0.2f",volPrice.m_uiPrice*0.001]];
         [buyVolumeArr addObject:[NSString stringWithFormat:@"%d",volPrice.m_uiVolume]];
     }
     _fiveQuotationView.sellQuotation = sellQuotationArr;
