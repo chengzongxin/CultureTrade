@@ -19,6 +19,7 @@
 #import "MobClick.h"
 #import "UMOnlineConfig.h"
 #import "BuyController.h"
+#import <JSPatch/JSPatch.h>
 #define XcodeAppVersion [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"]
 #define UMENG_APPKEY @"56de339567e58ea82800198f"
 @interface AppDelegate ()<CLLocationManagerDelegate>
@@ -58,9 +59,46 @@
     [UMOnlineConfig updateOnlineConfigWithAppkey:UMENG_APPKEY];
 }
 
+- (void)startJSPatch
+{
+    [JSPatch startWithAppKey:@"04340411983efc39"];
+    
+    //用来检测回调的状态，是更新或者是执行脚本之类的，相关信息，会打印在你的控制台
+    [JSPatch setupCallback:^(JPCallbackType type, NSDictionary *data, NSError *error) {
+        NSLog(@"error-->%@",error);
+        switch (type) {
+            case JPCallbackTypeUpdate: {
+                NSLog(@"更新脚本 %@ %@", data, error);
+                break;
+            }
+            case JPCallbackTypeRunScript: {
+                NSLog(@"执行脚本 %@ %@", data, error);
+                break;
+            }
+            case JPCallbackTypeCondition: {
+                NSLog(@"条件下发 %@ %@", data, error);
+                break;
+            }
+            case JPCallbackTypeGray: {
+                NSLog(@"灰度下发 %@ %@", data, error);
+                break;
+            }
+            default:
+                break;
+        }
+    }];
+#ifdef DEBUG
+    [JSPatch setupDevelopment];
+#endif
+    [JSPatch sync];
+}
+
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     //  友盟的方法本身是异步执行，所以不需要再异步调用
     [self umengTrack];
+    
+    [self startJSPatch];
     
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     self.window.backgroundColor = [UIColor whiteColor];

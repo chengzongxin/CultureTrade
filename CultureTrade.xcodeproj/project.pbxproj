@@ -205,6 +205,8 @@
 		1DE6819E1C96AFE300C378FE /* InOutMoneyController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DE6819D1C96AFE300C378FE /* InOutMoneyController.m */; };
 		1DE681A11C96BEF000C378FE /* CombiInputText.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DE681A01C96BEF000C378FE /* CombiInputText.m */; };
 		1DE681A31C96CBE000C378FE /* libMobClickLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DE681A21C96CBE000C378FE /* libMobClickLibrary.a */; };
+		1DE86C151D756B4C008FD5AF /* JSPatch.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DE86C141D756B4C008FD5AF /* JSPatch.framework */; };
+		1DE86C171D756BA0008FD5AF /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DE86C161D756BA0008FD5AF /* JavaScriptCore.framework */; };
 		1DEAECCD1C89576500297148 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DEAECC61C8956D000297148 /* libsqlite3.0.tbd */; };
 		1DEAECCE1C89577000297148 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DEAECC81C8956ED00297148 /* libz.tbd */; };
 		1DEAECCF1C89577C00297148 /* libstdc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DEAECCA1C89570400297148 /* libstdc++.tbd */; };
@@ -717,6 +719,8 @@
 		1DE6819F1C96BEF000C378FE /* CombiInputText.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CombiInputText.h; sourceTree = "<group>"; };
 		1DE681A01C96BEF000C378FE /* CombiInputText.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CombiInputText.m; sourceTree = "<group>"; };
 		1DE681A21C96CBE000C378FE /* libMobClickLibrary.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libMobClickLibrary.a; sourceTree = "<group>"; };
+		1DE86C141D756B4C008FD5AF /* JSPatch.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = JSPatch.framework; sourceTree = "<group>"; };
+		1DE86C161D756BA0008FD5AF /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		1DEAECC61C8956D000297148 /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
 		1DEAECC81C8956ED00297148 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		1DEAECCA1C89570400297148 /* libstdc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.tbd"; path = "usr/lib/libstdc++.tbd"; sourceTree = SDKROOT; };
@@ -751,6 +755,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1DE86C171D756BA0008FD5AF /* JavaScriptCore.framework in Frameworks */,
+				1DE86C151D756B4C008FD5AF /* JSPatch.framework in Frameworks */,
 				1D1BA2551CE0812700728832 /* CoreTelephony.framework in Frameworks */,
 				1D1BA2531CE0811E00728832 /* AudioToolbox.framework in Frameworks */,
 				1DADBD301CF6F72000F5CECB /* libcrypto.a in Frameworks */,
@@ -911,6 +917,8 @@
 		1D59E0DE1BFC25EA007493FC /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				1DE86C161D756BA0008FD5AF /* JavaScriptCore.framework */,
+				1DE86C141D756B4C008FD5AF /* JSPatch.framework */,
 				1D1BA2541CE0812700728832 /* CoreTelephony.framework */,
 				1D1BA2521CE0811E00728832 /* AudioToolbox.framework */,
 				1D1BA2501CE0810700728832 /* AVFoundation.framework */,
