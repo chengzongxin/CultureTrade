@@ -273,8 +273,8 @@
     
     _productID.text = [NSString stringWithFormat:@"%d",GLOBAL.sortUnit.m_CodeInfo.m_uiCode];
     _productName.text = [NSString stringWithFormat:@"%@",GLOBAL.sortUnit.productName];
-    _buyInPrice.text = [NSString stringWithFormat:@"%0.2f",GLOBAL.sortUnit.m_uiNewPrice];
-    if (_buyInPrice) {
+    _buyInPrice.text = GLOBAL.sortUnit.m_uiNewPrice>0?[NSString stringWithFormat:@"%0.2f",GLOBAL.sortUnit.m_uiNewPrice]:[NSString stringWithFormat:@"%0.2f",GLOBAL.sortUnit.m_uiPreClose];
+    if ([_buyInPrice.text floatValue]) {
         float canbuy = GLOBAL.moneyHold.canOut/[_buyInPrice.text floatValue];
         _maxCanBuy.text = [NSString stringWithFormat:@"%d",(int)canbuy];
     }else{
@@ -283,7 +283,6 @@
     
     if (code == 0) _productID.text = @"";
     if (name  == nil || name == 0) _productName.text = @"";
-    if (GLOBAL.sortUnit.m_uiNewPrice == 0) _buyInPrice.text = @"";
 }
 
 #pragma mark -

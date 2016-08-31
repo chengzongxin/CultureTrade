@@ -845,6 +845,9 @@
         if (_chartPoint.kLineWidth > 30) {  // limit 30
             _chartPoint.kLineWidth = 30;
         }
+        if (_chartPoint.kLineWidth < 5){
+            _chartPoint.kLineWidth = 5;
+        }
         [self loadCacheData];
         //        }
     } error:^(NSError *error) {

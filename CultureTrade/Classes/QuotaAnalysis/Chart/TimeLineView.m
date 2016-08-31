@@ -101,7 +101,7 @@
 - (void)startTimer // 30秒刷一次
 {
     if (mTimer == nil) { // 30秒刷一次
-        mTimer = [[NSTimer alloc] initWithFireDate:[NSDate date] interval:5.0f target:self selector:@selector(processEvent) userInfo:nil repeats:YES];
+        mTimer = [[NSTimer alloc] initWithFireDate:[NSDate date] interval:2.0f target:self selector:@selector(processEvent) userInfo:nil repeats:YES];
         [[NSRunLoop currentRunLoop] addTimer:mTimer forMode:NSDefaultRunLoopMode];
         
     }
