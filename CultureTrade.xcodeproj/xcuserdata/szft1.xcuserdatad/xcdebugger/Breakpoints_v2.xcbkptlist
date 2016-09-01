@@ -221,11 +221,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CultureTrade/Classes/QuotaAnalysis/Kline/NetManager.m"
-            timestampString = "494326477.805088"
+            timestampString = "494386184.550879"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "142"
-            endingLineNumber = "142"
+            startingLineNumber = "143"
+            endingLineNumber = "143"
             landmarkName = "-loadStockWithArray:"
             landmarkType = "5">
          </BreakpointContent>
@@ -237,11 +237,27 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CultureTrade/Classes/Lib/src/netbase/NetSocket.cpp"
-            timestampString = "494326261.627442"
+            timestampString = "494385790.8245"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "2533"
             endingLineNumber = "2533"
+            landmarkName = "CNetSocket::ProcessQuoteData(void *lParam)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CultureTrade/Classes/Lib/src/netbase/NetSocket.cpp"
+            timestampString = "494395111.947424"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "2399"
+            endingLineNumber = "2399"
             landmarkName = "CNetSocket::ProcessQuoteData(void *lParam)"
             landmarkType = "5">
          </BreakpointContent>

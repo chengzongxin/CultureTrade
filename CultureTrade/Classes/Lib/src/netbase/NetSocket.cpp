@@ -649,7 +649,7 @@ bool CNetSocket::Send(int nCmd, int nSeq, PBYTE pData, int nLen)
                 
                 pReq->m_usType = nCmd;
                 pReq->m_usMarketType = markType;    //市场类型
-                pReq->m_usIndex = nSeq;     //在服务器返回数据的时候会把这个请求索引再传回来，以达到请求和答复一 一对应
+                pReq->m_usIndex = nCmd;     //在服务器返回数据的时候会把这个请求索引再传回来，以达到请求和答复一 一对应
                 pReq->m_usSize = 3;
                 
                 //第一个SCodeInfo
@@ -2530,7 +2530,7 @@ int CNetSocket::ProcessQuoteData(void *lParam)
                 
                 //新的请求
 //                m_nRecvKUnit += pHisK->m_usSize;
-                pThis->m_pfFireBlockMessage(pThis->m_nSid,pDown->m_usType, pDown->m_usIndex, (PBYTE)allHisKData, lpQuotePs->nSize - sizeof(PacketHead)-sizeof(SDownData)-sizeof(SHisKData));
+                pThis->m_pfFireBlockMessage(pThis->m_nSid,pDown->m_usType, pDown->m_usIndex-HISKDATAFIRST, (PBYTE)allHisKData, lpQuotePs->nSize - sizeof(PacketHead)-sizeof(SDownData)-sizeof(SHisKData));
                 delete [] allHisKData;
                 
             }

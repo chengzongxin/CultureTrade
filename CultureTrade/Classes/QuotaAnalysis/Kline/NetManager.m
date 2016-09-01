@@ -121,6 +121,7 @@
 
 - (void)quote_ui_hisKDataCurDate_rsp:(int)type data:(NSString *)data count:(int)count
 {
+    if (self.type != type) return;  // 不是当前需要的K线
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     if ([data isEqual:@""] || data == nil) {
         MYLog(@"quote_ui_hisKDataCurDate_rsp null data");
