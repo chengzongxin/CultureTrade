@@ -23,6 +23,8 @@
 // 点击空白区域隐藏键盘
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event;
 
+- (void)addToolbarOnKeyboard:(UITextField *)textField;
+
 -(void)showProgress:(NSString*)title;
 
 -(void)showProgressByDelay:(NSString*)title delayInSeconds:(int)delayInSeconds;

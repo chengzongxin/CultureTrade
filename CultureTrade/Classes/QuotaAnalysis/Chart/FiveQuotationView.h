@@ -18,9 +18,12 @@
 @property (nonatomic,retain) NSMutableArray *buyVolume;
 @property (nonatomic,retain) NSMutableArray *sellQuotation;
 @property (nonatomic,retain) NSMutableArray *sellVolume;
+@property (nonatomic,retain) UILabel *turnOver;
+@property (nonatomic,retain) UILabel *curVolume;
 
 - (void)setBuyQuotation:(NSMutableArray *)buyQuotation;
 - (void)setSellQuotation:(NSMutableArray *)sellQuotation;
 - (void)setBuyVolume:(NSMutableArray *)buyVolume;
 - (void)setSellVolume:(NSMutableArray *)sellVolume;
+- (void)setMidBanner;
 @end

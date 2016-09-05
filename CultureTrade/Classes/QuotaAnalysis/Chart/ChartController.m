@@ -216,5 +216,6 @@
     _fiveQuotationView.sellVolume = sellVolumeArr;
     _fiveQuotationView.buyQuotation = buyQuotationArr;
     _fiveQuotationView.buyVolume = buyVolumeArr;
+    [_fiveQuotationView setMidBanner];
 }
 @end

@@ -963,6 +963,7 @@
 				1D59E1271BFC2660007493FC /* Login */,
 				1D59E1341BFC2660007493FC /* Main */,
 				1D59E13F1BFC2660007493FC /* Me */,
+				1D59E1351BFC2660007493FC /* Controller */,
 				1D59E1451BFC2660007493FC /* NewFeature */,
 				1D59E14A1BFC2660007493FC /* QuotaAnalysis */,
 				1D59E1611BFC2660007493FC /* Quotation */,
@@ -1100,7 +1101,6 @@
 		1D59E1341BFC2660007493FC /* Main */ = {
 			isa = PBXGroup;
 			children = (
-				1D59E1351BFC2660007493FC /* Controller */,
 				1D59E1381BFC2660007493FC /* View */,
 			);
 			path = Main;
@@ -1112,7 +1112,8 @@
 				1D59E1361BFC2660007493FC /* MainController.h */,
 				1D59E1371BFC2660007493FC /* MainController.m */,
 			);
-			path = Controller;
+			name = Controller;
+			path = Main/Controller;
 			sourceTree = "<group>";
 		};
 		1D59E1381BFC2660007493FC /* View */ = {

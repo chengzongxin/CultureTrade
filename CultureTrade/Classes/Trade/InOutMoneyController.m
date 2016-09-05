@@ -129,6 +129,7 @@ typedef enum : NSUInteger {
     _transferMoney.delegate = self;
     _transferMoney.leftLabel.text = LocalizedStringByInt(2004);
     _transferMoney.keyboardType = UIKeyboardTypeDecimalPad;
+    [self addToolbarOnKeyboard:_transferMoney];
     [self.view addSubview:_transferMoney];
     
     _fundPassword = [[CombiInputText alloc] initWithFrame:CGRectMake(TextFiledX, kTextFieldMargin + (TextFiledH  + TextFiledY)*3, TextFiledW, TextFiledH)];

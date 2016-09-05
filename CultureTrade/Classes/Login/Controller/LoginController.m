@@ -138,6 +138,7 @@
     _account.delegate = self;
     _account.text = [self getRememberAccount];
     _account.placeholder = LocalizedStringByInt(1004);
+    [self addToolbarOnKeyboard:_account];
     [self.view addSubview:_account];
     
     //密码文本框
@@ -151,6 +152,7 @@
     _password.text = [self getRememberPassword];
     _password.delegate = self;
     _password.placeholder = LocalizedStringByInt(1005);
+    [self addToolbarOnKeyboard:_password];
     [self.view addSubview:_password];
     
     // 记住账号

@@ -214,5 +214,18 @@
     }
 }
 
+- (void)addToolbarOnKeyboard:(UITextField *)textField {
+    UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), 40)];
+    
+    UIBarButtonItem *spaceButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+    UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(hideKeyboard:)];
+    
+    [toolbar setItems:@[spaceButton, doneButton]];
+    textField.inputAccessoryView = toolbar;
+}
+
+- (void)hideKeyboard:(id)sender {
+    [self.view endEditing:YES];
+}
 
 @end

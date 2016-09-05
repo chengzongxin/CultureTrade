@@ -87,7 +87,7 @@
 
 - (void)initalization
 {
-    _passwordTypeArr = [NSMutableArray arrayWithObjects:@"登陆密码",@"交易密码",@"资金密码",nil];
+    _passwordTypeArr = [NSMutableArray arrayWithObjects:@"登陆密码",@"资金密码",nil];
 }
 
 - (void)addTitleView
@@ -201,7 +201,7 @@
             
             CGRect frame=_tableBlock.frame;
             
-            frame.size.height=177*0.75;
+            frame.size.height=177*0.25*_passwordTypeArr.count;
             [_tableBlock setFrame:frame];
         } completion:^(BOOL finished){
             isOpened=YES;

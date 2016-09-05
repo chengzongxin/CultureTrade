@@ -129,6 +129,7 @@
     _buyInPrice.leftLabel.text = LocalizedStringByInt(1804);
     _buyInPrice.font = FONT_BUYIN_TEXTFIELD;
     _buyInPrice.keyboardType = UIKeyboardTypeDecimalPad;
+    [self addToolbarOnKeyboard:_buyInPrice];
     [self.view addSubview:_buyInPrice];
     
     _buyInNumber = [[CombiInputText alloc] initWithFrame:CGRectMake(TextFiledX, kTextFieldMargin + (TextFiledH  + TextFiledY)*3, TextFiledW, TextFiledH)];
@@ -136,6 +137,7 @@
     _buyInNumber.leftLabel.text = LocalizedStringByInt(1805);
     _buyInNumber.font = FONT_BUYIN_TEXTFIELD;
     _buyInNumber.keyboardType = UIKeyboardTypeNumberPad;
+    [self addToolbarOnKeyboard:_buyInNumber];
     [self.view addSubview:_buyInNumber];
     
     _maxCanBuy = [[CombiInputText alloc] initWithFrame:CGRectMake(TextFiledX, kTextFieldMargin + (TextFiledH  + TextFiledY)*4, TextFiledW, TextFiledH)];
