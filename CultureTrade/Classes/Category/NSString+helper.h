@@ -11,6 +11,12 @@
 #define toCString(ns) [[NSString alloc] toCString: ns];
 #define toNString(cs) [NSString toNSString: cs];
 
+typedef enum : int {
+    ConfirmPasswordResult_PureNum,
+    ConfirmPasswordResult_PureChar,
+    ConfirmPasswordResult_CharNumComplex,
+    ConfirmPasswordResult_SpecialSymbol
+} PassWordComplex;
 
 @interface NSString (helper)
 
@@ -29,4 +35,6 @@
 // 判断字符串是否为纯数字
 - (BOOL)isPureNumandCharacters:(NSString *)string;
 + (NSString *)stringFromDateDay:(NSDate *)date;
+// 判断密码是否为字母数字组合
+- (int)confirmPasswordResult;
 @end

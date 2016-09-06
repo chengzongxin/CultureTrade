@@ -122,6 +122,12 @@
     _newPassword.leftLabel.text = LocalizedStringByInt(2103);
     [_newPassword setSecureTextEntry:YES];
     [self.view addSubview:_newPassword];
+    
+    _confirmPassword = [[CombiInputText alloc] initWithFrame:CGRectMake(TextFiledX, kTextFieldMargin + (TextFiledH  + TextFiledY)*3, TextFiledW, TextFiledH)];
+    _confirmPassword.delegate = self;
+    _confirmPassword.leftLabel.text = LocalizedStringByInt(2104);
+    [_confirmPassword setSecureTextEntry:YES];
+    [self.view addSubview:_confirmPassword];
 }
 /*
 - (void)addPickView
@@ -139,7 +145,7 @@
 {
     CGSize size = [UIImage imageNamed:@"confirm"].size;
     CGFloat btnX = (self.view.frame.size.width - size.width * 2 - 10)/2;
-    CGFloat btnY = CGRectGetMaxY(_newPassword.frame)+30;
+    CGFloat btnY = CGRectGetMaxY(_confirmPassword.frame)+30;
     
     CGRect clearRect = (CGRect){{btnX,btnY},size};
     UIButton *clearBtn =  [self addButtonWithRect:clearRect Img:@"clear"];
@@ -171,6 +177,7 @@
             return cell;
     } setDidSelectRowBlock:^(UITableView *tableView, NSIndexPath *indexPath) {
         SelectionCell *cell=(SelectionCell*)[tableView cellForRowAtIndexPath:indexPath];
+        [self ClickClear];
         cell.lb.textColor = COLOR_TABLEBLOCK_CELL_SELECTED_TEXT;
         _passwordType.text=cell.lb.text;
         _selectPasswordType = (PasswordType)(indexPath.row + 1);
@@ -223,6 +230,23 @@
 
 - (void)confirmButtonClick
 {
+    if (![_newPassword.text isEqualToString:_confirmPassword.text]) {
+        showErr(2105);
+        return;
+    }
+    
+    if (_selectPasswordType == isMainPassword) { // number + charactor
+        if ([_newPassword.text confirmPasswordResult] != ConfirmPasswordResult_CharNumComplex) {
+            showErr(2106);
+            return;
+        }
+    }else if(_selectPasswordType == isMoneyPassword){ // 6 number
+        if ([_newPassword.text confirmPasswordResult] != ConfirmPasswordResult_PureNum || _newPassword.text.length != 6) {
+            showErr(2107);
+            return;
+        }
+    }
+    
     NSArray *textFieldArr = self.view.subviews;
     for (id view in textFieldArr) {
         if ([view isKindOfClass:[CombiInputText class]]) {

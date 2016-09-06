@@ -166,4 +166,41 @@
     return destDateString;
 }
 
+- (int)confirmPasswordResult
+{
+    //数字条件
+    NSRegularExpression *tNumRegularExpression = [NSRegularExpression regularExpressionWithPattern:@"[0-9]" options:NSRegularExpressionCaseInsensitive error:nil];
+    //符合数字条件的有几个字符
+    int tNumMatchCount = (int)[tNumRegularExpression numberOfMatchesInString:self
+                                                                options:NSMatchingReportProgress
+                                                                  range:NSMakeRange(0, self.length)];
+    //英文字条件
+    NSRegularExpression *tLetterRegularExpression = [NSRegularExpression regularExpressionWithPattern:@"[A-Za-z]" options:NSRegularExpressionCaseInsensitive error:nil];
+    //符合英文字条件的有几个字符  www.it165.net
+    int tLetterMatchCount = (int)[tLetterRegularExpression numberOfMatchesInString:self options:NSMatchingReportProgress range:NSMakeRange(0, self.length)];
+    
+    if (tNumMatchCount == self.length)
+    {
+        //全部符合数字，表示没有英文
+        return ConfirmPasswordResult_PureNum;
+    }
+    else if (tLetterMatchCount == self.length)
+    {
+        //全不符合英文，表示没有数字
+        return ConfirmPasswordResult_PureChar;
+    }
+    else if (tNumMatchCount + tLetterMatchCount == self.length)
+    {
+        //符合英文和符合数字条件的相加等于密码长度
+        return ConfirmPasswordResult_CharNumComplex;
+    }
+    else
+    {
+        //可能包含标点符号的情况，或是包含非英文的文字，这里再依照需求详细判断想呈现的错误
+        return ConfirmPasswordResult_SpecialSymbol;
+    }
+    return -1;
+}
+
+
 @end

@@ -23,6 +23,7 @@ typedef enum : NSUInteger {
     CombiInputText *_passwordType;
     CombiInputText *_oldPassword;
     CombiInputText *_newPassword;
+    CombiInputText *_confirmPassword;
     UITouchScrollView *_scroll;
     UIPickerView *_pickView;
 }
