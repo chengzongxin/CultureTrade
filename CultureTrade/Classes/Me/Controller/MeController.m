@@ -329,15 +329,16 @@
     
     if ([[NSTradeEngine setup] isLogin]){
         self.title = [[NSTradeEngine setup] getLoginedAccountName];
+        [[NSTradeEngine setup] trade_request_moneyholdNS];
         [self fillGuideView];
     }else{
         self.title = @"个人中心";
-        _guideView.foundLable.text = @"0.00";
-        _guideView.monthDealLable.text = @"0.00";
-        _guideView.sucRatioLabel.text = @"0.00";
-        _guideView.totalGainLable.text = @"0.00";
-        _guideView.thisMonthGainLable.text = @"0.00";
-        _guideView.thisWeekGainLabel.text = @"0.00";
+        _guideView.foundLable.text = @"--";
+        _guideView.monthDealLable.text = @"--";
+        _guideView.sucRatioLabel.text = @"--";
+        _guideView.totalGainLable.text = @"--";
+        _guideView.thisMonthGainLable.text = @"--";
+        _guideView.thisWeekGainLabel.text = @"--";
     }
     
     if ([NSTradeEngine sharedInstance].delegate != self) {
