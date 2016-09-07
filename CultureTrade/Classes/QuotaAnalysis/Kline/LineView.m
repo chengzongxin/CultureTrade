@@ -221,7 +221,7 @@
 //        if (i == 0) {
 //            leftTag.frame = CGRectMake(-10, y+5-tagHeight, tagWidth, tagHeight);
 //        }
-        leftTag.text = [[NSString alloc] initWithFormat:@"%.2f",00.00];
+        leftTag.text = @"--";
         leftTag.textColor = [UIColor colorWithHexString:@"#cccccc" withAlpha:1];
         leftTag.font = self.font;
         leftTag.textAlignment = NSTextAlignmentRight;
@@ -516,14 +516,13 @@
     int maxCount = [_chartPoint numberOfStockInFrame:_mainboxView.frame];
     int leftStockCount = MIN((int)_willShowStockArray.count,maxCount);//排除小于0
     int time = MIN(offset, leftStockCount);
+    
     for (int i = 0; i<time; i++) {
         [_showStockArray insertObject:[_willShowStockArray lastObject] atIndex:0];
         [_willShowStockArray removeLastObject];
     }
-//    // MALine reCaluate
+    // MALine reCaluate
 //    _showStockArray = [_netMgr CalculationMALine:_showStockArray];
-    
-    
     
     // loadhistory
     _pointArray = [NSMutableArray arrayWithArray:[_chartPoint pointArrayTranslateByStockArray:_showStockArray innerMainFrame:_mainboxView.frame bottomFrame:_bottomBoxView.frame]];

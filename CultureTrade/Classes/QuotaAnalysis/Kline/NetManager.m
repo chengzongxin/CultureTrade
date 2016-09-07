@@ -216,11 +216,11 @@
 - (NSMutableArray *)reCalculationMALine:(NSMutableArray *)showArray willShowArray:(NSMutableArray *)willShowArray
 {
     NSMutableArray *allArray = [NSMutableArray array];
-    // merge
-    for (Stock *s in showArray) {
+    // merge first add will
+    for (Stock *s in willShowArray) {
         [allArray addObject:s];
     }
-    for (Stock *s in willShowArray) {
+    for (Stock *s in showArray) {
         [allArray addObject:s];
     }
     

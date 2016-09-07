@@ -90,7 +90,7 @@
     int skip = 0;
     for (skip = 0 ; skip < self.pointArray.count; skip++) {
         ChartPoint *firstPoint = self.pointArray[skip];
-        if (firstPoint.MA5point.y != 0) {
+        if (firstPoint.MA5point.y < self.frame.size.height && firstPoint.MA5point.y != 0) {
             CGPathMoveToPoint(pathMA, NULL, firstPoint.MA5point.x, firstPoint.MA5point.y);
             break;
         }
@@ -119,7 +119,7 @@
     int skip = 0;
     for (skip = 0 ; skip < self.pointArray.count; skip++) {
         ChartPoint *firstPoint = self.pointArray[skip];
-        if (firstPoint.MA10point.y != 0) {
+        if (firstPoint.MA10point.y < self.frame.size.height && firstPoint.MA10point.y != 0) {
             CGPathMoveToPoint(pathMA, NULL, firstPoint.MA10point.x, firstPoint.MA10point.y);
             break;
         }
@@ -148,7 +148,7 @@
     int skip;
     for (skip = 0 ; skip < self.pointArray.count; skip++) {
         ChartPoint *firstPoint = self.pointArray[skip];
-        if (firstPoint.MA20point.y != 0) {
+        if (firstPoint.MA20point.y < self.frame.size.height && firstPoint.MA20point.y != 0) {
             CGPathMoveToPoint(pathMA, NULL, firstPoint.MA20point.x, firstPoint.MA20point.y);
             break;
         }
